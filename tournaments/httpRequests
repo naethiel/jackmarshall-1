@@ -1,6 +1,5 @@
 # $endpoint = http://localhost:8080
-# $scenarioID =
-# $tournamentID = 56aa894c9c35bc60274864cd
+# $id = 
 
 # GetAllScenario
 GET $endpoint/scenario
@@ -17,7 +16,7 @@ POST $endpoint/scenario
 }
 
 # UpdateScenario
-PUT $endpoint/scenario/$scenarioID
+PUT $endpoint/scenario/$id
 {
   "name":"Devastation",
   "year":2016,
@@ -25,16 +24,4 @@ PUT $endpoint/scenario/$scenarioID
 }
 
 # DeleteScenario
-DELETE $endpoint/scenario/$scenarioID
-
-
-# CreateTournament
-POST $endpoint/tournaments
-{
-    "owner": 1,
-    "name": "Fast & Furious",
-    "format": 25,
-    "slots": 8,
-    "fee_amount": 5,
-    "date": "2015-12-01T12:13:10Z"
-}
+DELETE $endpoint/scenario/$id
