@@ -1,6 +1,6 @@
 package main
 
 type Game struct {
-	Table   Table     `json:"table" bson:"table"`
-	Results [2]Result `json:"results" bson:"results"`
+	Table   string   `json:"table" bson:"table"`
+	Pairing []Result `json:"pairing" bson:"pairing"`
 }

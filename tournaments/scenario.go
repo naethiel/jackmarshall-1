@@ -6,7 +6,7 @@ import (
 
 type Scenario struct {
 	ID   bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Name string        `json:"name" validate:"nonzero"`
+	Name string        `json:"name"`
 	Year int           `json:"year"`
 	Link string        `json:"link"`
 }

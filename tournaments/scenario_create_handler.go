@@ -6,7 +6,6 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"gopkg.in/mgo.v2"
-	"gopkg.in/validator.v2"
 )
 
 func NewCreateScenarioHandler(db *mgo.Session) httprouter.Handle {
@@ -17,12 +16,7 @@ func NewCreateScenarioHandler(db *mgo.Session) httprouter.Handle {
 		var scenario Scenario
 		err := json.NewDecoder(r.Body).Decode(&scenario)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		if err = validator.Validate(scenario); err != nil {
-			http.Error(w, "invalid request payload "+err.Error(), http.StatusBadRequest)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 

@@ -1,7 +1,7 @@
 dependencies:
 	go get ./...
 
-binary: dependencies *.go
+binary:
 	go build -o tournaments
 
 binary-static: dependencies *.go
@@ -13,15 +13,8 @@ pkg: dependencies binary-static
 
 docker-run: pkg
 	docker run -d --name mongo mongo:3.0
-	sleep 40s
-	docker run -p 8080:8080 -it --link mongo:database  --name jackmarshallT jackmarshall/tournaments
+	docker run -p 8080:8080 -it --link mongo:database  --name jackmarshall jackmarshall/tournaments
 
 docker-rm:
 	docker rm --force mongo
-	docker rm --force jackmarshallT
-
-mongo-reset-scenario:
-	mongo jackmarshall data/scenario.js
-
-mongo-reset-tournament:
-	mongo jackmarshall data/tournament.js
+	docker rm --force jackmarshall
