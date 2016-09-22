@@ -4,18 +4,19 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"github.com/HouzuoGuo/tiedot/db"
+
+	"github.com/HouzuoGuo/tiedot/data"
 	"github.com/julienschmidt/httprouter"
 )
 
-func NewListTournamentHandler(database *db.DB) httprouter.Handle {
-	collection := database.Use("Tournaments")
+func NewListTournamentHandler(database *data.Collection) httprouter.Handle {
+	// collection := database.Use("Tournaments")
 
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 		results := []Tournament{}
 
-		collection.ForEachDoc(func(id int, doc []byte) (willMoveOn bool) {
+		database.ForEachDoc(func(id int, doc []byte) (willMoveOn bool) {
 			var tournament Tournament
 			err := json.Unmarshal(doc, &tournament)
 			if err != nil {

@@ -9,13 +9,19 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func NewCreateTournamentHandler(database *data.Collection) httprouter.Handle {
+func NewUpdateTournamentHandler(database *data.Collection) httprouter.Handle {
 	// collection := database.Use("Tournaments")
 
-	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-		tournament := NewTournament()
-		err := json.NewDecoder(r.Body).Decode(&tournament)
+		id, err := strconv.Atoi(p.ByName("id"))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		var tournament Tournament
+		err = json.NewDecoder(r.Body).Decode(&tournament)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -25,11 +31,12 @@ func NewCreateTournamentHandler(database *data.Collection) httprouter.Handle {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		id, err := database.Insert(data)
+		id, err = database.Update(id, data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(strconv.Itoa(id))

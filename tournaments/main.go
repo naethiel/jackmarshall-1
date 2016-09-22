@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/HouzuoGuo/tiedot/db"
+	"github.com/HouzuoGuo/tiedot/data"
 
 	"github.com/codegangsta/negroni"
 	"github.com/julienschmidt/httprouter"
@@ -23,19 +23,21 @@ func ContentTypeHandler(w http.ResponseWriter, r *http.Request, next http.Handle
 }
 
 func main() {
-	databasePath := "/database/jackmarshall"
-	database, err := db.OpenDB(databasePath)
+	databasePath := "database"
+	database, err := data.OpenCollection(databasePath)
+	// database, err := db.OpenDB(databasePath)
 	if err != nil {
 		panic(err)
 	}
-	defer database.Close()
+	// defer database.Close()
 
-	database.Create("Tournaments")
+	// database.Create("Tournaments")
 
 	router := httprouter.New()
 	router.GET("/api/tournaments", NewListTournamentHandler(database))
 	router.GET("/api/tournaments/:id", NewGetTournamentHandler(database))
 	router.POST("/api/tournaments", NewCreateTournamentHandler(database))
+	router.PUT("/api/tournaments/:id", NewUpdateTournamentHandler(database))
 	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(database))
 	router.NotFound = http.FileServer(http.Dir("app"))
 

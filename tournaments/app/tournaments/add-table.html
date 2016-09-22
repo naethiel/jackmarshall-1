@@ -1,0 +1,18 @@
+<h2>New Table</h2>
+
+<form name="tableForm" ng-submit="EditCtrl.addTable()">
+
+    <fieldset class="form-group">
+        <input ng-model="EditCtrl.table.name" type="text" class="form-control" placeholder="table name" title="Name" />
+        <select ng-model="EditCtrl.table.scenario">
+            <option value="Destruction">Destruction</option>
+            <option value="The Pit">The Pit</option>
+            <option value="Incursion">Incursion</option>
+            <option value="Entrenched">Entrenched</option>
+        </select>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <input type="submit" class="btn btn-primary pull-right" value="Add" />
+    </fieldset>
+</form>

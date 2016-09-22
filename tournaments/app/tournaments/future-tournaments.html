@@ -1,5 +1,5 @@
 <h2>Future tournaments</h2>
 <div  ng-repeat="tournament in ListCtrl.tournaments |isFuture |orderBy: 'date'">
-    <a ng-href="/#/tournaments/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}</a>
+    <a ng-href="/#/tournaments/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}} ({{tournament.players.length}}/{{tournament.slots}})</a>
     <input type="button" value="Delete" ng-click="ListCtrl.deleteTournament(tournament)">
 </div>
