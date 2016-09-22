@@ -1,13 +1,12 @@
 <h2>New tournament</h2>
-<form name="tournamentForm" ng-submit="CreateCtrl.createTournament()">
+<form name="tournamentForm" ng-submit="ListCtrl.createTournament()">
 
     <fieldset class="form-group">
-        <input ng-model="CreateCtrl.tournament.name" type="text" class="form-control" placeholder="tournament name" title="Name" />
-        <input ng-model="CreateCtrl.tournament.date" type="text" class="form-control" placeholder="23/10/2016" title="Date" />
-        <input ng-model="CreateCtrl.tournament.format" type="number" class="form-control" placeholder="25, 50, 75..." title="Format" />
-        <input ng-model="CreateCtrl.tournament.slots" type="number" class="form-control" placeholder="" title="Slots" />
-        <input ng-model="CreateCtrl.tournament.fee_amount" type="number" step="any" class="form-control" placeholder="" title="Fee" />
-
+        <input ng-model="ListCtrl.tournament.name" type="text" class="form-control" placeholder="tournament name" title="Name" />
+        <input ng-model="ListCtrl.tournament.date" type="text" class="form-control" placeholder="23/10/2016" title="Date" />
+        <input ng-model="ListCtrl.tournament.format" type="number" class="form-control" placeholder="25, 50, 75..." title="Format" />
+        <input ng-model="ListCtrl.tournament.slots" type="number" class="form-control" placeholder="" title="Slots" />
+        <input ng-model="ListCtrl.tournament.fee_amount" type="number" step="any" class="form-control" placeholder="" title="Fee" />
     </fieldset>
 
     <fieldset class="form-group">

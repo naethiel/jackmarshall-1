@@ -33,8 +33,9 @@ func main() {
 	database.Create("Tournaments")
 
 	router := httprouter.New()
-	router.GET("/tournaments", NewListTournamentHandler(database))
-	router.POST("/tournaments", NewCreateTournamentHandler(database))
+	router.GET("/api/tournaments", NewListTournamentHandler(database))
+	router.GET("/api/tournaments/:id", NewGetTournamentHandler(database))
+	router.POST("/api/tournaments", NewCreateTournamentHandler(database))
 	router.NotFound = http.FileServer(http.Dir("app"))
 
 	// Initialize the middleware stack

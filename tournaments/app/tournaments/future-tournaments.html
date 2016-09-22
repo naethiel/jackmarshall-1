@@ -1,4 +1,4 @@
 <h2>Future tournaments</h2>
 <div  ng-repeat="tournament in ListCtrl.tournaments |isFuture |orderBy: 'date'">
-    {{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}
+    <a ng-href="/#/tournaments/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}</a>
 </div>

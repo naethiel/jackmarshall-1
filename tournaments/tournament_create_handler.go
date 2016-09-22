@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/HouzuoGuo/tiedot/db"
@@ -20,7 +19,6 @@ func NewCreateTournamentHandler(database *db.DB) httprouter.Handle {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(tournament)
 		id, err := collection.Insert(map[string]interface{}{
 			"name":       tournament.Name,
 			"format":     tournament.Format,

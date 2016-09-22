@@ -12,9 +12,19 @@ angular.module('tournamentsList', ['ngRoute'])
 .controller('TournamentsListCtrl', ['$http', function($http) {
     var scope = this;
     scope.tournaments = [];
-    $http.get('/tournaments').success(function(data){
+    $http.get('/api/tournaments').success(function(data){
         scope.tournaments = data;
     });
+
+    scope.tournament = {};
+    this.createTournament = function(){
+        scope.tournament.date = moment(scope.tournament.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
+        $http.post('/api/tournaments', scope.tournament).success(function(data){
+            scope.tournament.id = data;
+            scope.tournaments.push(scope.tournament);
+            scope.tournament = {};
+        });
+    };
 }])
 
 .directive("futureTournaments", function(){
@@ -35,23 +45,7 @@ angular.module('tournamentsList', ['ngRoute'])
 .directive("createTournament", function(){
     return {
         restrict: 'E',
-        templateUrl: "tournaments/create-tournament.html",
-        controller: function($http){
-            var scope = this;
-            scope.tournament = {};
-            this.createTournament = function(){
-
-                scope.tournament.date = moment(scope.tournament.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
-                console.error(scope.tournament);
-                $http.post('/tournaments', scope.tournament).success(function(data){
-                    scope.tournament.id = data;
-                    //TODO : add scope.tounament to tounaments list or redirect
-                    scope.tournament = {};
-                });
-            }
-        },
-        controllerAs: "CreateCtrl"
-
+        templateUrl: "tournaments/create-tournament.html"
     };
 })
 

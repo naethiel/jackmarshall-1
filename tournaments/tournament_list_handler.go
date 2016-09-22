@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-
+	"strconv"
 	"github.com/HouzuoGuo/tiedot/db"
 	"github.com/julienschmidt/httprouter"
 )
@@ -21,7 +21,7 @@ func NewListTournamentHandler(database *db.DB) httprouter.Handle {
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-			tournament.Id = id
+			tournament.Id = strconv.Itoa(id)
 			results = append(results, tournament)
 			return true // move on to the next document OR
 		})
