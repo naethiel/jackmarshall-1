@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
- 	"net/http"
+	"net/http"
 
 	"github.com/HouzuoGuo/tiedot/db"
 
@@ -16,7 +16,7 @@ func ContentTypeHandler(w http.ResponseWriter, r *http.Request, next http.Handle
 	rw := negroni.NewResponseWriter(w)
 	rw.Before(func(rw negroni.ResponseWriter) {
 		if rw.Status() == http.StatusOK {
-		//	rw.Header().Set("Content-Type", "application/json")
+			//	rw.Header().Set("Content-Type", "application/json")
 		}
 	})
 	next(rw, r)
@@ -36,6 +36,7 @@ func main() {
 	router.GET("/api/tournaments", NewListTournamentHandler(database))
 	router.GET("/api/tournaments/:id", NewGetTournamentHandler(database))
 	router.POST("/api/tournaments", NewCreateTournamentHandler(database))
+	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(database))
 	router.NotFound = http.FileServer(http.Dir("app"))
 
 	// Initialize the middleware stack

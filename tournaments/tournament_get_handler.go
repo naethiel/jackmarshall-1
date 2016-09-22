@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"github.com/julienschmidt/httprouter"
-	"github.com/HouzuoGuo/tiedot/db"
 
+	"github.com/HouzuoGuo/tiedot/db"
+	"github.com/julienschmidt/httprouter"
 )
 
 func NewGetTournamentHandler(database *db.DB) httprouter.Handle {
@@ -30,7 +30,7 @@ func NewGetTournamentHandler(database *db.DB) httprouter.Handle {
 		}
 		result.Id = p.ByName("id")
 		result.Name = doc["name"].(string)
-		result.Date, err = time.Parse(doc["date"].(string), "2012-11-01T22:08:41+00:00")
+		result.Date, err = time.Parse(time.RFC3339, doc["date"].(string))
 		result.Format = int(doc["format"].(float64))
 		result.Slots = int(doc["slots"].(float64))
 		result.FeeAmount = doc["fee_amount"].(float64)

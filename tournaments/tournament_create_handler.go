@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/HouzuoGuo/tiedot/db"
 	"github.com/julienschmidt/httprouter"
@@ -32,6 +33,6 @@ func NewCreateTournamentHandler(database *db.DB) httprouter.Handle {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(id)
+		json.NewEncoder(w).Encode(strconv.Itoa(id))
 	}
 }

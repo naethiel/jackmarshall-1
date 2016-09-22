@@ -25,6 +25,12 @@ angular.module('tournamentsList', ['ngRoute'])
             scope.tournament = {};
         });
     };
+
+    this.deleteTournament = function(tournament){
+        $http.delete('/api/tournaments/'+tournament.id).success(function(data){
+            scope.tournaments.splice(scope.tournaments.indexOf(tournament), 1);
+        });
+    };
 }])
 
 .directive("futureTournaments", function(){
