@@ -10,7 +10,6 @@ import (
 )
 
 func NewListTournamentHandler(database *data.Collection) httprouter.Handle {
-	// collection := database.Use("Tournaments")
 
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 

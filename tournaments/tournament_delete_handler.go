@@ -9,7 +9,6 @@ import (
 )
 
 func NewDeleteTournamentHandler(database *data.Collection) httprouter.Handle {
-	// collection := database.Use("Tournaments")
 
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 

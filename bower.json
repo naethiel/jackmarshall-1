@@ -1,0 +1,13 @@
+{
+    "name": "jackmarshall",
+    "description": "A warmachine & hordes tournaments manager",
+    "version": "0.0.0",
+    "homepage": "https://github.com/chibimi/jackmarshall",
+    "private": true,
+    "dependencies": {
+        "angular": "~1.5.0",
+        "angular-route": "~1.5.0",
+        "bootstrap": "~3.3.7",
+        "moment": "~2.15.1"
+    }
+}

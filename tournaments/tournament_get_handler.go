@@ -10,7 +10,6 @@ import (
 )
 
 func NewGetTournamentHandler(database *data.Collection) httprouter.Handle {
-	// collection := database.Use("Tournaments")
 
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
@@ -32,7 +31,6 @@ func NewGetTournamentHandler(database *data.Collection) httprouter.Handle {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		// mapstructure.Decode(doc, &result)
 		result.Id = p.ByName("id")
 
 		w.Header().Set("Content-Type", "application/json")
