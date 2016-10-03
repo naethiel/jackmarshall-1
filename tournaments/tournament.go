@@ -13,6 +13,7 @@ type Tournament struct {
 	Date      time.Time `json:"date" create:"nonzero" update:"nonzero"`
 	Players   []Player  `json:"players"`
 	Tables    []Table   `json:"tables"`
+	Rounds    []Round   `json:"rounds" create:"max=0"`
 }
 
 func NewTournament() *Tournament {
