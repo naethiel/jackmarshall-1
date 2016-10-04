@@ -46,10 +46,10 @@ func testAssignement() {
 	players := []Player{}
 	tables := []Table{}
 
-	nbPlayers := 32
-	nbTables := 16
+	nbPlayers := 128
+	nbTables := 64
 	nbScenario := 8
-	nbRounds := 5
+	nbRounds := 7
 
 	for i := 0; i < nbPlayers; i++ {
 		players = append(players, Player{Name: "player" + fmt.Sprintf("%d", i)})
@@ -69,36 +69,20 @@ func testAssignement() {
 		}
 		var pairings = CreatePairs(players, tournament, &round)
 
-		CreateRound(pairings, tables, &round)
-		fmt.Printf("ROUND %d : %d\n", round.Number, CalculateScore(round.Games))
+		createRound(pairings, tables, &round)
 
 		for _, g := range round.Games {
 			g.Results[rand.Intn(2)].VictoryPoints = 1
-
 		}
-		// for _, game := range round.Games {
-		// 	//fmt.Println(game.Table, game.Results[0], game.Results[1])
-		// }
 
 		tournament.Rounds = append(tournament.Rounds, round)
-		//fmt.Printf("%+v", tournament)
 	}
+	displayTournament(tournament)
 	fmt.Println("FINI ! ")
 }
 
-func calculateRoundScore(round Round, tournament Tournament) {
-	score := 0
-	for _, game := range round.Games {
-		for _, player := range tournament.Players {
-			if player.Name == game.Results[0].Player.Name || player.Name == game.Results[1].Player.Name {
-				for _, playerGame := range player.Games {
-					if playerGame.Table.Scenario == game.Table.Scenario {
-						score += 10
-					}
-				}
-			}
-		}
+func displayTournament(tournament Tournament) {
+	for _, round := range tournament.Rounds {
+		fmt.Println(round.String())
 	}
-
-	fmt.Printf("ROUND %d : %d\n", round.Number, score)
 }

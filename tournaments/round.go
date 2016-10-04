@@ -7,6 +7,15 @@ type Round struct {
 	Games  []Game `json:"games"`
 }
 
+func (r *Round) String() (s string) {
+	s += fmt.Sprintf("ROUND %d : %d\n", r.Number, GetFitness(r.Games))
+	for i, game := range r.Games {
+		s += fmt.Sprintf("GAME %d :\t%s  %s\t", i, game.Table.Name, game.Table.Scenario)
+		s += fmt.Sprintf("%s vs %s\n", game.Results[0].Player.Name, game.Results[1].Player.Name)
+	}
+	return
+}
+
 func getAvailableTables(pairs []Pair, tables []Table) map[Table]map[Pair]struct{} {
 	var availableTables = make(map[Table]map[Pair]struct{})
 	for _, table := range tables {
@@ -35,7 +44,7 @@ func getAvailablePairs(pairs []Pair, tables []Table) map[Pair]map[Table]struct{}
 	return availablePairs
 }
 
-func CreateRound(pairs []Pair, tables []Table, round *Round) {
+func createRound(pairs []Pair, tables []Table, round *Round) {
 
 	var availableTables = getAvailableTables(pairs, tables)
 	var availablePairs = getAvailablePairs(pairs, tables)
@@ -54,8 +63,7 @@ Selection:
 				for pair = range pairs {
 					break
 				}
-				fmt.Println("PAIR ")
-				fmt.Println(pair)
+
 				games = append(games, Game{
 					Table: table,
 					Results: [2]Result{
@@ -122,81 +130,30 @@ Selection:
 		}
 		break
 	}
-	//BRUTE FORCE !
+
 	remainingTables := getTablesKeys(availableTables)
 	remainingPairs := getPairsKeys(availablePairs)
-	min := 1
-	minScore := &min
-	fmt.Printf("remaningTable : %d\n", len(remainingTables))
-	solution := assignTables(make([]Game, len(remainingTables)), 0, remainingTables, len(remainingTables), remainingPairs, make([]Game, len(remainingTables)), minScore)
-	games = append(games, solution...)
+
+	if len(remainingPairs) == 1 {
+		games = append(games, Game{
+			Table: remainingTables[0],
+			Results: [2]Result{
+				Result{
+					Player: *remainingPairs[0][0],
+				},
+				Result{
+					Player: *remainingPairs[0][1],
+				},
+			},
+		})
+
+	} else {
+		solution := GetBest(remainingTables, remainingPairs, 10)
+		games = append(games, solution...)
+	}
 
 	round.Games = games
 	return
-}
-
-func assignTables(attempt []Game, position int, remainingTables []Table, nbTables int, pairings []Pair, solution []Game, minScore *int) []Game {
-	if len(remainingTables) == 0 {
-		*minScore = CalculateScore(attempt)
-		copy(solution, attempt)
-		if *minScore == 0 {
-			fmt.Println("SOLUTION PARFAITE")
-			return solution
-		}
-	}
-
-	for i, table := range remainingTables {
-		attempt[position] = Game{
-			Table: table,
-			Results: [2]Result{
-				Result{
-					Player: *pairings[position][0],
-				},
-				Result{
-					Player: *pairings[position][1],
-				},
-			},
-		}
-		// fmt.Println("ATTEMPT")
-		// fmt.Println(attempt)
-		if CalculateScore(attempt) >= *minScore {
-			attempt = append(attempt[:position], make([]Game, nbTables-position)...)
-		} else {
-			remainingTablesCopy := make([]Table, len(remainingTables))
-			copy(remainingTablesCopy, remainingTables)
-
-			remainingTablesCopy = append(remainingTablesCopy[:i], remainingTablesCopy[i+1:]...)
-
-			assignTables(attempt, position+1, remainingTablesCopy, nbTables, pairings, solution, minScore)
-		}
-	}
-	//fmt.Println("SOLUTION DE MERDE")
-	return solution
-}
-
-func CalculateScore(attempt []Game) (res int) {
-	res = 0
-	for _, game := range attempt {
-		for _, result := range game.Results {
-			for _, playerGame := range result.Player.Games {
-				if game.Table == playerGame.Table {
-					res += 50
-				} else if game.Table.Scenario == playerGame.Table.Scenario {
-					res += 10
-				}
-			}
-		}
-	}
-	return
-}
-
-func contains(s []string, e string) int {
-	for i, a := range s {
-		if a == e {
-			return i
-		}
-	}
-	return -1
 }
 
 func getTablesKeys(availableTables map[Table]map[Pair]struct{}) []Table {

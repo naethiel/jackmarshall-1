@@ -31,26 +31,13 @@ func NewCreateRoundHandler(database *data.Collection) httprouter.Handle {
 
 		tournament.Id = p.ByName("id")
 
-		// //get every player's games
-		// for _, player := range tournament.Players {
-		// 	for r, round := range tournament.Rounds {
-		// 		for g, game := range round.Games {
-		// 			for _, result := range game.Results {
-		// 				if result.Player == player.Name {
-		// 					player.Games = append(player.Games, &tournament.Rounds[r].Games[g])
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-
 		//create pairings and assign tables
 		round := Round{
 			Games: []Game{},
 		}
-		var pairings = CreatePairs(tournament.Players, tournament, &round)
 
-		CreateRound(pairings, tournament.Tables, &round)
+		var pairings = CreatePairs(tournament.Players, tournament, &round)
+		createRound(pairings, tournament.Tables, &round)
 
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(round)

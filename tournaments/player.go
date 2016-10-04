@@ -1,5 +1,6 @@
 package main
 
+//Player represents a player from a tournament
 type Player struct {
 	Name     string    `json:"name"`
 	Faction  string    `json:"faction"`
@@ -7,10 +8,6 @@ type Player struct {
 	Lists    [2]string `json:"lists"`
 	Leave    bool      `json:"leave"`
 	Games    []*Game
-}
-
-func (p *Player) String() string {
-	return p.Name
 }
 
 func (p Player) VictoryPoints() int {
@@ -30,7 +27,7 @@ func (p Player) hadBye() bool {
 	for _, game := range p.Games {
 		//fmt.Println(game.Results)
 		for _, result := range game.Results {
-			if result.Player.Name == p.Name && result.Buy == true {
+			if result.Player.Name == p.Name && result.Bye == true {
 				return true
 			}
 		}
@@ -56,8 +53,4 @@ func (p Player) PlayedOn(scenario string) bool {
 		}
 	}
 	return false
-}
-
-func (p *Player) AddGame(g *Game) {
-	p.Games = append(p.Games, g)
 }

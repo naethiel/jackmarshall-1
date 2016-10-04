@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -21,10 +20,6 @@ func (p Pair) PlayedOn(scenario string) bool {
 	return false
 }
 
-func (p Pair) String() string {
-	return p[0].Name + p[1].Name
-}
-
 func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 
 	var players = make([]*Player, len(p))
@@ -33,8 +28,8 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 		players[i] = &p[i]
 	}
 
-	//FIXME : doublon avec round create?
 	for _, player := range players {
+		player.Games = make([]*Game, 0)
 		for r, round := range tournament.Rounds {
 			for g, game := range round.Games {
 				for _, result := range game.Results {
@@ -58,11 +53,9 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 		return players[i].VictoryPoints() > players[j].VictoryPoints()
 	})
 
-	//fmt.Println(len(players)%2 != 0)
 	//Odd number of players
 	if len(players)%2 != 0 {
 		for i := len(players) - 1; i >= 0; i-- {
-			//fmt.Println(i)
 			if players[i].hadBye() == false || len(tournament.Rounds) == 0 {
 				r.Games = append(r.Games, Game{
 					Table: Table{
@@ -74,7 +67,7 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 							VictoryPoints:     1,
 							ScenarioPoints:    2,
 							DestructionPoints: tournament.Format / 2,
-							Buy:               true,
+							Bye:               true,
 						},
 						Result{},
 					},
@@ -84,11 +77,11 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 				} else {
 					players = append(players[0:i], players[i+1:]...)
 				}
-
 				break
 			}
 		}
 	}
+	//players that had already played against available players
 	var fuckers []*Player
 Selection:
 	for len(players) > 0 {
@@ -112,7 +105,5 @@ Selection:
 		pairs = append(pairs, Pair{fuckers[0], fuckers[1]})
 		fuckers = fuckers[2:]
 	}
-	fmt.Println("PAIRING")
-	fmt.Println(pairs)
 	return
 }
