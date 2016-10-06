@@ -1,6 +1,5 @@
 package main
 
-//Player represents a player from a tournament
 type Player struct {
 	Name     string    `json:"name"`
 	Faction  string    `json:"faction"`

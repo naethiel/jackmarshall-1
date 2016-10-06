@@ -46,10 +46,10 @@ func testAssignement() {
 	players := []Player{}
 	tables := []Table{}
 
-	nbPlayers := 128
-	nbTables := 64
-	nbScenario := 8
-	nbRounds := 7
+	nbPlayers := 64
+	nbTables := 32
+	nbScenario := 7
+	nbRounds := 6
 
 	for i := 0; i < nbPlayers; i++ {
 		players = append(players, Player{Name: "player" + fmt.Sprintf("%d", i)})

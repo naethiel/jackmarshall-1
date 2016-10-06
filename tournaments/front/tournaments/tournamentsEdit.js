@@ -15,10 +15,19 @@ angular.module('tournamentsEdit', ['ngRoute'])
     scope.player = {};
     scope.player.lists = ["",""];
     scope.table = {};
+    scope.round = {};
     $http.get('/api/tournaments/'+$routeParams.id).success(function(data){
         data.date = moment(data.date, 'YYYY-MM-DDThh:mm:ssZ').format('DD/MM/YYYY');
         scope.tournament = data;
     });
+
+
+    this.getNextRound = function(){
+        $http.get('/api/tournaments/'+$routeParams.id+'/round').success(function(data){
+            scope.round = data;
+            scope.tournament.rounds.append(data);
+        });
+    };
 
     this.addPlayer = function(){
         console.error(scope.tournament);
@@ -127,4 +136,18 @@ angular.module('tournamentsEdit', ['ngRoute'])
     };
 })
 
+.directive("roundList", function(){
+    return {
+        restrict: 'E',
+        templateUrl: "tournaments/round-list.html"
+    };
+})
+
+.directive("editRound", function(){
+    return {
+        restrict: 'E',
+        templateUrl: "tournaments/edit-round.html"
+
+    };
+})
 ;

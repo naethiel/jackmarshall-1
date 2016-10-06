@@ -1,18 +1,26 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
-func GetFitness(games []Game) int {
+func GetFitness(games []Game, debug bool) int {
 	res := 0
 	for _, game := range games {
 		for _, result := range game.Results {
 			for _, playerGame := range result.Player.Games {
 				if game.Table == playerGame.Table {
+					if debug {
+						fmt.Printf("%s a deja joué sur %s\n", result.Player.Name, game.Table.Name)
+					}
 					res += 50
 				} else if game.Table.Scenario == playerGame.Table.Scenario {
+					if debug {
+						fmt.Printf("%s a deja joué sur %s\n", result.Player.Name, game.Table.Scenario)
+					}
+
 					res += 10
 				}
 			}
@@ -59,15 +67,20 @@ func swap(parent []Game) []Game {
 	return child
 }
 
-func GetBest(availableTables []Table, availablePairs []Pair, delay float64) []Game {
+func GetBest(availableTables []Table, availablePairs []Pair, delay time.Duration) []Game {
 	bestParent := generateParent(availableTables, availablePairs)
-	score := GetFitness(bestParent)
+	score := GetFitness(bestParent, false)
 	bestScore := score
 
-	start := time.Now()
-	for time.Since(start).Seconds() < delay && bestScore != 0 {
+	timeout := false
+	go func() {
+		time.Sleep(delay * time.Second)
+		timeout = true
+	}()
+
+	for !timeout && bestScore != 0 {
 		child := swap(bestParent)
-		score = GetFitness(child)
+		score = GetFitness(child, false)
 		if score < bestScore {
 			bestScore = score
 			bestParent = child

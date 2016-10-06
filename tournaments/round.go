@@ -8,7 +8,7 @@ type Round struct {
 }
 
 func (r *Round) String() (s string) {
-	s += fmt.Sprintf("ROUND %d : %d\n", r.Number, GetFitness(r.Games))
+	s += fmt.Sprintf("ROUND %d : %d\n", r.Number, GetFitness(r.Games, true))
 	for i, game := range r.Games {
 		s += fmt.Sprintf("GAME %d :\t%s  %s\t", i, game.Table.Name, game.Table.Scenario)
 		s += fmt.Sprintf("%s vs %s\n", game.Results[0].Player.Name, game.Results[1].Player.Name)
