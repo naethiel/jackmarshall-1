@@ -86,5 +86,9 @@ func GetBest(availableTables []Table, availablePairs []Pair, delay time.Duration
 			bestParent = child
 		}
 	}
+	for _, game := range bestParent {
+		game.Results[0].Player.Games = nil
+		game.Results[1].Player.Games = nil
+	}
 	return bestParent
 }

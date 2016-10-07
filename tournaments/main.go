@@ -32,11 +32,11 @@ func main() {
 
 	// Initialize the middleware stack
 	stack := negroni.New()
-	stack.Use(negroni.NewLogger())
+	//	stack.Use(negroni.NewLogger())
 	stack.Use(negroni.NewRecovery())
 	stack.UseHandler(router)
 
-	testAssignement()
+	//testAssignement()
 
 	log.Fatalln(http.ListenAndServe(":8080", stack))
 }

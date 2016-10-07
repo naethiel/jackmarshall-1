@@ -20,5 +20,6 @@ func NewTournament() *Tournament {
 	t := new(Tournament)
 	t.Players = []Player{}
 	t.Tables = []Table{}
+	t.Rounds = []Round{}
 	return t
 }

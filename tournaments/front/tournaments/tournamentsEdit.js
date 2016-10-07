@@ -23,9 +23,9 @@ angular.module('tournamentsEdit', ['ngRoute'])
 
 
     this.getNextRound = function(){
-        $http.get('/api/tournaments/'+$routeParams.id+'/round').success(function(data){
+        $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
             scope.round = data;
-            scope.tournament.rounds.append(data);
+            scope.tournament.rounds[data.number] = data;
         });
     };
 
@@ -84,8 +84,26 @@ angular.module('tournamentsEdit', ['ngRoute'])
             scope.tournament.id = data
         });
     };
-
 }])
+
+.directive("roundTabs", function() {
+  return {
+    restrict: "E",
+    templateUrl: "/tournaments/round-tabs.html",
+    controller: function() {
+      this.tab = 1;
+
+      this.isSet = function(checkTab) {
+        return this.tab === checkTab;
+      };
+
+      this.setTab = function(activeTab) {
+        this.tab = activeTab;
+      };
+    },
+    controllerAs: "tab"
+  };
+})
 
 .directive('tournamentDescription', function(){
     return {
@@ -150,4 +168,11 @@ angular.module('tournamentsEdit', ['ngRoute'])
 
     };
 })
+.directive("editGame", function(){
+    return {
+        restrict: 'E',
+        templateUrl: "tournaments/edit-game.html"
+    };
+})
+
 ;
