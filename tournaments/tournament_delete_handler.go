@@ -2,20 +2,19 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
+	"github.com/HouzuoGuo/tiedot/data"
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
-func NewDeleteTournamentHandler(db *mgo.Session) httprouter.Handle {
-	collection := db.DB("jackmarshall").C("tournament")
+func NewDeleteTournamentHandler(database *data.Collection) httprouter.Handle {
 
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-		id := p.ByName("id")
+		id, err := strconv.Atoi(p.ByName("id"))
 
-		err := collection.RemoveId(bson.ObjectIdHex(id))
+		err = database.Delete(id)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

@@ -1,0 +1,20 @@
+<div class="panel panel-primary">
+    <div class="panel-heading" ng-class="{'collapsed': EditCtrl.tablesCollapsed}" ng-click="EditCtrl.tablesCollapsed = !EditCtrl.tablesCollapsed">
+        <h3 class="panel-title">Tables</h3>
+    </div>
+    <ul class="list-group" uib-collapse="EditCtrl.tablesCollapsed">
+        <li class="list-group-item" ng-repeat="table in EditCtrl.tournament.tables |orderBy: 'name'">
+            {{table.name}} <i>{{table.scenario}}</i>
+            <button type="button" class="btn btn-primary btn-xs" ng-click="table.detailsVisible = !table.detailsVisible">
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Details
+            </button>
+            <button type="button" class="btn btn-danger btn-xs">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
+            </button>
+            <div uib-collapse="!table.detailsVisible">
+                <edit-table></edit-table>
+            </div>
+        </li>
+        <add-table></add-table>
+    </ul>
+</div>

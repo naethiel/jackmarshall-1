@@ -1,61 +1,88 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
-	"os"
 
-	"gopkg.in/mgo.v2"
+	"github.com/HouzuoGuo/tiedot/data"
 
 	"github.com/codegangsta/negroni"
 	"github.com/julienschmidt/httprouter"
 )
 
-func ContentTypeHandler(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-
-	rw := negroni.NewResponseWriter(w)
-	rw.Before(func(rw negroni.ResponseWriter) {
-		if rw.Status() == http.StatusOK {
-			rw.Header().Set("Content-Type", "application/json")
-		}
-	})
-	next(rw, r)
-}
-
 func main() {
-
-	database, err := mgo.Dial(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
+	databasePath := "database"
+	database, err := data.OpenCollection(databasePath)
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
-	defer database.Close()
 
 	router := httprouter.New()
-	router.GET("/scenario", NewListScenarioHandler(database))
-	router.GET("/scenario/:id", NewGetScenarioHandler(database))
-	router.POST("/scenario", NewCreateScenarioHandler(database))
-	router.PUT("/scenario/:id", NewUpdateScenarioHandler(database))
-	router.DELETE("/scenario/:id", NewDeleteScenarioHandler(database))
+	router.GET("/api/tournaments", NewListTournamentHandler(database))
+	router.GET("/api/tournaments/:id", NewGetTournamentHandler(database))
+	router.POST("/api/tournaments", NewCreateTournamentHandler(database))
+	router.PUT("/api/tournaments/:id", NewUpdateTournamentHandler(database))
+	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(database))
 
-	router.GET("/tables", NewListTableHandler(database))
+	router.GET("/api/tournaments/:id/round", NewCreateRoundHandler(database))
 
-	router.GET("/players", NewListPlayerHandler(database))
-
-	router.GET("/tournaments/:id/round", NewCreateRoundHandler(database))
-
-	router.GET("/tournaments", NewListTournamentHandler(database))
-	router.GET("/tournaments/:id", NewGetTournamentHandler(database))
-	router.POST("/tournaments", NewCreateTournamentHandler(database))
-	router.PUT("/tournaments/:id", NewUpdateTournamentHandler(database))
-	router.DELETE("/tournaments/:id", NewDeleteTournamentHandler(database))
+	router.NotFound = http.FileServer(http.Dir("front"))
 
 	// Initialize the middleware stack
 	stack := negroni.New()
-	stack.Use(negroni.NewLogger())
+	//	stack.Use(negroni.NewLogger())
 	stack.Use(negroni.NewRecovery())
-
-	stack.Use(negroni.HandlerFunc(ContentTypeHandler))
 	stack.UseHandler(router)
 
+	//testAssignement()
+
 	log.Fatalln(http.ListenAndServe(":8080", stack))
+}
+
+func testAssignement() {
+	tournament := Tournament{}
+	players := []Player{}
+	tables := []Table{}
+
+	nbPlayers := 64
+	nbTables := 32
+	nbScenario := 7
+	nbRounds := 6
+
+	for i := 0; i < nbPlayers; i++ {
+		players = append(players, Player{Name: "player" + fmt.Sprintf("%d", i)})
+	}
+
+	for i := 0; i < nbTables; i++ {
+		tables = append(tables, Table{Name: "table" + fmt.Sprintf("%d", i), Scenario: "scenario" + fmt.Sprintf("%d", i%nbScenario)})
+	}
+
+	tournament.Tables = tables
+	tournament.Players = players
+
+	for i := 0; i < nbRounds; i++ {
+		round := Round{
+			Number: i,
+			Games:  []Game{},
+		}
+		var pairings = CreatePairs(players, tournament, &round)
+
+		createRound(pairings, tables, &round)
+
+		for _, g := range round.Games {
+			g.Results[rand.Intn(2)].VictoryPoints = 1
+		}
+
+		tournament.Rounds = append(tournament.Rounds, round)
+	}
+	displayTournament(tournament)
+	fmt.Println("FINI ! ")
+}
+
+func displayTournament(tournament Tournament) {
+	for _, round := range tournament.Rounds {
+		fmt.Println(round.String())
+	}
 }

@@ -1,0 +1,22 @@
+<div class="panel panel-primary">
+    <div class="panel-heading" ng-class="{'collapsed': EditCtrl.playersCollapsed}" ng-click="EditCtrl.playersCollapsed = !EditCtrl.playersCollapsed">
+        <h3 class="panel-title">Players</h3>
+    </div>
+    <ul class="list-group" uib-collapse="EditCtrl.playersCollapsed">
+        <li class="list-group-item" ng-repeat="player in EditCtrl.tournament.players |orderBy: 'name'">
+            {{player.name}} <i>{{player.faction}}</i>
+            <button type="button" class="btn btn-primary btn-xs" ng-click="player.detailsVisible = !player.detailsVisible">
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Details
+            </button>
+            <button type="button" class="btn btn-danger btn-xs">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
+            </button>
+            <div uib-collapse="!player.detailsVisible">
+                <edit-player></edit-player>
+            </div>
+
+
+        </li>
+        <add-player></add-player>
+    </ul>
+</div>
