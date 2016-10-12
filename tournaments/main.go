@@ -27,6 +27,7 @@ func main() {
 	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(database))
 
 	router.GET("/api/tournaments/:id/round", NewCreateRoundHandler(database))
+	router.GET("/api/tournaments/:id/results", NewGetResultsHandler(database))
 
 	router.NotFound = http.FileServer(http.Dir("front"))
 

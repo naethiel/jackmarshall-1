@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Player struct {
 	Name     string    `json:"name"`
 	Faction  string    `json:"faction"`
@@ -20,6 +22,21 @@ func (p Player) VictoryPoints() int {
 		score += result.VictoryPoints
 	}
 	return score
+}
+
+func (p Player) CumulatedResults() Result {
+	cumul := Result{}
+	for _, game := range p.Games {
+		var result = game.Results[0]
+		if result.Player.Name != p.Name {
+			result = game.Results[1]
+		}
+		fmt.Printf("%#v\n\n", result)
+		cumul.VictoryPoints += result.VictoryPoints
+		cumul.ScenarioPoints += result.ScenarioPoints
+		cumul.DestructionPoints += result.DestructionPoints
+	}
+	return cumul
 }
 
 func (p Player) hadBye() bool {

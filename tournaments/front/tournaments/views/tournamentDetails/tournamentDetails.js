@@ -22,6 +22,10 @@ angular.module('tournamentDetails', ['ngRoute'])
         scope.tournament = data;
     });
 
+    $http.get('/api/tournaments/'+$routeParams.id+ '/results').success(function(data){
+        scope.score = data;
+    });
+
 
     this.getNextRound = function(){
         $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
@@ -85,8 +89,6 @@ angular.module('tournamentDetails', ['ngRoute'])
             scope.tournament.id = data
         });
     };
-
-
 
 }])
 
@@ -172,10 +174,18 @@ angular.module('tournamentDetails', ['ngRoute'])
 
     };
 })
+
 .directive("editGame", function(){
     return {
         restrict: 'E',
         templateUrl: "tournaments/views/tournamentDetails/rounds/edit-game.html"
+    };
+})
+
+.directive("tournamentResults", function(){
+    return {
+        restrict: 'E',
+        templateUrl: "tournaments/views/tournamentDetails/tournament/results.html"
     };
 })
 

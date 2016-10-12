@@ -1,4 +1,7 @@
 <ul class="nav nav-tabs nav-tabs-primary" >
+    <li ng-class="{'active': tab.isSet(-1)}">
+        <a href="" ng-click="tab.setTab(-1)">Results</a>
+    </li>
     <li ng-repeat="round in EditCtrl.tournament.rounds" ng-class="{'active': tab.isSet(round.number)}">
         <a href="" ng-click="tab.setTab(round.number)">Round {{round.number + 1}}</a>
     </li>
@@ -9,3 +12,4 @@
 <div  ng-repeat="round in EditCtrl.tournament.rounds">
     <edit-round  ng-show="tab.isSet(round.number)"></edit-round>
 </div>
+<tournament-results  ng-show="tab.isSet(-1)"></tournament-results>
