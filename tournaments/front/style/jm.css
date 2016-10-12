@@ -1,0 +1,97 @@
+.panel-heading .panel-title:after{
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e082";
+    float: right;
+    opacity:0.6;
+}
+.panel-heading.collapsed .panel-title:after  {
+    /* symbol for "collapsed" panels */
+    content: "\e081";
+}
+
+.mtn,
+.mt0 {
+    margin-top: 0;
+}
+
+.mts {
+    margin-top: 1rem;
+}
+
+.mtm {
+    margin-top: 2rem;
+}
+
+.mtl {
+    margin-top: 4rem;
+}
+
+.mrn,
+.mr0 {
+    margin-right: 0;
+}
+
+.mrs {
+    margin-right: 1rem;
+}
+
+.mrm {
+    margin-right: 2rem;
+}
+
+.mrl {
+    margin-right: 4rem;
+}
+
+.mbn,
+.mb0 {
+    margin-bottom: 0;
+}
+
+.mbs {
+    margin-bottom: 1rem;
+}
+
+.mbm {
+    margin-bottom: 2rem;
+}
+
+.mbl {
+    margin-bottom: 4rem;
+}
+
+.mln,
+.ml0 {
+    margin-left: 0;
+}
+
+.mls {
+    margin-left: 1rem;
+}
+
+.mlm {
+    margin-left: 2rem;
+}
+
+.mll {
+    margin-left: 4rem;
+}
+
+.nav-tabs-primary {
+  border-bottom: 1px solid #337ab7;
+}
+
+
+.nav-tabs-primary > li > a:hover {
+  border-color: #2e6da4 #2e6da4 #2e6da4;
+}
+.nav-tabs-primary > li.active > a,
+.nav-tabs-primary > li.active > a:hover,
+.nav-tabs-primary > li.active > a:focus {
+  color: #ffffff;
+  cursor: default;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
+  border-bottom-color: transparent;
+}

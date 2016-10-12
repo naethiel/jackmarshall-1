@@ -1,8 +1,0 @@
-<form name="roundForm" ng-submit="EditCtrl.updateTournament()">
-    <h4>Round {{round.number}}</h4>
-    <div  ng-repeat="game in round.games |orderBy: 'table.name'">
-        <edit-game></edit-game>
-    </div>
-    <input type="submit" class="btn btn-primary pull-right" value="Save round" />
-
-</form>

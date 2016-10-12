@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs nav-tabs-primary" >
+    <li ng-repeat="round in EditCtrl.tournament.rounds" ng-class="{'active': tab.isSet(round.number)}">
+        <a href="" ng-click="tab.setTab(round.number)">Round {{round.number + 1}}</a>
+    </li>
+    <li ng-click="EditCtrl.getNextRound()">
+        <a href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New round</a>
+    </li>
+</ul>
+<div  ng-repeat="round in EditCtrl.tournament.rounds">
+    <edit-round  ng-show="tab.isSet(round.number)"></edit-round>
+</div>

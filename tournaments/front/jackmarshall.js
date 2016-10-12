@@ -4,7 +4,9 @@
 angular.module('jackmarshall', [
   'ngRoute',
   'tournamentsList',
-  'tournamentsEdit'
+  'tournamentDetails',
+  'ui.bootstrap',
+  'ngAnimate'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   //$locationProvider.hashPrefix('!');
