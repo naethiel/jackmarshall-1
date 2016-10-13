@@ -9,7 +9,7 @@
                 <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Details
             </button>
             <button type="button" class="btn btn-danger btn-xs">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
+                <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="EditCtrl.deleteTable(table)"></span> Remove
             </button>
             <div uib-collapse="!table.detailsVisible">
                 <edit-table></edit-table>

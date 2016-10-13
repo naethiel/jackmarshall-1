@@ -10,6 +10,12 @@
     content: "\e081";
 }
 
+.ng-invalid.ng-dirty{
+    border-color: #FA78FE
+}
+.ng-valid.ng-dirty{
+    border-color: #78FA89
+}
 .mtn,
 .mt0 {
     margin-top: 0;
