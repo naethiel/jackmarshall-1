@@ -1,8 +1,9 @@
-<form name="roundForm" ng-submit="EditCtrl.updateTournament()">
+<form name="roundForm" ng-submit="roundForm.$valid && EditCtrl.updateTournament()" novalidate>
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="game in round.games |orderBy: 'table.name'">
             <edit-game></edit-game>
         </li>
     </ul>
     <input type="submit" class="btn btn-primary pull-right" value="Save round" />
+    roundForm is {{roundForm.$valid}}
 </form>
