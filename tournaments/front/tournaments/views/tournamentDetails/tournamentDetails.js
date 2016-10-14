@@ -18,14 +18,12 @@ angular.module('tournamentDetails', ['ngRoute'])
     scope.round = {};
     scope.score = [];
     $http.get('/api/tournaments/'+$routeParams.id).success(function(data){
-        data.date = moment(data.date, 'YYYY-MM-DDThh:mm:ssZ').format('DD/MM/YYYY');
         scope.tournament = data;
     });
 
     $http.get('/api/tournaments/'+$routeParams.id+ '/results').success(function(data){
         scope.score = data;
     });
-
 
     this.getNextRound = function(){
         $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
@@ -35,10 +33,8 @@ angular.module('tournamentDetails', ['ngRoute'])
     };
 
     this.addPlayer = function(){
-        console.error(scope.tournament);
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.players.push(scope.player);
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
             scope.tournament.id = data
             scope.tournament.players.push(scope.player);
@@ -48,10 +44,8 @@ angular.module('tournamentDetails', ['ngRoute'])
     };
 
     this.addTable = function(){
-        console.error(scope.tournament);
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.tables.push(scope.table);
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
             scope.tournament.id = data
             scope.tournament.tables.push(scope.table);
@@ -60,10 +54,8 @@ angular.module('tournamentDetails', ['ngRoute'])
     };
 
     this.deletePlayer = function(player){
-        console.error(scope.tournament);
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.players.splice(temp.players.indexOf(player), 1);
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
             scope.tournament.id = data
             scope.tournament.players.splice(scope.tournament.players.indexOf(player), 1);
@@ -71,10 +63,8 @@ angular.module('tournamentDetails', ['ngRoute'])
     };
 
     this.deleteTable = function(table){
-        console.error(scope.tournament);
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.tables.splice(temp.tables.indexOf(table), 1);
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
             scope.tournament.id = data
             scope.tournament.tables.splice(scope.tournament.tables.indexOf(table), 1);
@@ -82,10 +72,7 @@ angular.module('tournamentDetails', ['ngRoute'])
     };
 
     this.updateTournament = function(){
-        console.error(scope.tournament);
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
-        $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
+        $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
         });
     };
