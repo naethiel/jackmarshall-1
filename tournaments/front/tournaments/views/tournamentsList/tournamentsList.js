@@ -9,10 +9,17 @@ angular.module('tournamentsList', ['ngRoute', 'ui.bootstrap', 'ngAnimate'])
     });
 }])
 .controller('PopupCtrl', function ($uibModalInstance, tournament, scopeParent) {
-
+    var scope = this;
     this.ok = function () {
-        scopeParent.deleteTournament(tournament);
-        $uibModalInstance.close();
+        scope.errorDeleteTournament = false;
+        scopeParent.deleteTournament(tournament)
+        .success(function(data){
+            scopeParent.tournaments.splice(scopeParent.tournaments.indexOf(tournament), 1);
+            $uibModalInstance.close();
+        })
+        .error(function(error){
+            scope.errorDeleteTournament = true;
+        });
     };
 
     this.cancel = function () {
@@ -36,20 +43,23 @@ angular.module('tournamentsList', ['ngRoute', 'ui.bootstrap', 'ngAnimate'])
 
 
     this.createTournament = function(){
+        scope.errorCreateTournament = false;
         scope.tournament.date = moment(scope.tournament.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
-        $http.post('/api/tournaments', scope.tournament).success(function(data){
+        $http.post('/api/tournaments', scope.tournament)
+        .success(function(data){
             scope.tournament.id = data;
             scope.tournaments.push(scope.tournament);
             scope.tournament = {};
             scope.newTournamentCollapsed = true;
             scope.futureTournamentsCollapsed = false;
+        })
+        .error(function(error){
+            scope.errorCreateTournament = true;
         });
     };
 
     this.deleteTournament = function(tournament){
-        $http.delete('/api/tournaments/'+tournament.id).success(function(data){
-            scope.tournaments.splice(scope.tournaments.indexOf(tournament), 1);
-        });
+        return $http.delete('/api/tournaments/'+tournament.id);
     };
 
     this.confirmDelete = function (tournament) {
