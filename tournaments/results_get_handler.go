@@ -31,7 +31,7 @@ func NewGetResultsHandler(database *data.Collection) httprouter.Handle {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		result := getCumulatedResult(tournament)
+		result := tournament.getResults()
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
