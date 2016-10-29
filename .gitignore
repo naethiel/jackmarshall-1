@@ -5,3 +5,5 @@ tournaments/tournaments
 database
 debug
 todo
+tournaments/database
+.DS_Store
