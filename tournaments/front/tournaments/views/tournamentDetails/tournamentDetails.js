@@ -69,8 +69,6 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
 
     this.dropPlayer = function(player){
         player.leave = true;
-        //var temp = JSON.parse(JSON.stringify(scope.tournament));
-        //temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
         $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
             $route.updateParams({id:data});
@@ -79,8 +77,6 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
 
     this.rejoinPlayer = function(player){
         player.leave = false;
-        //var temp = JSON.parse(JSON.stringify(scope.tournament));
-        //temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
         $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
             $route.updateParams({id:data});
@@ -116,7 +112,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     };
 
 
-    this.onDropComplete=function(source, destination){
+    this.onDropComplete=function(source, destination, roundIndex){
 
         var sourceTemp = JSON.parse(JSON.stringify(source));
 
@@ -132,28 +128,37 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         destination.lists = sourceTemp.lists;
         destination.leave = sourceTemp.leave;
 
+        verifyRound(roundIndex);
+
     }
 
     function verifyRound(index){
         scope.tournament.rounds[index].games.forEach(function(game){
-            verifyParing(game);
-            verifyTable(game);
+            verifyParing(game, index);
+            verifyTable(game, index);
         });
     }
 
-    function verifyParing(g){
+    function verifyParing(g, index){
+        g.errorPairing = false;
         scope.tournament.rounds.forEach(function(round){
+            if (round.number===index){
+                return;
+            }
             round.games.forEach(function(game){
                 if ((g.results[0].player.name === game.results[0].player.name && g.results[1].player.name === game.results[1].player.name) ||
                 (g.results[0].player.name === game.results[1].player.name && g.results[1].player.name === game.results[0].player.name)) {
-                    game.errorPairing = true;
+                    g.errorPairing = true;
                 }
             });
         });
     }
 
-    function verifyTable(g){
+    function verifyTable(g, index){
         scope.tournament.rounds.forEach(function(round){
+            if (round.number===index){
+                return;
+            }
             round.games.forEach(function(game){
                 if (g.results[0].player.name === game.results[0].player.name || g.results[0].player.name === game.results[1].player.name) {
                     if (g.table.name === game.table.name) {

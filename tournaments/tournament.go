@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "time"
 
 type Tournament struct {
 	Id        string    `json:"id" update:"nonzero"`
@@ -65,7 +62,6 @@ func (t Tournament) getResults() []*Result {
 				continue
 			}
 			if g.Results[0].Player.Name == r.Player.Name {
-				fmt.Println("players name : ", g.Results[1].Player.Name)
 				r.SoS += players[g.Results[1].Player.Name].VictoryPoints()
 			} else {
 				r.SoS += players[g.Results[0].Player.Name].VictoryPoints()

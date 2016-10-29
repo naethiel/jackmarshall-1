@@ -1,8 +1,15 @@
 
 <div class="container-fluid text-center">
     <div class="row row-center" ng-class="{'warning': game.errorPairing}">
-        <div class="col-md-1">{{game.table.name}} ({{game.table.scenario}})</div>
-        <div class="col-md-2" ng-drag="true" ng-drag-data="game.results[0].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[0].player)">{{game.results[0].player.name}} ({{game.results[0].player.faction}}) {{game.results[0].errorTable}} {{game.results[0].errorScenario}}</div>
+        <div class="col-md-1">
+            {{game.table.name}} ({{game.table.scenario}})
+            <span ng-show="game.errorPairing" class="glyphicon glyphicon-info-sign  text-danger" aria-hidden="true"></span>
+        </div>
+        <div class="col-md-2" ng-drag="true" ng-drag-data="game.results[0].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[0].player, tab.tab)">
+            {{game.results[0].player.name}} ({{game.results[0].player.faction}})
+            <span ng-show="game.results[0].errorTable" class="glyphicon glyphicon-info-sign  text-danger" aria-hidden="true"></span>
+            <span ng-show="game.results[0].errorScenario" class="glyphicon glyphicon-info-sign  text-warning" aria-hidden="true"></span>
+        </div>
         <div class="col-md-1"><input ng-model="game.results[0].victory_points" type="number" min=0 max=1 class="form-control" placeholder="vitory points" title="VictoryPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[0].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[0].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
@@ -10,6 +17,10 @@
         <div class="col-md-1"><input ng-model="game.results[1].victory_points" type="number" min=0 max=1 class="form-control" placeholder="vitory points" title="VictoryPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[1].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
-        <div class="col-md-2" ng-drag="true" ng-drag-data="game.results[1].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[1].player)">({{game.results[1].player.faction}}) {{game.results[1].player.name}}  {{game.results[1].errorTable}} {{game.results[1].errorScenario}}</div>
+        <div class="col-md-2" ng-drag="true" ng-drag-data="game.results[1].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[1].player, tab.tab)">
+            ({{game.results[1].player.faction}}) {{game.results[1].player.name}}
+            <span ng-show="game.results[1].errorTable" class="glyphicon glyphicon-info-sign  text-danger" aria-hidden="true"></span>
+            <span ng-show="game.results[1].errorScenario" class="glyphicon glyphicon-info-sign  text-warning" aria-hidden="true"></span>
+        </div>
     </div>
 </div>
