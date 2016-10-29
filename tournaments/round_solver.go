@@ -30,10 +30,8 @@ func GetFitness(games []Game, debug bool) int {
 }
 
 func generateParent(availableTables []Table, availablePairs []Pair) []Game {
-
 	games := make([]Game, 0, len(availablePairs))
 	for len(availablePairs) > 0 {
-
 		index := rand.Intn(len(availableTables))
 		games = append(games, Game{
 			Table: availableTables[index],

@@ -22,10 +22,12 @@ func (p Pair) PlayedOn(scenario string) bool {
 }
 
 func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
-	var players = make([]*Player, len(p))
+	var players = make([]*Player, 0)
 
 	for i := range p {
-		players[i] = &p[i]
+		if p[i].Leave != true {
+			players = append(players, &p[i])
+		}
 	}
 
 	for _, player := range players {
