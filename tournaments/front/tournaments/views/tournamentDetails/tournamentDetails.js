@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('tournamentDetails', ['ngRoute'])
+angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/tournaments/:id', {
@@ -69,9 +69,9 @@ angular.module('tournamentDetails', ['ngRoute'])
 
     this.dropPlayer = function(player){
         player.leave = true;
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
-        $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
+        //var temp = JSON.parse(JSON.stringify(scope.tournament));
+        //temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
+        $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
             $route.updateParams({id:data});
         });
@@ -79,9 +79,9 @@ angular.module('tournamentDetails', ['ngRoute'])
 
     this.rejoinPlayer = function(player){
         player.leave = false;
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
-        $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
+        //var temp = JSON.parse(JSON.stringify(scope.tournament));
+        //temp.date = moment(temp.date, 'DD/MM/YYYY').format('YYYY-MM-DDThh:mm:ssZ');
+        $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
             $route.updateParams({id:data});
         });
@@ -104,6 +104,25 @@ angular.module('tournamentDetails', ['ngRoute'])
             $route.updateParams({id:data});
         });
     };
+
+
+    this.onDropComplete=function(source, destination){
+
+        var sourceTemp = JSON.parse(JSON.stringify(source));
+
+        source.name = destination.name;
+        source.faction = destination.faction;
+        source.payed_fee = destination.payed_fee;
+        source.lists = destination.lists;
+        source.leave = destination.leave;
+
+        destination.name = sourceTemp.name;
+        destination.faction = sourceTemp.faction;
+        destination.payed_fee = sourceTemp.payed_fee;
+        destination.lists = sourceTemp.lists;
+        destination.leave = sourceTemp.leave;
+
+    }
 
     function verifyRound(index){
         scope.tournament.rounds[index].games.forEach(function(game){
