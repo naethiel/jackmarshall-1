@@ -98,6 +98,16 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         });
     };
 
+    this.deleteRound = function(round){
+        var temp = JSON.parse(JSON.stringify(scope.tournament));
+        temp.rounds.splice(temp.rounds.indexOf(round), 1);
+        $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
+            scope.tournament.id = data
+            $route.updateParams({id:data});
+            scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
+        });
+    };
+
     this.updateTournament = function(){
         $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
