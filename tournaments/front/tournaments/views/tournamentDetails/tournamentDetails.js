@@ -9,7 +9,75 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     });
 }])
 
-.controller('TournamentsEditCtrl', ['$http', '$routeParams', '$route', function($http, $routeParams, $route) {
+.controller('PopupResultCtrl', function ($uibModalInstance, score, scopeParent) {
+    var scope = this;
+    this.copySuccess = false;
+    this.results = score;
+    this.copy = function () {
+        if (window.getSelection) {
+            if (window.getSelection().empty) {  // Chrome
+                window.getSelection().empty();
+            } else if (window.getSelection().removeAllRanges) {  // Firefox
+                window.getSelection().removeAllRanges();
+            }
+        } else if (document.selection) {  // IE?
+            document.selection.empty();
+        }
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById("results_bbcode"));
+            range.select();
+            document.execCommand("Copy");
+
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById("results_bbcode"));
+            window.getSelection().addRange(range);
+            document.execCommand("Copy");
+        }
+        scope.copySuccess = true;
+    };
+
+    this.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+})
+
+.controller('PopupRoundCtrl', function ($uibModalInstance, round, scopeParent) {
+    var scope = this;
+    this.copySuccess = false;
+    this.round = round;
+    this.copy = function () {
+        if (window.getSelection) {
+            if (window.getSelection().empty) {  // Chrome
+                window.getSelection().empty();
+            } else if (window.getSelection().removeAllRanges) {  // Firefox
+                window.getSelection().removeAllRanges();
+            }
+        } else if (document.selection) {  // IE?
+            document.selection.empty();
+        }
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById("results_bbcode"));
+            range.select();
+            document.execCommand("Copy");
+
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById("results_bbcode"));
+            window.getSelection().addRange(range);
+            document.execCommand("Copy");
+        }
+        scope.copySuccess = true;
+    };
+
+    this.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+})
+
+.controller('TournamentsEditCtrl', ['$http', '$routeParams', '$route', '$uibModal', function($http, $routeParams, $route, $uibModal) {
     var scope = this;
     scope.tournament = {};
     scope.player = {};
@@ -25,11 +93,56 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         scope.score = data;
     });
 
+    this.bbCode = function (score) {
+        var params = {
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'tournaments/views/tournamentDetails/tournament/result_popup.html',
+            controller: 'PopupResultCtrl',
+            controllerAs: 'PopupResultCtrl',
+            size: 'md',
+            appendTo: undefined,
+            resolve: {
+                score: function () {
+                    return score;
+                },
+                scopeParent: function(){
+                    return scope;
+                }
+            }
+        }
+        var modalInstance = $uibModal.open(params);
+    };
+
+    this.bbCodeRound = function (round) {
+        var params = {
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'tournaments/views/tournamentDetails/rounds/result_popup.html',
+            controller: 'PopupRoundCtrl',
+            controllerAs: 'PopupRoundCtrl',
+            size: 'md',
+            appendTo: undefined,
+            resolve: {
+                round: function () {
+                    return round;
+                },
+                scopeParent: function(){
+                    return scope;
+                }
+            }
+        }
+        var modalInstance = $uibModal.open(params);
+    };
+
     this.getNextRound = function(){
         $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
             scope.round = data;
             scope.tournament.rounds[data.number] = data;
             verifyRound(data.number);
+            scope.updateTournament();
         });
     };
 

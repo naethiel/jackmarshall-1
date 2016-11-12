@@ -101,3 +101,6 @@
     border: 1px solid #2e6da4;
     border-bottom-color: transparent;
 }
+.font-bold {
+    font-weight: bold;
+}
