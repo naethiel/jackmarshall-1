@@ -6,7 +6,14 @@
         <a href="" ng-click="tab.setTab(round.number)">Round {{round.number + 1}}</a>
     </li>
     <li ng-click="EditCtrl.getNextRound()">
-        <a href=""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New round</a>
+        <a href="" ng-hide="EditCtrl.roundLoading">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New round
+        </a>
+    </li>
+    <li>
+        <a href="" ng-show="EditCtrl.roundLoading">
+            <span>Loading <span class="fa fa-spinner fa-spin fa-fw"></span></span>
+        </a>
     </li>
 </ul>
 <div  ng-repeat="round in EditCtrl.tournament.rounds">

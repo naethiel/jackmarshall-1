@@ -87,6 +87,10 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     scope.score = [];
     $http.get('/api/tournaments/'+$routeParams.id).success(function(data){
         scope.tournament = data;
+        scope.tournament.rounds.forEach(function(round){
+            verifyRound(round.number);
+        });
+
     });
 
     $http.get('/api/tournaments/'+$routeParams.id+ '/results').success(function(data){
@@ -138,11 +142,16 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     };
 
     this.getNextRound = function(){
+        scope.roundLoading = true;
         $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
             scope.round = data;
             scope.tournament.rounds[data.number] = data;
             verifyRound(data.number);
             scope.updateTournament();
+            scope.roundLoading = false;
+        })
+        .fail(function(){
+            scope.roundLoading = false;
         });
     };
 
@@ -249,6 +258,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         scope.tournament.rounds[index].games.forEach(function(game){
             verifyParing(game, index);
             verifyTable(game, index);
+            verifyList(game, index);
         });
     }
 
@@ -265,6 +275,36 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
                 }
             });
         });
+    }
+
+    function verifyList(g, index){
+        g.results[0].listFree = isListFree(g.results[0].player);
+        g.results[1].listFree = isListFree(g.results[1].player);
+    }
+
+    function isListFree(player){
+        //console.error("isFree ",player.name);
+        var played = [];
+        scope.tournament.rounds.forEach(function(round){
+            round.games.forEach(function(game){
+                if (game.results[0].player.name === player.name && game.results[0].list != "") {
+                    console.error(player.name, "found game", game.results[0].list);
+                    console.error("logged ? ", played.indexOf(game.results[0].list));
+                    if (played.indexOf(game.results[0].list) === -1){
+                        played.push(game.results[0].list);
+                    }
+                } else if (game.results[1].player.name === player.name && game.results[1].list != "") {
+                    console.error(player.name, "found game", game.results[1].list);
+                    console.error("logged ? ", played.indexOf(game.results[1].list));
+                    if (played.indexOf(game.results[1].list) === -1){
+                        played.push(game.results[1].list);
+                    }
+                }
+            });
+        });
+        console.error(player.name, " ", played);
+        console.error(played.length === player.lists.length);
+        return played.length === player.lists.length;
     }
 
     function verifyTable(g, index){
