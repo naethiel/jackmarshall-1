@@ -2,40 +2,51 @@
 <div class="container-fluid text-center">
     <div class="row row-center">
         <div class="col-md-1">
-            {{game.table.name}} ({{game.table.scenario}})
-            <span ng-show="game.errorPairing" title="Pairing error" class="glyphicon glyphicon-info-sign  text-danger" aria-hidden="true"></span>
+            {{game.table.name}}<br /> <small>({{game.table.scenario}})</small>
         </div>
         <div class="col-md-1" ng-drag="true" ng-drag-data="game.results[0].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[0].player, tab.tab)">
-            {{game.results[0].player.name}} ({{game.results[0].player.faction}})
-            <span ng-show="game.results[0].errorTable" title="Table error" class="glyphicon glyphicon-info-sign  text-danger" aria-hidden="true"></span>
-            <span ng-show="game.results[0].errorScenario" title="Scenario error" class="glyphicon glyphicon-info-sign  text-warning" aria-hidden="true"></span>
+            {{game.results[0].player.name}}<br /><small>({{game.results[0].player.faction}})</small>
+        </div>
+        <div class="col-md-1 text-left">
+            <label class="font-normal"  ng-class="{'played': list.played}" ng-repeat="list in game.results[0].player.lists track by $index">
+                <input type="radio" ng-model="game.results[0].list" value="{{list.caster}}">
+                {{list.caster}}
+            </label>
         </div>
         <div class="col-md-1">
-
-            <select ng-model="game.results[0].list">
-                <option ng-repeat="list in game.results[0].player.lists track by $index" value="{{list}}">#{{$index +1}} {{list}}</option>
-            </select>
-            <span ng-show="game.results[0].listFree" title="All lists already played" class="glyphicon glyphicon-info-sign  text-success" aria-hidden="true"></span>
-
+            <button ng-show="game.results[0].victory_points==0 && game.results[1].victory_points==0" type="button" class="btn btn-default"  ng-click="EditCtrl.setWin(game, 0, 1)">Victory ?</button>
+            <button ng-show="game.results[0].victory_points==0 && game.results[1].victory_points==1" type="button" class="btn btn-danger"  ng-click="EditCtrl.setWin(game, 0, 1)">Loss</button>
+            <button ng-show="game.results[0].victory_points==1" type="button" class="btn btn-success" ng-click="EditCtrl.setLoss(game, 0, 1)">Win</button>
         </div>
-        <div class="col-md-1"><input ng-model="game.results[0].victory_points" type="number" min=0 max=1 class="form-control" placeholder="vitory points" title="VictoryPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[0].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[0].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
         <div class="col-md-1">vs</div>
-        <div class="col-md-1"><input ng-model="game.results[1].victory_points" type="number" min=0 max=1 class="form-control" placeholder="vitory points" title="VictoryPoints" required/></div>
+        <div class="col-md-1">
+            <button ng-show="game.results[0].victory_points==0 && game.results[1].victory_points==0" type="button" class="btn btn-default"  ng-click="EditCtrl.setWin(game, 1, 0)">Victory ?</button>
+            <button ng-show="game.results[1].victory_points==0 && game.results[0].victory_points==1" type="button" class="btn btn-danger"  ng-click="EditCtrl.setWin(game, 1, 0)">Loss</button>
+            <button ng-show="game.results[1].victory_points==1" type="button" class="btn btn-success" ng-click="EditCtrl.setLoss(game, 1, 0)">Win</button>
+        </div>
         <div class="col-md-1"><input ng-model="game.results[1].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" required/></div>
         <div class="col-md-1"><input ng-model="game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
         <div class="col-md-1">
-            <select ng-model="game.results[1].list">
-                <option ng-repeat="list in game.results[1].player.lists track by $index" value="{{list}}">#{{$index +1}} {{list}}</option>
-            </select>
-            <span ng-show="game.results[1].listFree" title="All lists already played" class="glyphicon glyphicon-info-sign  text-success" aria-hidden="true"></span>
-
+            <label class="font-normal" ng-class="{'played': list.played}" ng-repeat="list in game.results[1].player.lists track by $index">
+                <input type="radio" ng-model="game.results[1].list" value="{{list.caster}}">
+                {{list.caster}}
+            </label>
         </div>
         <div class="col-md-1" ng-drag="true" ng-drag-data="game.results[1].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[1].player, tab.tab)">
-            ({{game.results[1].player.faction}}) {{game.results[1].player.name}}
-            <span ng-show="game.results[1].errorTable" title="Table error" class="glyphicon glyphicon-info-sign  text-danger" aria-hidden="true"></span>
-            <span ng-show="game.results[1].errorScenario" title="Scenario error" class="glyphicon glyphicon-info-sign  text-warning" aria-hidden="true"></span>
+            ({{game.results[1].player.faction}})<br /><small>({{game.results[1].player.faction}})</small>
         </div>
+    </div>
+    <div class="row text-left" ng-show="game.errorPairing">
+
+    </div>
+    <div class="row text-left">
+        <div class="col-md-1"></div>
+        <div ng-show="game.results[0].errorTable" class="col-md-5 bg-danger">{{game.results[0].player.name}} has already played on table {{game.table.name}}</div>
+        <div ng-show="game.results[0].errorScenario" class="col-md-5 bg-warning">{{game.results[0].player.name}} has already played on scenario {{game.table.scenario}}</div>
+        <div class="col-md-1"></div>
+        <div ng-show="game.results[1].errorTable" class="col-md-5 bg-danger">{{game.results[1].player.name}} has already played on table {{game.table.name}}</div>
+        <div ng-show="game.results[1].errorScenario" class="col-md-5 bg-warning">{{game.results[1].player.name}} has already played on scenario {{game.table.scenario}}</div>
     </div>
 </div>

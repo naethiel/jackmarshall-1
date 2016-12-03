@@ -81,7 +81,17 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     var scope = this;
     scope.tournament = {};
     scope.player = {};
-    scope.player.lists = ["",""];
+    scope.player.lists = [{
+        caster: "",
+        theme: "",
+        played: false,
+        list: ""
+    },{
+        caster: "",
+        theme: "",
+        played: false,
+        list: ""
+    }];
     scope.table = {};
     scope.round = {};
     scope.score = [];
@@ -150,7 +160,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
             scope.updateTournament();
             scope.roundLoading = false;
         })
-        .fail(function(){
+        .error(function(){
             scope.roundLoading = false;
         });
     };
@@ -233,6 +243,14 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         });
     };
 
+    this.setWin = function(game, player_index, opponent_index){
+        game.results[player_index].victory_points = 1;
+        game.results[opponent_index].victory_points = 0;
+    };
+    this.setLoss = function(game, player_index, opponent_index){
+        game.results[player_index].victory_points = 0;
+        game.results[opponent_index].victory_points = 1;
+    };
 
     this.onDropComplete=function(source, destination, roundIndex){
 
@@ -258,13 +276,15 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         scope.tournament.rounds[index].games.forEach(function(game){
             verifyParing(game, index);
             verifyTable(game, index);
-            verifyList(game, index);
+            verifyList(game.results[0].player, index);
+            verifyList(game.results[1].player, index);
         });
     }
 
     function verifyParing(g, index){
         g.errorPairing = false;
-        scope.tournament.rounds.forEach(function(round){
+        for (var i=0; i < index; i++){
+            var round = scope.tournament.rounds[i];
             if (round.number===index){
                 return;
             }
@@ -274,18 +294,41 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
                     g.errorPairing = true;
                 }
             });
-        });
+        }
     }
 
-    function verifyList(g, index){
-        g.results[0].listFree = isListFree(g.results[0].player);
-        g.results[1].listFree = isListFree(g.results[1].player);
-    }
+    // function verifyList(g, index){
+    //     g.results[0].listFree = isListFree(g.results[0].player, index);
+    //     g.results[1].listFree = isListFree(g.results[1].player, index);
+    // }
 
-    function isListFree(player){
+    function verifyList(player, index){
+        for (var i=0; i < index; i++){
+            var round = scope.tournament.rounds[i];
+            round.games.forEach(function(game){
+                if (game.results[0].player.name === player.name && game.results[0].list != "") {
+                    console.error(player.name, "found game", game.results[0].list);
+                    player.lists.forEach(function(list) {
+                        if (list.caster === game.results[0].list){
+                            list.played = true;
+                        }
+                    });
+
+                } else if (game.results[1].player.name === player.name && game.results[1].list != "") {
+                    console.error(player.name, "found game", game.results[1].list);
+                    player.lists.forEach(function(list) {
+                        if (list.caster === game.results[1].list){
+                            list.played = true;
+                        }
+                    });
+                }
+            });
+        }
+
         //console.error("isFree ",player.name);
         var played = [];
-        scope.tournament.rounds.forEach(function(round){
+        for (var i=0; i < index; i++){
+            var round = scope.tournament.rounds[i];
             round.games.forEach(function(game){
                 if (game.results[0].player.name === player.name && game.results[0].list != "") {
                     console.error(player.name, "found game", game.results[0].list);
@@ -301,14 +344,14 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
                     }
                 }
             });
-        });
-        console.error(player.name, " ", played);
-        console.error(played.length === player.lists.length);
+        }
         return played.length === player.lists.length;
     }
 
     function verifyTable(g, index){
-        scope.tournament.rounds.forEach(function(round){
+
+        for (var i=0; i < index; i++){
+            var round = scope.tournament.rounds[i];
             if (round.number===index){
                 return;
             }
@@ -327,9 +370,8 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
                     }
                 }
             });
-        });
+        }
     }
-
 }])
 
 .directive("roundTabs", function() {

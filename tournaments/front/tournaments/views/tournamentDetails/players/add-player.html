@@ -27,7 +27,7 @@
         <div ng-repeat="list in EditCtrl.player.lists track by $index">
             <label for="{{'player_list' + $index}}" class="col-sm-2 control-label">Caster {{$index+1}}</label>
             <div class="col-sm-10">
-                <input ng-model="EditCtrl.player.lists[$index]" type="text" class="form-control" id="{{'player_list' + $index}}">
+                <input ng-model="EditCtrl.player.lists[$index].caster" type="text" class="form-control" id="{{'player_list' + $index}}">
             </div>
         </div>
     </div>

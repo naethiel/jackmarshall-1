@@ -1,11 +1,11 @@
 package main
 
 type Player struct {
-	Name     string    `json:"name"`
-	Faction  string    `json:"faction"`
-	PayedFee bool      `json:"payed_fee"`
-	Lists    [2]string `json:"lists"`
-	Leave    bool      `json:"leave"`
+	Name     string `json:"name"`
+	Faction  string `json:"faction"`
+	PayedFee bool   `json:"payed_fee"`
+	Lists    []List `json:"lists"`
+	Leave    bool   `json:"leave"`
 	Games    []*Game
 }
 
