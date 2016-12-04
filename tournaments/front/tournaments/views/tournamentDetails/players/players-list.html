@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
     <div class="panel-heading" ng-class="{'collapsed': EditCtrl.playersCollapsed}" ng-click="EditCtrl.playersCollapsed = !EditCtrl.playersCollapsed">
-        <h3 class="panel-title">Players</h3>
+        <h3 class="panel-title">Players ( {{EditCtrl.tournament.players.length}} / {{EditCtrl.tournament.slots}} )</h3>
     </div>
     <ul class="list-group" uib-collapse="EditCtrl.playersCollapsed">
         <li class="list-group-item" ng-repeat="player in EditCtrl.tournament.players |orderBy: 'name'">
