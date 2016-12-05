@@ -77,7 +77,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     };
 })
 
-.controller('TournamentsEditCtrl', ['$http', '$routeParams', '$route', '$uibModal', function($http, $routeParams, $route, $uibModal) {
+.controller('TournamentsEditCtrl', ['$rootScope', '$http', '$routeParams', '$route', '$uibModal', function($rootScope, $http, $routeParams, $route, $uibModal) {
     var scope = this;
     scope.tournament = {};
     scope.player = {};
@@ -100,7 +100,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         scope.tournament.rounds.forEach(function(round){
             verifyRound(round.number);
         });
-
+        $rootScope.tab = scope.tournament.rounds.length -1;
     });
 
     $http.get('/api/tournaments/'+$routeParams.id+ '/results').success(function(data){
@@ -158,6 +158,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
             scope.tournament.rounds[data.number] = data;
             verifyRound(data.number);
             scope.updateTournament();
+            $rootScope.tab = data.number
             scope.roundLoading = false;
         })
         .error(function(){
@@ -374,24 +375,24 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     }
 }])
 
-.directive("roundTabs", function() {
+.directive("roundTabs", ["$rootScope", function($rootScope) {
     return {
         restrict: "E",
         templateUrl: "/tournaments/views/tournamentDetails/rounds/round-tabs.html",
         controller: function() {
-            this.tab = 1;
+            $rootScope.tab = 1;
 
             this.isSet = function(checkTab) {
-                return this.tab === checkTab;
+                return $rootScope.tab === checkTab;
             };
 
             this.setTab = function(activeTab) {
-                this.tab = activeTab;
+                $rootScope.tab = activeTab;
             };
         },
         controllerAs: "tab"
     };
-})
+}])
 
 .directive('tournamentDescription', function(){
     return {
