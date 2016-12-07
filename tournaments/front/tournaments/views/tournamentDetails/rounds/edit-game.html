@@ -5,11 +5,11 @@
             {{game.table.name}}<br /> <small>({{game.table.scenario}})</small>
         </div>
         <div class="col-md-1" ng-drag="true" ng-drag-data="game.results[0].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[0].player, tab.tab)">
-            {{game.results[0].player.name}}<br /><small>({{game.results[0].player.faction}})</small>
+            <span class="{{game.results[0].player.faction |trim}}">{{game.results[0].player.name}} </span>
         </div>
         <div class="col-md-1 text-left">
             <label class="font-normal"  ng-class="{'played': list.played}" ng-repeat="list in game.results[0].player.lists track by $index">
-                <input type="radio" ng-model="game.results[0].list" value="{{list.caster}}">
+                <input type="radio" ng-model="game.results[0].list" value="{{list.caster}}" >
                 {{list.caster}}
             </label>
         </div>
@@ -30,12 +30,12 @@
         <div class="col-md-1"><input ng-model="game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
         <div class="col-md-1 text-left">
             <label class="font-normal" ng-class="{'played': list.played}" ng-repeat="list in game.results[1].player.lists track by $index">
-                <input type="radio" ng-model="game.results[1].list" value="{{list.caster}}">
+                <input type="radio" ng-model="game.results[1].list" value="{{list.caster}}" >
                 {{list.caster}}
             </label>
         </div>
         <div class="col-md-1" ng-drag="true" ng-drag-data="game.results[1].player" ng-drop="true" ng-drop-success="EditCtrl.onDropComplete($data, game.results[1].player, tab.tab)">
-            {{game.results[1].player.name}}<br /><small>({{game.results[1].player.faction}})</small>
+            <span class="{{game.results[1].player.faction |trim}}">{{game.results[1].player.name}} </span>
         </div>
     </div>
     <div class="row text-left bg-danger" ng-show="game.errorPairing">Pairing error</div>

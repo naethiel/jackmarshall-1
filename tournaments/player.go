@@ -1,6 +1,7 @@
 package main
 
 type Player struct {
+	ID       string `json:"id"`
 	Name     string `json:"name"`
 	Faction  string `json:"faction"`
 	PayedFee bool   `json:"payed_fee"`

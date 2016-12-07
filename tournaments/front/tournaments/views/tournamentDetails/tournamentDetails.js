@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
+angular.module('tournamentDetails', ['ngRoute', 'ngDraggable', 'angular-uuid'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/tournaments/:id', {
@@ -77,7 +77,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     };
 })
 
-.controller('TournamentsEditCtrl', ['$rootScope', '$http', '$routeParams', '$route', '$uibModal', function($rootScope, $http, $routeParams, $route, $uibModal) {
+.controller('TournamentsEditCtrl', ['$rootScope', '$http', '$routeParams', '$route', '$uibModal', 'uuid', function($rootScope, $http, $routeParams, $route, $uibModal, uuid) {
     var scope = this;
     scope.tournament = {};
     scope.player = {};
@@ -106,6 +106,8 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     $http.get('/api/tournaments/'+$routeParams.id+ '/results').success(function(data){
         scope.score = data;
     });
+
+
 
     this.bbCode = function (score) {
         var params = {
@@ -153,6 +155,8 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
 
     this.getNextRound = function(){
         scope.roundLoading = true;
+        scope.updateSuccess = false;
+        scope.updateError = false;
         $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
             scope.round = data;
             scope.tournament.rounds[data.number] = data;
@@ -167,6 +171,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     };
 
     this.addPlayer = function(){
+        scope.player.id = uuid.v4();
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.players.push(scope.player);
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
@@ -179,6 +184,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     };
 
     this.addTable = function(){
+        scope.table.id = uuid.v4();
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.tables.push(scope.table);
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
@@ -230,17 +236,27 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
     this.deleteRound = function(round){
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.rounds.splice(temp.rounds.indexOf(round), 1);
+        scope.updateSuccess = false;
+        scope.updateError = false;
         $http.put('/api/tournaments/'+scope.tournament.id, temp).success(function(data){
             scope.tournament.id = data
             $route.updateParams({id:data});
             scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
+            getResults();
+        }).error(function(){
+            scope.updateError = true;
         });
     };
 
     this.updateTournament = function(){
+        scope.updateSuccess = false;
+        scope.updateError = false;
         $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
             scope.tournament.id = data
-            $route.updateParams({id:data});
+            $route.updateParams({id:data});scope.updateSuccess = true;
+            getResults();
+        }).error(function(){
+            scope.updateError = true;
         });
     };
 
@@ -253,6 +269,10 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         game.results[opponent_index].victory_points = 1;
     };
 
+    this.getImage = function (faction){
+        console.error("passage ",faction);
+        return "/style/images/cryx.png";
+    };
     this.onDropComplete=function(source, destination, roundIndex){
 
         var sourceTemp = JSON.parse(JSON.stringify(source));
@@ -271,6 +291,11 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
 
         verifyRound(roundIndex);
 
+    }
+    function getResults(){
+        $http.get('/api/tournaments/'+$routeParams.id+ '/results').success(function(data){
+            scope.score = data;
+        });
     }
 
     function verifyRound(index){
@@ -308,7 +333,6 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
             var round = scope.tournament.rounds[i];
             round.games.forEach(function(game){
                 if (game.results[0].player.name === player.name && game.results[0].list != "") {
-                    console.error(player.name, "found game", game.results[0].list);
                     player.lists.forEach(function(list) {
                         if (list.caster === game.results[0].list){
                             list.played = true;
@@ -316,7 +340,6 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
                     });
 
                 } else if (game.results[1].player.name === player.name && game.results[1].list != "") {
-                    console.error(player.name, "found game", game.results[1].list);
                     player.lists.forEach(function(list) {
                         if (list.caster === game.results[1].list){
                             list.played = true;
@@ -325,28 +348,6 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
                 }
             });
         }
-
-        //console.error("isFree ",player.name);
-        var played = [];
-        for (var i=0; i < index; i++){
-            var round = scope.tournament.rounds[i];
-            round.games.forEach(function(game){
-                if (game.results[0].player.name === player.name && game.results[0].list != "") {
-                    console.error(player.name, "found game", game.results[0].list);
-                    console.error("logged ? ", played.indexOf(game.results[0].list));
-                    if (played.indexOf(game.results[0].list) === -1){
-                        played.push(game.results[0].list);
-                    }
-                } else if (game.results[1].player.name === player.name && game.results[1].list != "") {
-                    console.error(player.name, "found game", game.results[1].list);
-                    console.error("logged ? ", played.indexOf(game.results[1].list));
-                    if (played.indexOf(game.results[1].list) === -1){
-                        played.push(game.results[1].list);
-                    }
-                }
-            });
-        }
-        return played.length === player.lists.length;
     }
 
     function verifyTable(g, index){
@@ -374,6 +375,14 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable'])
         }
     }
 }])
+.filter('trim', function () {
+    return function(value) {
+        if(!angular.isString(value)) {
+            return value;
+        }
+        return value.replace(/ +/g, "").toLowerCase();
+    };
+})
 
 .directive("roundTabs", ["$rootScope", function($rootScope) {
     return {
