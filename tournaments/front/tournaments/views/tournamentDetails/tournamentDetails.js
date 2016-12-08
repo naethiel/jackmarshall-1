@@ -97,6 +97,8 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable', 'angular-uuid'])
     scope.score = [];
     $http.get('/api/tournaments/'+$routeParams.id).success(function(data){
         scope.tournament = data;
+        scope.tablesCollapsed = (scope.tournament.rounds.length > 0);
+        scope.playersCollapsed = (scope.tournament.rounds.length > 0);
         scope.tournament.rounds.forEach(function(round){
             verifyRound(round.number);
         });
@@ -157,6 +159,7 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable', 'angular-uuid'])
         scope.roundLoading = true;
         scope.updateSuccess = false;
         scope.updateError = false;
+        scope.updateTournament();
         $http.get('/api/tournaments/'+scope.tournament.id+'/round').success(function(data){
             scope.round = data;
             scope.tournament.rounds[data.number] = data;

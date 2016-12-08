@@ -39,7 +39,11 @@ func NewCreateRoundHandler(database *data.Collection) httprouter.Handle {
 
 		var pairings = CreatePairs(tournament.Players, tournament, &round)
 		createRound(pairings, tournament.Tables, &round)
-		//	fmt.Println(round.String())
+
+		for i, _ := range round.Games {
+			round.Games[i].Results[0].Player.Games = nil
+			round.Games[i].Results[1].Player.Games = nil
+		}
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(round)
 	}
