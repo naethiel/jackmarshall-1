@@ -28,7 +28,8 @@
 <button type="submit" class="btn btn-danger pull-right mrs" ng-click=EditCtrl.deleteRound(round)>Delete Round</button>
 
 <button type="submit" class="btn btn-default pull-right mrs" onclick="window.open('timer.html')">Timer</button>
-<button type="submit" class="btn btn-default pull-right mrs" ng-click=EditCtrl.bbCodeRound(round)>Export forum</button>
+<button type="submit" class="btn btn-default pull-right mrs" ng-click="EditCtrl.openAssignements(EditCtrl.tournament.id)">Assignements</button>
+<button type="submit" class="btn btn-default pull-right mrs" ng-click="EditCtrl.bbCodeRound(round)"">Export forum</button>
 
 <div style="clear:both;"></div>
 <div ng-show="EditCtrl.updateSuccess" class="alert alert-success mas" role="alert">

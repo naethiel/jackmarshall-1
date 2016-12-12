@@ -155,6 +155,10 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable', 'angular-uuid'])
         var modalInstance = $uibModal.open(params);
     };
 
+    this.openAssignements = function(id){
+        window.open('assignements.html?id='+id);
+    }
+
     this.getNextRound = function(){
         scope.roundLoading = true;
         scope.updateSuccess = false;
