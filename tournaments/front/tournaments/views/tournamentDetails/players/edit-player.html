@@ -27,7 +27,8 @@
         <div ng-repeat="list in player.lists track by $index">
             <label for="{{'player_list' + $index}}" class="col-sm-2 control-label">Caster {{$index+1}}</label>
             <div class="col-sm-10">
-                <input ng-model="player.lists[$index].caster" type="text" class="form-control" id="{{'player_list' + $index}}">
+                <input autocomplete="off" ng-model="player.lists[$index].caster" type="text" typeahead-template-url="tournaments/views/tournamentDetails/players/autocomplete_template.html" class="form-control" id="{{'player_list' + $index}}" uib-typeahead="caster.name for caster in EditCtrl.casters |filter: {faction: player.faction, $: $viewValue} | limitTo:28">
+
             </div>
         </div>
     </div>

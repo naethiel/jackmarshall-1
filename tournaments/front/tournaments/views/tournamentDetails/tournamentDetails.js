@@ -109,6 +109,9 @@ angular.module('tournamentDetails', ['ngRoute', 'ngDraggable', 'angular-uuid'])
         scope.score = data;
     });
 
+    $http.get('/data/casters.json').success(function(data){
+        scope.casters = data;
+    });
 
 
     this.bbCode = function (score) {
