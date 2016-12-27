@@ -7,7 +7,8 @@ angular.module('jackmarshall', [
   'tournamentDetails',
   'ui.bootstrap',
   'ngAnimate',
-  'ngDraggable'
+  'ngDraggable',
+  'ngStorage'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   //$locationProvider.hashPrefix('!');

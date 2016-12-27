@@ -1,0 +1,899 @@
+
+
+[
+    {
+        "name": "Absylonia1",
+        "completeName": "Absylonia, Terror of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Absylonia2",
+        "completeName": "Absylonia, Daugther of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Bethayne1",
+        "completeName": "Bethayne1, Voice of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Fyanna2",
+        "completeName": "Fyanna, Torment of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Kallus1",
+        "completeName": "Kallus, Wrath of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Kryssa1",
+        "completeName": "Kryssa1, Conviction of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Lylyth1",
+        "completeName": "Lylyth, Herald of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Lylyth2",
+        "completeName": "Lylyth, Shadow of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Lylyth3",
+        "completeName": "Lylyth, Reckoning of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Rhyas1",
+        "completeName": "Rhyas, Sigil of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Saeryn1",
+        "completeName": "Saeryn, Omen of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Saeryn & Rhyas",
+        "completeName": "Saeryn & Rhyas, Talons of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Thagrosh1",
+        "completeName": "Thagrosh, Prophet of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Thagrosh2",
+        "completeName": "Thagrosh, The Messiah",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Vayl1",
+        "completeName": "Vayl, Disciple of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Vayl2",
+        "completeName": "Vayl, Consul of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Haley1",
+        "completeName": "Captain Victoria Haley",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Stryker1",
+        "completeName": "Commander Coleman Stryker",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Caine1",
+        "completeName": "Lieutenant Allister Caine",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Nemo1",
+        "completeName": "Commander Adept Nemo",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Brisbane1",
+        "completeName": "Major Markus 'Siege' Brisbane",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Kraye1",
+        "completeName": "Captain Jeremiah Kraye",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Darius1",
+        "completeName": "Captain E. Dominic Darius & Halfjacks",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Sloan1",
+        "completeName": "Captain Kara Sloan",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Blaize1",
+        "completeName": "Constance Blaize Knight of the Prophet",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Sturgis1",
+        "completeName": "Commander Dalin Sturgis",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Maddox1",
+        "completeName": "Major Beth Maddox",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Haley2",
+        "completeName": "Major Victoria Haley",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Stryker2",
+        "completeName": "Lord Commander Stryker",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Caine2",
+        "completeName": "Captain Allister Caine",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Nemo2",
+        "completeName": "General Adept Nemo",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Haley3",
+        "completeName": "Major Prime Victoria Haley",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Stryker3",
+        "completeName": "Lord General Coleman Stryker",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Nemo3",
+        "completeName": "Artificer General Nemo & Storm Chaser Adept Finch",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Jakes2",
+        "completeName": "Captain Allison Jakes",
+        "faction": "Cygnar"
+    },
+    {
+        "name": "Kreoss1",
+        "completeName": "High Exemplar Kreoss",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "HighReclaimer1",
+        "completeName": "The High Reclaimer",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Severius1",
+        "completeName": "Grand Scrutator Severius",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Feora1",
+        "completeName": "Feora Priestess of the Flame",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Amon1",
+        "completeName": "High Allegiant Amon Ad-Raza",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Harbinger1",
+        "completeName": "The Harbinger of Menoth",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Reznik1",
+        "completeName": "High Executioner Servath Reznik",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Vindictus1",
+        "completeName": "Vice Scrutator Vindictus",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Thyra1",
+        "completeName": "Thyra Flame of Sorrow",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Durst1",
+        "completeName": "Anson Durst Rock of the Faith",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Malekus1",
+        "completeName": "Malekus The Burning Truth",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Kreoss2",
+        "completeName": "Grand Exemplar Kreoss",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "HighReclaimer2",
+        "completeName": "Testament of Menoth",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Severius2",
+        "completeName": "Hierarch Severius",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Feora2",
+        "completeName": "Feora Protector of the Flame",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Reznik2",
+        "completeName": "Servath Reznik Wrath of Ages",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Kreoss3",
+        "completeName": "Intercessor Kreoss",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Durant2",
+        "completeName": "Sovereign Tristan Durant",
+        "faction": "Protectorate of Menoth"
+    },
+    {
+        "name": "Butcher1",
+        "completeName": "The Butcher of Khardov",
+        "faction": "Khador"
+    },
+    {
+        "name": "Butcher2",
+        "completeName": "Kommander Orsus Zoktavir",
+        "faction": "Khador"
+    },
+    {
+        "name": "Butcher3",
+        "completeName": "Kommander Zoktavir The Butcher Unleashed",
+        "faction": "Khador"
+    },
+    {
+        "name": "Harkevich1",
+        "completeName": "Kommander Harkevich The Iron Wolf ",
+        "faction": "Khador"
+    },
+    {
+        "name": "Irusk1",
+        "completeName": "Kommandant Irusk",
+        "faction": "Khador"
+    },
+    {
+        "name": "Irusk2",
+        "completeName": "Supreme Kommandant Irusk",
+        "faction": "Khador"
+    },
+    {
+        "name": "Karchev1",
+        "completeName": "Karchev the Terrible",
+        "faction": "Khador"
+    },
+    {
+        "name": "Kozlov1",
+        "completeName": "Lord Kozlov Viscount of Scarsgrad",
+        "faction": "Khador"
+    },
+    {
+        "name": "OldWitch1",
+        "completeName": "Old Witch of Khador",
+        "faction": "Khador"
+    },
+    {
+        "name": "Sorscha1",
+        "completeName": "Kommander Sorscha",
+        "faction": "Khador"
+    },
+    {
+        "name": "Sorscha2",
+        "completeName": "Forward Kommander Sorscha",
+        "faction": "Khador"
+    },
+    {
+        "name": "Strakhov1",
+        "completeName": "Kommander Strakhov",
+        "faction": "Khador"
+    },
+    {
+        "name": "Vladimir1",
+        "completeName": "Vladimir The Dark Prince",
+        "faction": "Khador"
+    },
+    {
+        "name": "Vladimir2",
+        "completeName": "Vladimir Tzepesci The Dark Champion",
+        "faction": "Khador"
+    },
+    {
+        "name": "Vladimir3",
+        "completeName": "Vladimir Tzepesci Great Prince of Umbrey",
+        "faction": "Khador"
+    },
+    {
+        "name": "Zerkova1",
+        "completeName": "Koldun Kommander Aleksandra Zerkova",
+        "faction": "Khador"
+    },
+    {
+        "name": "Zerkova2",
+        "completeName": "Obavnik Kommander Zerkova and Reaver Guard",
+        "faction": "Khador"
+    },
+    {
+        "name": "Malakov2",
+        "completeName": "Kommander Andrei Malakov",
+        "faction": "Khador"
+    },
+    {
+        "name": "Asphyxious1",
+        "completeName": "Iron Lich Asphyxious",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Deneghra1",
+        "completeName": "Warwitch Deneghra",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Skarre1",
+        "completeName": "Pirate Queen Skarre",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Terminus1",
+        "completeName": "Lich Lord Terminus",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Goreshade1",
+        "completeName": "Goreshade the Bastard",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Coven1",
+        "completeName": "The Witch Coven of Garlghast & Egregore",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Mortenebra1",
+        "completeName": "Master Necrotech Mortenebra & Deryliss",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Venethrax1",
+        "completeName": "Lich Lord Venethrax",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Scaverous1",
+        "completeName": "Lord Exhumator Scaverous",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Sturgis2",
+        "completeName": "Sturgis the Corrupted",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Agathia1",
+        "completeName": "Bane Witch Agathia",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Asphyxious2",
+        "completeName": "Lich Lord Asphyxious",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Deneghra2",
+        "completeName": "Wraith Witch Deneghra",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Skarre2",
+        "completeName": "Skarre, Queen of the Broken Coast",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Goreshade2",
+        "completeName": "Goreshade the Cursed",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Asphyxious3",
+        "completeName": "Asphyxious the Hellbringer & Vociferon",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Deneghra3",
+        "completeName": "Deneghra, the Soul Weaver",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Goreshade3",
+        "completeName": "Goreshade, Lord of Ruin",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Aiakos2",
+        "completeName": "Captain Aiakos",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Vyros2",
+        "completeName": "Vyros Incissar of the Dawnguard",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Vyros1",
+        "completeName": "Dawnlord Vyros",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Thyron1",
+        "completeName": "Thyron Sword of Truth",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Ravyn1",
+        "completeName": "Ravyn Eternal Light",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Rahn1",
+        "completeName": "Adeptis Rahn",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Ossyan1",
+        "completeName": "Lord Arcanist Ossyan",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Kaelyssa1",
+        "completeName": "Kaelyssa Night's Whisper",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Issyria1",
+        "completeName": "Issyria Sibyl of Dawn",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Helynna1",
+        "completeName": "Magister Helynna",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Garryth1",
+        "completeName": "Garryth Blade of Retribution",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Elara2",
+        "completeName": "Elara, Death's Shadow",
+        "faction": "Retribution of Scyrah"
+    },
+    {
+        "name": "Ashlynn1",
+        "completeName": "Ashlynn d'Elyse",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Montador1",
+        "completeName": "Captain Bartolo Montador",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Damiano1",
+        "completeName": "Captain Damiano",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Shae1",
+        "completeName": "Captain Phinneus Shae",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Cyphon1",
+        "completeName": "Cognifex Cyphon",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Blaize1",
+        "completeName": "Constance Blaize Knight of the Prophet",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "MacBain1",
+        "completeName": "Drake MacBain",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Durgen1",
+        "completeName": "Durgen Madhammer",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Thexus1",
+        "completeName": "Exulon Thexus",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Fiona1",
+        "completeName": "Fiona the Black",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Ossrum1",
+        "completeName": "General Ossrum",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Gorten1",
+        "completeName": "Gorten Grundback",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Magnus1",
+        "completeName": "Magnus  the Traitor",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Magnus2",
+        "completeName": "Magnus the Warlord",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Syntherion",
+        "completeName": "Forge Master Syntherion",
+        "faction": "Convergence of Cyriss"
+    },
+    {
+        "name": "Axis",
+        "completeName": "Axis the Harmonic Enforcer",
+        "faction": "Convergence of Cyriss"
+    },
+    {
+        "name": "Lucant",
+        "completeName": "Father Lucant Divinity Architect",
+        "faction": "Convergence of Cyriss"
+    },
+    {
+        "name": "Directrix",
+        "completeName": "Iron Mother Directrix & Exponent Servitors",
+        "faction": "Convergence of Cyriss"
+    },
+    {
+        "name": "Aurora",
+        "completeName": "Aurora Numen of Aerogenesis",
+        "faction": "Convergence of Cyriss"
+    },
+    {
+        "name": "Madrak1",
+        "completeName": "Madrak Ironhide, Thornwood Chieftain",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Doomshaper1",
+        "completeName": "Hoarluk Doomshaper, Shaman of the Gnarls",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Grissel1",
+        "completeName": "Grissel Bloodsong, Fell Caller",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Grim1",
+        "completeName": "Grim Angus",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Borka1",
+        "completeName": "Borka Kegslayer & Pyg Keg Carrier",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Calandra1",
+        "completeName": "Calandra Truthsayer, Oracle of the Glimmerwood",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Gunnbjorn1",
+        "completeName": "Captain Gunnbjorn",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Skuld1",
+        "completeName": "Jarl Skuld, Devil of the Thornwood",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Ragnor1",
+        "completeName": "Ragnor Skysplitter, The Runemaster",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Madrak2",
+        "completeName": "Madrak Ironhide, World Ender",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Doomshaper2",
+        "completeName": "Hoarluk Doomshaper, Rage of Dhunia",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Grissel2",
+        "completeName": "Grissel Bloodsong, Marshal of the Kriels",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Grim2",
+        "completeName": "Hunters Grim",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Horgle2",
+        "completeName": "Horgle, The Anvil",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Borka2",
+        "completeName": "Borka, Vengeance of the Rimeshaws",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Doomshaper3",
+        "completeName": "Hoarluk Doomshaper, Dire Prophet & Scroll Bearers",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Madrak3",
+        "completeName": "Madrak, Great Chieftain",
+        "faction": "Trollbloods"
+    },
+    {
+        "name": "Baldur1",
+        "completeName": "Baldur, the Stonecleaver",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Baldur2",
+        "completeName": "Baldur, the Stonesoul",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Thorle1",
+        "completeName": "Bradigus, Thorle the Runecarver",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Grayle1",
+        "completeName": "Grayle, the Farstrider",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Kaya1",
+        "completeName": "Kaya, the Wildborne",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Kaya2",
+        "completeName": "Kaya, the Moonhunter & Laris",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Kromac1",
+        "completeName": "Kromac, the Ravenous",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Kromac2",
+        "completeName": "Kromac, Champion of the Wurm",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Krueger1",
+        "completeName": "Krueger, the Stormwrath",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Krueger2",
+        "completeName": "Krueger, the Stormlord",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Mohsar1",
+        "completeName": "Mohsar, the Desertwalker",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Morvahna1",
+        "completeName": "Morvahna, the Autumnblade",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Morvahna2",
+        "completeName": "Morvahna, the Dawnshadow",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Wurmwood1",
+        "completeName": "Wurmwood, Tree of Fate & Cassius",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Tanith1",
+        "completeName": "Tanith, the Feral Song",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Una2",
+        "completeName": "Una The Skyhunter",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Morghoul1",
+        "completeName": "Master Tormentor Morghoul",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Makeda1",
+        "completeName": "Archdomina Makeda",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Hexeris1",
+        "completeName": "Lord Tyrant Hexeris",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Xerxis1",
+        "completeName": "Tyrant Xerxis",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Zaal1",
+        "completeName": "Supreme Aptimus Zaal & Kovaas",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Mordikaar1",
+        "completeName": "Void Seer Mordikaar",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Rasheth1",
+        "completeName": "Dominar Rasheth",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Naaresh1",
+        "completeName": "Master Ascetic Naaresh",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Xekaar1",
+        "completeName": "Beast Master Xekaar",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Morghoul2",
+        "completeName": "Lord Assassin Morghoul",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Makeda2",
+        "completeName": "Supreme Archdomina Makeda",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Hexeris2",
+        "completeName": "Lord Arbiter Hexeris",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Xerxis2",
+        "completeName": "Xerxis  Fury of Halaak",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Zaal2",
+        "completeName": "Zaal The Ancestral Advocate",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Makeda3",
+        "completeName": "Makeda & the Exalted Court",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Zaadesh2",
+        "completeName": "Lord Tyrant Zaadesh",
+        "faction": "Skorne"
+    },
+    {
+        "name": "Helga1",
+        "completeName": "Helga the Conqueror",
+        "faction": "Minions"
+    },
+    {
+        "name": "Arkadius1",
+        "completeName": "Dr. Arkadius",
+        "faction": "Minions"
+    },
+    {
+        "name": "Calaban1",
+        "completeName": "Calaban, the Grave Walker",
+        "faction": "Minions"
+    },
+    {
+        "name": "Jaga-Jaga1",
+        "completeName": "Jaga-Jaga, The Death Charmer",
+        "faction": "Minions"
+    },
+    {
+        "name": "Sturm1 & Drang1",
+        "completeName": "Sturm & Drang",
+        "faction": "Minions"
+    },
+    {
+        "name": "Barnabas1",
+        "completeName": "Bloody Barnabas",
+        "faction": "Minions"
+    },
+    {
+        "name": "Carver1",
+        "completeName": "Lord Carver BMMD Esq. III",
+        "faction": "Minions"
+    },
+    {
+        "name": "Maelok1",
+        "completeName": "Maelok the Dreadbound",
+        "faction": "Minions"
+    },
+    {
+        "name": "Midas1",
+        "completeName": "Midas",
+        "faction": "Minions"
+    },
+    {
+        "name": "Rask1",
+        "completeName": "Rask",
+        "faction": "Minions"
+    }
+]
