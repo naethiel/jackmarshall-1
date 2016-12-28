@@ -5,10 +5,17 @@ app.controller('ListCtrl', ['TournamentService', function(tournamentService) {
     scope.tournaments = [];
     scope.tournament = {};
     scope.error = undefined;
+    scope.errorGetAll = undefined;
 
     scope.newTournamentCollapsed = false;
     scope.futureTournamentCollapsed = false;
     scope.pastTournamentCollapsed = true;
+
+    tournamentService.getAll().then(function(tournaments){
+        scope.tournaments = tournaments;
+    }).catch(function(){
+        scope.errorGetAll = true;
+    });
 
     this.createTournament = function(){
         scope.error = null
