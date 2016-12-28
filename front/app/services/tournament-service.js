@@ -9,7 +9,7 @@ app.service('TournamentService', function($http){
             })
             .catch(function (err){
                 console.error("Unable to create tournament : ", err);
-                throw "CreateTournamentError";
+				throw err.status;
             });
 		},
 		getAll : function(){
@@ -19,7 +19,17 @@ app.service('TournamentService', function($http){
             })
             .catch(function (err){
                 console.error("Unable to get tournaments list : ", err);
-                throw "GetAllTournamentError";
+				throw err.status;
+            });
+		},
+		delete : function(id){
+            return $http.delete(tournament_endpoint + '/tournaments/' + id)
+            .then(function() {
+                return;
+            })
+            .catch(function (err){
+                console.error("Unable to delete tournament " + id + " : ", err);
+                throw err.status;
             });
 		}
 	};

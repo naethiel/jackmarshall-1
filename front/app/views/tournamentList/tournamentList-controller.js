@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('ListCtrl', ['TournamentService', function(tournamentService) {
+app.controller('ListCtrl', ['$uibModal', 'TournamentService', function($uibModal, tournamentService) {
     var scope = this;
     scope.tournaments = [];
     scope.tournament = {};
@@ -28,4 +28,30 @@ app.controller('ListCtrl', ['TournamentService', function(tournamentService) {
             scope.error = err;
         });
     };
+
+    this.confirmDelete = function (tournament) {
+        var params = {
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/views/tournamentList/tournament-delete-popup.html',
+            controller: 'DeleteTournamentCtrl',
+            controllerAs: 'DeleteCtrl',
+            size: 'md',
+            appendTo: undefined,
+            resolve: {
+                tournament: function () {
+                    return tournament;
+                },
+                scopeParent: function(){
+                    return scope;
+                },
+                tournamentService: function(){
+                    return tournamentService;
+                }
+            }
+        }
+        var modalInstance = $uibModal.open(params);
+    };
+
 }]);

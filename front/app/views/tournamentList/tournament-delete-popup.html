@@ -1,0 +1,10 @@
+<div class="modal-header"><strong>Confirm</strong></div>
+<div class="modal-body">Are you sure, you want to delete this tournament ? </div>
+<div class="modal-footer">
+    <div class="alert alert-danger text-left" role="alert" ng-show="DeleteCtrl.error">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        Error : Unable to delete tournament.
+    </div>
+    <button class="btn btn-danger" ng-click="DeleteCtrl.ok()">Confirm</button>
+    <button class="btn btn-primary" ng-click="DeleteCtrl.cancel()">Cancel</button>
+</div>
