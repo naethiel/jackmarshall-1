@@ -12,7 +12,6 @@ app.controller('DeleteTournamentCtrl', function ($uibModalInstance, tournament, 
             scope.error = true;
         });
     };
-
     this.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

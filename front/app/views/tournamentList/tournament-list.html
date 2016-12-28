@@ -1,12 +1,11 @@
 <div ng-controller="ListCtrl as ListCtrl">
-    <create-tournament></create-tournament>
-    <div ng-hide="ListCtrl.errorGetAll">
+    <create-tournament tournaments="ListCtrl.tournaments"></create-tournament>
+    <div ng-hide="ListCtrl.error">
         <future-tournaments></future-tournaments>
         <past-tournaments></past-tournaments>
     </div>
-    <div ng-show="ListCtrl.errorGetAll" class="alert alert-danger" role="alert">
+    <div ng-show="ListCtrl.error" class="alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         Server Error : Unable to retreive tournaments.
     </div>
-
 </div>

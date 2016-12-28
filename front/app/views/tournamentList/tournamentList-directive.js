@@ -31,13 +31,6 @@ app.filter('isPast', function() {
     }
 });
 
-app.directive("createTournament", function(){
-    return {
-        restrict: 'E',
-        templateUrl: "/views/tournamentList/tournament-create.html"
-    };
-});
-
 app.directive("dateFormat", function(){
     return {
         restrict: 'A',

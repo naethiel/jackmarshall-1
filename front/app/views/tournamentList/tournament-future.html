@@ -2,6 +2,7 @@
     <div class="panel-heading" ng-class="{'collapsed': ListCtrl.futureTournamentCollapsed}" ng-click="ListCtrl.futureTournamentCollapsed = !ListCtrl.futureTournamentCollapsed">
         <h3 class="panel-title">Future tournaments</h3>
     </div>
+    
     <ul class="list-group" uib-collapse="ListCtrl.futureTournamentCollapsed">
         <li class="list-group-item" ng-repeat="tournament in ListCtrl.tournaments |isFuture |orderBy: 'date'">
             <a ng-href="/#/tournaments/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}  ({{tournament.players.length}}/{{tournament.slots}})</a>
