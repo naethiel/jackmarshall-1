@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/HouzuoGuo/tiedot/data"
+	"github.com/rs/cors"
 
 	"github.com/codegangsta/negroni"
 	"github.com/julienschmidt/httprouter"
@@ -33,7 +34,14 @@ func main() {
 	router.NotFound = http.FileServer(http.Dir("front"))
 
 	// Initialize the middleware stack
+	cors := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:8000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowCredentials: true,
+		AllowedHeaders:   []string{"accept", "authorization", "content-type"},
+	})
 	stack := negroni.New()
+	stack.Use(cors)
 	//	stack.Use(negroni.NewLogger())
 	stack.Use(negroni.NewRecovery())
 	stack.UseHandler(router)

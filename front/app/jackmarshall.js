@@ -1,6 +1,6 @@
 'use strict';
 
-var api_endpoint = "http://localhost:8080";
+var tournament_endpoint = "http://localhost:8080/api";
 var auth_endpoint = "http://localhost:8081";
 
 var app = angular.module('jackmarshall', [
@@ -18,7 +18,7 @@ app.config(['$locationProvider', '$routeProvider', function($locationProvider, $
     });
     $routeProvider.when('/tournament/list', {
         templateUrl: 'views/tournamentList/tournament-list.html',
-        controller: 'TournamentListCtrl'
+        controller: 'ListCtrl'
     });
     $routeProvider.otherwise({redirectTo: '/tournament/list'});
 }]);

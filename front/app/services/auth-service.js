@@ -14,5 +14,5 @@ app.service('AuthService', function($http, $localStorage){
                 throw err.status
             });
 		}
-	}
+	};
 });
