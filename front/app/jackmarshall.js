@@ -1,7 +1,7 @@
 'use strict';
 
-var api_endpoint = "localhost:8080";
-var auth_endpoint = "localhost:8081";
+var api_endpoint = "http://localhost:8080";
+var auth_endpoint = "http://localhost:8081";
 
 var app = angular.module('jackmarshall', [
     'ngRoute',

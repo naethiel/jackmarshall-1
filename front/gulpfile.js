@@ -26,7 +26,7 @@ gulp.task('vendors', function(){
 
 gulp.task('app', function(){
 	gulp.src([
-		path.app + 'jackmarshall.js',
+		path.app + '**/*.js',
 	])
 	.pipe(concat('app.min.js'))
 	.pipe(uglify())
@@ -49,9 +49,17 @@ gulp.task('style', function(){
 	.pipe(gulp.dest('./dist/style/'));
 })
 
+gulp.task('fonts', function(){
+	gulp.src([
+        path.vendors + 'bootstrap/fonts/*',
+        path.vendors + 'fontawesome/fonts/*',
+	])
+	.pipe(gulp.dest('./dist/fonts/'));
+})
+
 gulp.task('app-dev', function(){
 	gulp.src([
-		path.app + 'jackmarshall.js',
+		path.app + '**/*.js',
 	])
 	.pipe(concat('app.js'))
 	.pipe(gulp.dest('./dist/js/'));
@@ -63,4 +71,4 @@ gulp.task('watch', function () {
 	gulp.watch(path.style + '**/*.css', ['style']);
 });
 
-gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style']);
+gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts']);

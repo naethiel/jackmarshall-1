@@ -7,3 +7,8 @@ debug
 todo
 tournaments/database
 .DS_Store
+front/dist/fonts
+front/dist/js
+front/dist/style
+front/dist/views
+front/dist/index.html

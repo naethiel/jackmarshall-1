@@ -1,17 +1,23 @@
 'use strict';
 
-app.controller('AuthCtrl', ["$localStorage", "$http", function($localStorage, $http) {
+app.controller('AuthCtrl', ["$localStorage", "$http", "$location", "AuthService", function($localStorage, $http, $location, authService) {
     var scope = this;
-    this.username = "";
-    this.password = "";
+    scope.username = "";
+    scope.password = "";
+    scope.error = undefined;
 
     this.login = function(){
-        $http.post(auth_endpoint + '/login', { login: scope.username, password: scope.password })
-        .success(function (response) {
-            if (response) {
-                $localStorage.currentUser = { username: scope.login, token: response };
-                $http.defaults.headers.common.Authorization = 'Bearer ' + response;
-            }
-        });
-    }
+        scope.error = null;
+        authService.login(scope.username, scope.password).then(function(){
+            $location.path( "/tournament/list" );
+        }).catch(function(err){
+            scope.error = err
+        })
+    };
+
+    this.logout = function(){
+        scope.error = null;
+        $localStorage.currentUser = null;
+        $http.defaults.headers.common.Authorization = null;
+    };
 }]);
