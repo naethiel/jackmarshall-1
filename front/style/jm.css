@@ -119,7 +119,7 @@
     float: right;;
 }
 .cygnar::before {
-    background-image: url('images/cygnar.png');
+    background-image: url('../images/cygnar.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -129,7 +129,7 @@
     vertical-align: middle;
 }
 .cryx::before {
-    background-image: url('images/cryx.png');
+    background-image: url('../images/cryx.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -139,7 +139,7 @@
     vertical-align: middle;
 }
 .convergenceofcyriss::before {
-    background-image: url('images/cyriss.png');
+    background-image: url('../images/cyriss.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -149,7 +149,7 @@
     vertical-align: middle;
 }
 .khador::before {
-    background-image: url('images/khador.png');
+    background-image: url('../images/khador.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -159,7 +159,7 @@
     vertical-align: middle;
 }
 .legionofeverblight::before {
-    background-image: url('images/legion.png');
+    background-image: url('../images/legion.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -169,7 +169,7 @@
     vertical-align: middle;
 }
 .protectorateofmenoth::before {
-    background-image: url('images/menoth.png');
+    background-image: url('../images/menoth.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -179,7 +179,7 @@
     vertical-align: middle;
 }
 .mercenary::before {
-    background-image: url('images/mercs.png');
+    background-image: url('../images/mercs.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -189,7 +189,7 @@
     vertical-align: middle;
 }
 .minions::before {
-    background-image: url('images/minions.png');
+    background-image: url('../images/minions.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -199,7 +199,7 @@
     vertical-align: middle;
 }
 .circleorboros::before {
-    background-image: url('images/orboros.png');
+    background-image: url('../images/orboros.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -209,7 +209,7 @@
     vertical-align: middle;
 }
 .retributionofscyrah::before {
-    background-image: url('images/scyrah.png');
+    background-image: url('../images/scyrah.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -219,7 +219,7 @@
     vertical-align: middle;
 }
 .trollbloods::before {
-    background-image: url('images/troll.png');
+    background-image: url('../images/troll.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;
@@ -229,7 +229,7 @@
     vertical-align: middle;
 }
 .skorne::before {
-    background-image: url('images/skorne.png');
+    background-image: url('../images/skorne.png');
     background-size: 30px 30px;
     display: inline-block;
     width: 30px;

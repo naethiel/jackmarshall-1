@@ -31,6 +31,26 @@ app.service('TournamentService', function($http){
                 console.error("Unable to delete tournament " + id + " : ", err);
                 throw err.status;
             });
+		},
+		get : function(id){
+            return $http.get(tournament_endpoint + '/tournaments/' + id)
+            .then(function(res) {
+                return res.data;
+            })
+            .catch(function (err){
+                console.error("Unable to get tournament " + id + " : ", err);
+                throw err.status;
+            });
+		},
+		update : function(tournament){
+            return $http.get(tournament_endpoint + '/tournaments/' + id, tournament)
+            .then(function(res) {
+                return res.data;
+            })
+            .catch(function (err){
+                console.error("Unable to update tournament " + id + " : ", err);
+                throw err.status;
+            });
 		}
 	};
 });

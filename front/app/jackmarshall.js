@@ -20,5 +20,9 @@ app.config(['$locationProvider', '$routeProvider', function($locationProvider, $
         templateUrl: 'views/tournamentList/tournament-list.html',
         controller: 'ListCtrl'
     });
+    $routeProvider.when('/tournament/:id', {
+        templateUrl: '/views/tournamentDetails/tournament-details.html',
+        controller: 'TournamentCtrl'
+    });
     $routeProvider.otherwise({redirectTo: '/tournament/list'});
 }]);
