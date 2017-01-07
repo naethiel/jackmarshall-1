@@ -1,0 +1,44 @@
+<div class="modal-header text-center">
+    <button class="btn btn-primary" ng-click="RoundBBCodeCtrl.copy()">Copy code to clipboard</button>
+    <button class="btn btn-danger" ng-click="RoundBBCodeCtrl.cancel()">Close</button>
+</div>
+<div id="results_bbcode" style="overflow:scroll; height:300px;" class="modal-body">
+
+    [b]Round {{round.number + 1}}[/b]<br />
+    [table]<br />
+    [tr]<br />
+    [td][b]Player 1[/b][/td]<br />
+    [td][center][b]Victory[/b][/center][/td]<br />
+    [td][center][b]Scenario[/b][/center][/td]<br />
+    [td][center][b]Destruction[/b][/center][/td]<br />
+    [td][center][b]vs[/b][/center][/td]<br />
+    [td][center][b]Victory[/b][/center][/td]<br />
+    [td][center][b]Scenario[/b][/center][/td]<br />
+    [td][center][b]Destruction[/b][/center][/td]<br />
+    [td][right][b]Player 2[/b][/right][/td]<br />
+    [/tr]<br />
+
+    <span ng-repeat="game in RoundBBCodeCtrl.round.games |orderBy: 'table.name'">
+        [tr]<br />
+        [td]{{game.results[0].player.name}} ([i]{{game.results[0].player.faction}}[/i])[/td]<br />
+        [td][center]{{game.results[0].victory_points}}[/center][/td]<br />
+        [td][center]{{game.results[0].scenario_points}}[/center][/td]<br />
+        [td][center]{{game.results[0].destruction_points}}[/center][/td]<br />
+        [td]&nbsp;[/td]<br />
+        [td][center]{{game.results[1].victory_points}}[/center][/td]<br />
+        [td][center]{{game.results[1].scenario_points}}[/center][/td]<br />
+        [td][center]{{game.results[1].destruction_points}}[/center][/td]<br />
+        [td][right]{{game.results[1].player.name}} ([i]{{game.results[1].player.faction}}[/i])[/right][/td]<br />
+        [/tr]<br />
+    </span>
+
+    [/table]<br />
+
+</div>
+<div></div>
+<div class="modal-footer" ng-show="RoundBBCodeCtrl.copySuccess">
+    <div class="alert alert-success text-left" role="alert">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        Successfully copied to clipboard
+    </div>
+</div>

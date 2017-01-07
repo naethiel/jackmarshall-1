@@ -24,6 +24,13 @@ gulp.task('vendors', function(){
 	.pipe(gulp.dest('./dist/js/'));
 })
 
+gulp.task('jquery', function(){
+	gulp.src([
+		path.vendors + 'jquery/dist/jquery.min.js',
+	])
+	.pipe(gulp.dest('./dist/js/'));
+})
+
 gulp.task('app', function(){
 	gulp.src([
 		path.app + '**/*.js',
@@ -71,4 +78,4 @@ gulp.task('watch', function () {
 	gulp.watch(path.style + '**/*.css', ['style']);
 });
 
-gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts']);
+gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts', 'jquery']);

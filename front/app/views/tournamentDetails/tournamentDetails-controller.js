@@ -8,6 +8,9 @@ app.controller('TournamentCtrl', ['$rootScope', '$routeParams', 'TournamentServi
     tournamentService.get($routeParams.id).then(function(tournament){
         scope.tournament = tournament;
         $rootScope.$emit("SetTab", scope.tournament.rounds.length -1);
+        scope.tournament.rounds.forEach(function(round){
+            tournamentService.verifyRound(scope.tournament, scope.tournament.rounds.length -1)
+        });
     }).catch(function(err){
         scope.error = err;
     });
