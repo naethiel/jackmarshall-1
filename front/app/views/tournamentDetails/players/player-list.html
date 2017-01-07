@@ -9,22 +9,19 @@
                 <button type="button" class="btn btn-primary btn-xs" ng-click="player.detailsVisible = !player.detailsVisible">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Details
                 </button>
-                <button ng-show="EditCtrl.tournament.rounds.length > 0 && !player.leave" type="button" class="btn btn-warning btn-xs" ng-click="EditCtrl.dropPlayer(player)">
+                <button ng-show="PlayersCtrl.tournament.rounds.length > 0 && !player.leave" type="button" class="btn btn-warning btn-xs" ng-click="PlayersCtrl.dropPlayer(player)">
                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Drop
                 </button>
-                <button ng-show="EditCtrl.tournament.rounds.length > 0 && player.leave" type="button" class="btn btn-success btn-xs" ng-click="EditCtrl.rejoinPlayer(player)">
+                <button ng-show="PlayersCtrl.tournament.rounds.length > 0 && player.leave" type="button" class="btn btn-success btn-xs" ng-click="PlayersCtrl.rejoinPlayer(player)">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Rejoin
                 </button>
-                <button ng-show="EditCtrl.tournament.rounds.length === 0" type="button" class="btn btn-danger btn-xs" ng-click="EditCtrl.deletePlayer(player)">
+                <button ng-show="PlayersCtrl.tournament.rounds.length === 0" type="button" class="btn btn-danger btn-xs" ng-click="PlayersCtrl.deletePlayer(player)">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
                 </button>
             </span>
-
             <div uib-collapse="!player.detailsVisible">
                 <edit-player></edit-player>
             </div>
-
-
         </li>
         <add-player></add-player>
     </ul>

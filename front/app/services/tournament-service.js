@@ -43,7 +43,7 @@ app.service('TournamentService', function($http){
             });
 		},
 		update : function(tournament){
-            return $http.get(tournament_endpoint + '/tournaments/' + id, tournament)
+            return $http.put(tournament_endpoint + '/tournaments/' + tournament.id, tournament)
             .then(function(res) {
                 return res.data;
             })

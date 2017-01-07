@@ -12,3 +12,18 @@ app.directive('playerList', function(){
         }
     };
 });
+
+
+app.directive('addPlayer', function(){
+    return {
+        restrict: "E",
+        templateUrl: "/views/tournamentDetails/players/player-add.html"
+    };
+});
+
+app.directive('editPlayer', function(){
+    return {
+        restrict: "E",
+        templateUrl: "/views/tournamentDetails/players/player-edit.html"
+    };
+});

@@ -8,7 +8,8 @@ var app = angular.module('jackmarshall', [
     'ui.bootstrap',
     'ngAnimate',
     'ngDraggable',
-    'ngStorage'
+    'ngStorage',
+    'angular-uuid'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

@@ -1,0 +1,23 @@
+<div class="panel panel-primary mrs">
+    <div class="panel-heading" ng-class="{'collapsed': TablesCtrl.tablesCollapsed}" ng-click="TablesCtrl.tablesCollapsed = !TablesCtrl.tablesCollapsed">
+        <h3 class="panel-title">Tables ( {{TablesCtrl.tournament.tables.length}} / {{TablesCtrl.tournament.slots/2}} )</h3>
+    </div>
+    <ul class="list-group" uib-collapse="TablesCtrl.tablesCollapsed">
+        <li class="list-group-item" ng-repeat="table in TablesCtrl.tournament.tables |orderBy: 'name'">
+            {{table.name}} <i>{{table.scenario}}</i>
+            <span class="float-right">
+                <button type="button" class="btn btn-primary btn-xs" ng-click="table.detailsVisible = !table.detailsVisible">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Details
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" ng-click="TablesCtrl.deleteTable(table)">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
+                </button>    
+            </span>
+
+            <div uib-collapse="!table.detailsVisible">
+                <edit-table></edit-table>
+            </div>
+        </li>
+        <add-table></add-table>
+    </ul>
+</div>
