@@ -44,7 +44,23 @@ func NewCreateRoundHandler(database *data.Collection) httprouter.Handle {
 			round.Games[i].Results[0].Player.Games = nil
 			round.Games[i].Results[1].Player.Games = nil
 		}
+
+		tournament.Rounds = append(tournament.Rounds, round)
+
+		data, err := json.Marshal(tournament)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		_, err = database.Update(id, data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(round)
+		json.NewEncoder(w).Encode(tournament)
 	}
 }

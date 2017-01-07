@@ -51,6 +51,26 @@ app.service('TournamentService', function($http){
                 console.error("Unable to update tournament " + id + " : ", err);
                 throw err.status;
             });
+		},
+		getResults : function(id){
+			return $http.get(tournament_endpoint + '/tournaments/' + id + "/results")
+			.then(function(res) {
+				return res.data;
+			})
+			.catch(function (err){
+				console.error("Unable to get results for tournament " + id + " : ", err);
+				throw err.status;
+			});
+		},
+		getNextRound : function(id){
+			return $http.get(tournament_endpoint + '/tournaments/' + id + "/round")
+			.then(function(res) {
+				return res.data;
+			})
+			.catch(function (err){
+				console.error("Unable to get results for tournament " + id + " : ", err);
+				throw err.status;
+			});
 		}
 	};
 });

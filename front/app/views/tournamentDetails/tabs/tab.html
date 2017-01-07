@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs nav-tabs-primary" >
+    <li ng-class="{'active': TabsCtrl.isSet(-1)}">
+        <a href="" ng-click="TabsCtrl.setTab(-1)">Results</a>
+    </li>
+    <li ng-repeat="round in TabsCtrl.tournament.rounds" ng-class="{'active': TabsCtrl.isSet(round.number)}">
+        <a href="" ng-click="TabsCtrl.setTab(round.number)">Round {{round.number + 1}}</a>
+    </li>
+    <li ng-click="TabsCtrl.getNextRound()">
+        <a href="" ng-hide="TabsCtrl.roundLoading">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New round
+        </a>
+    </li>
+    <li>
+        <a href="" ng-show="TabsCtrl.roundLoading">
+            <span>Loading <span class="fa fa-spinner fa-spin fa-fw"></span></span>
+        </a>
+    </li>
+</ul>
+<div  ng-repeat="round in TabsCtrl.tournament.rounds">
+    <edit-round  ng-show="TabsCtrl.isSet(round.number)"></edit-round>
+</div>
+<tournament-results  ng-show="TabsCtrl.isSet(-1)"></tournament-results>
