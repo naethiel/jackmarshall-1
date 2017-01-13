@@ -64,26 +64,24 @@ app.controller('PlayersCtrl', ["$route", "uuid", "TournamentService", "UtilsServ
         })
     };
 
+    this.dropPlayer = function(player){
+        player.leave = true;
+        tournamentService.update(scope.tournament).then(function(id){
+            scope.tournament.id = id
+            $route.updateParams({id:id});
+        }).catch(function(err){
+            scope.errorUpdate = true;
+        })
+    };
 
-
-
-    //
-    //
-    // this.dropPlayer = function(player){
-    //     player.leave = true;
-    //     $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
-    //         scope.tournament.id = data
-    //         $route.updateParams({id:data});
-    //     });
-    // };
-    //
-    // this.rejoinPlayer = function(player){
-    //     player.leave = false;
-    //     $http.put('/api/tournaments/'+scope.tournament.id, scope.tournament).success(function(data){
-    //         scope.tournament.id = data
-    //         $route.updateParams({id:data});
-    //     });
-    // };
-
+    this.rejoinPlayer = function(player){
+        player.leave = false;
+        tournamentService.update(scope.tournament).then(function(id){
+            scope.tournament.id = id
+            $route.updateParams({id:id});
+        }).catch(function(err){
+            scope.errorUpdate = true;
+        })
+    };
 
 }]);
