@@ -19,4 +19,4 @@
 <div  ng-repeat="round in TabsCtrl.tournament.rounds">
     <edit-round tournament="TabsCtrl.tournament" round="round" ng-show="TabsCtrl.isSet(round.number)"></edit-round>
 </div>
-<tournament-results  ng-show="TabsCtrl.isSet(-1)"></tournament-results>
+<results ng-show="TabsCtrl.isSet(-1)"></results>

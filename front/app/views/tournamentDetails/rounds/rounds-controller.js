@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('RoundsCtrl', ["$route", "$uibModal", "TournamentService", function ($route, $uibModal, tournamentService) {
+app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "TournamentService", function ($rootScope, $route, $uibModal, tournamentService) {
     var scope = this;
     scope.tournament = {};
     scope.round = {};
@@ -15,13 +15,13 @@ app.controller('RoundsCtrl', ["$route", "$uibModal", "TournamentService", functi
             scope.tournament.id = id
             $route.updateParams({id:id});
             scope.successUpdate = true;
+            $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorUpdate = true;
         })
     };
 
     this.deleteRound = function(round){
-        console.log(round);
         scope.errorDelete = null;
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.rounds.splice(temp.rounds.indexOf(round), 1);
@@ -29,14 +29,13 @@ app.controller('RoundsCtrl', ["$route", "$uibModal", "TournamentService", functi
             scope.tournament.id = id
             $route.updateParams({id:id});
             scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
+            $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorDelete = true;
         })
     };
 
     this.bbCodeRound = function(round) {
-        console.log("passage 1", round);
-
         var params = {
             animation: true,
             ariaLabelledBy: 'modal-title',
@@ -61,6 +60,4 @@ app.controller('RoundsCtrl', ["$route", "$uibModal", "TournamentService", functi
     this.openAssignements = function(id){
         window.open('views/tournamentDetails/rounds/assignements.html?id='+id);
     }
-
-
 }]);

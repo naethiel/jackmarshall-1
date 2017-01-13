@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('PlayersCtrl', ["$route", "uuid", "TournamentService", "UtilsService", function ($route, uuid, tournamentService, utilsService) {
+app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
     var scope = this;
     scope.tournament = {};
     scope.player = {};
@@ -36,6 +36,7 @@ app.controller('PlayersCtrl', ["$route", "uuid", "TournamentService", "UtilsServ
             scope.tournament.players.push(scope.player);
             scope.player = {};
             scope.player.lists = ["",""];
+            $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorAdd = true;
         })
@@ -49,6 +50,7 @@ app.controller('PlayersCtrl', ["$route", "uuid", "TournamentService", "UtilsServ
             scope.tournament.id = id
             $route.updateParams({id:id});
             scope.tournament.players.splice(scope.tournament.players.indexOf(player), 1);
+            $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorDelete = true;
         })
@@ -59,6 +61,7 @@ app.controller('PlayersCtrl', ["$route", "uuid", "TournamentService", "UtilsServ
         tournamentService.update(scope.tournament).then(function(id){
             scope.tournament.id = id
             $route.updateParams({id:id});
+            $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorUpdate = true;
         })

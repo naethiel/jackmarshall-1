@@ -1,0 +1,37 @@
+<div class="modal-header text-center">
+    <button class="btn btn-primary" ng-click="ResultsBBCodeCtrl.copy()">Copy code to clipboard</button>
+    <button class="btn btn-danger" ng-click="ResultsBBCodeCtrl.cancel()">Close</button>
+</div>
+<div id="results_bbcode" style="overflow:scroll; height:300px;" class="modal-body">
+    [b]Résulats du tournoi[/b]<br />
+    [table]<br />
+    [tr]<br />
+    [td][b]Rank[/b][/td]<br />
+    [td][b]Player[/b][/td]<br />
+    [td][center][b]Victory[/b][/center][/td]<br />
+    [td][center][b]SoS[/b][/center][/td]<br />
+    [td][center][b]Scenario[/b][/center][/td]<br />
+    [td][center][b]Destruction[/b][/center][/td]<br />
+    [/tr]<br />
+
+    <span ng-repeat="result in ResultsBBCodeCtrl.results |orderBy: ['-victory_points','-sos','-scenario_points','-destruction_points'] track by $index">
+        [tr]<br />
+        [td]{{$index + 1}}[/td]<br />
+        [td]{{result.player.name}} ([i]{{result.player.faction}}[/i])[/td]<br />
+        [td][center]{{result.victory_points}}[/center][/td]<br />
+        [td][center]{{result.sos}}[/center][/td]<br />
+        [td][center]{{result.scenario_points}}[/center][/td]<br />
+        [td][center]{{result.destruction_points}}[/center][/td]<br />
+        [/tr]<br />
+    </span>
+
+    [/table]<br />
+
+</div>
+<div></div>
+<div class="modal-footer" ng-show="ResultsBBCodeCtrl.copySuccess">
+    <div class="alert alert-success text-left" role="alert">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        Successfully copied to clipboard
+    </div>
+</div>
