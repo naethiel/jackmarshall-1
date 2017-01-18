@@ -3,35 +3,26 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
-	"github.com/HouzuoGuo/tiedot/data"
+	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/julienschmidt/httprouter"
 )
 
-func NewGetTournamentHandler(database *data.Collection) httprouter.Handle {
-
+func NewGetTournamentHandler(db *mgo.Session) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		collection := db.DB("jackmarshall").C("tournament")
 
-		id, err := strconv.Atoi(p.ByName("id"))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
+		id := p.ByName("id")
 
 		result := Tournament{}
 
-		doc := database.Read(id)
+		err := collection.FindId(bson.ObjectIdHex(id)).One(&result)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		err = json.Unmarshal(doc, &result)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-
-		result.Id = p.ByName("id")
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

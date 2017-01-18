@@ -1,17 +1,22 @@
 package main
 
-import "time"
+import (
+	"time"
+
+	"gopkg.in/mgo.v2/bson"
+)
 
 type Tournament struct {
-	Id        string    `json:"id" update:"nonzero"`
-	Name      string    `json:"name" create:"nonzero" update:"nonzero"`
-	Format    int       `json:"format" create:"nonzero" update:"nonzero"`
-	Slots     int       `json:"slots" create:"nonzero" update:"nonzero"`
-	FeeAmount float64   `json:"fee_amount"`
-	Date      time.Time `json:"date" create:"nonzero" update:"nonzero"`
-	Players   []Player  `json:"players"`
-	Tables    []Table   `json:"tables"`
-	Rounds    []Round   `json:"rounds" create:"max=0"`
+	ID        bson.ObjectId `json:"id" bson:"_id,omitempty" update:"nonzero"`
+	Owner     int           `json:"owner" bson:"owner" create:"nonzero" update:"nonzero"`
+	Name      string        `json:"name" create:"nonzero" update:"nonzero"`
+	Format    int           `json:"format" create:"nonzero" update:"nonzero"`
+	Slots     int           `json:"slots" create:"nonzero" update:"nonzero"`
+	FeeAmount float64       `json:"fee_amount"`
+	Date      time.Time     `json:"date" create:"nonzero" update:"nonzero"`
+	Players   []Player      `json:"players"`
+	Tables    []Table       `json:"tables"`
+	Rounds    []Round       `json:"rounds" create:"max=0"`
 }
 
 func NewTournament() *Tournament {

@@ -1,3 +1,5 @@
+export GOOS=linux
+
 dependencies:
 	go get ./...
 
@@ -5,7 +7,7 @@ binary: dependencies *.go
 	go build -o tournaments
 
 binary-static: dependencies *.go
-	go build -o tournaments -ldflags "-s -linkmode external -extldflags -static -w" -tags docker
+	go build -o tournaments -tags docker
 
 pkg: dependencies binary-static
 	docker build -t jackmarshall/tournaments .
@@ -13,7 +15,7 @@ pkg: dependencies binary-static
 
 docker-run: pkg
 	docker run -d --name mongo mongo:3.0
-	sleep 40s
+	sleep 15s
 	docker run -p 8080:8080 -it --link mongo:database  --name jackmarshallT jackmarshall/tournaments
 
 docker-rm:

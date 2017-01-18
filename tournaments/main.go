@@ -6,6 +6,9 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
+
+	mgo "gopkg.in/mgo.v2"
 
 	"github.com/HouzuoGuo/tiedot/data"
 	"github.com/rs/cors"
@@ -15,23 +18,28 @@ import (
 )
 
 func main() {
-	databasePath := "database"
-	database, err := data.OpenCollection(databasePath)
+
+	db, err := mgo.Dial(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
 	if err != nil {
-		panic(err)
+		log.Fatalln(err)
 	}
+	defer db.Close()
+
+	// databasePath := "database"
+	// database, err := data.OpenCollection(databasePath)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	router := httprouter.New()
-	router.GET("/api/tournaments", NewListTournamentHandler(database))
-	router.GET("/api/tournaments/:id", NewGetTournamentHandler(database))
-	router.POST("/api/tournaments", NewCreateTournamentHandler(database))
-	router.PUT("/api/tournaments/:id", NewUpdateTournamentHandler(database))
-	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(database))
+	router.GET("/api/tournaments", NewListTournamentHandler(db))
+	router.GET("/api/tournaments/:id", NewGetTournamentHandler(db))
+	router.POST("/api/tournaments", NewCreateTournamentHandler(db))
+	router.PUT("/api/tournaments/:id", NewUpdateTournamentHandler(db))
+	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(db))
 
-	router.GET("/api/tournaments/:id/round", NewCreateRoundHandler(database))
-	router.GET("/api/tournaments/:id/results", NewGetResultsHandler(database))
-
-	router.NotFound = http.FileServer(http.Dir("front"))
+	router.GET("/api/tournaments/:id/round", NewCreateRoundHandler(db))
+	router.GET("/api/tournaments/:id/results", NewGetResultsHandler(db))
 
 	// Initialize the middleware stack
 	cors := cors.New(cors.Options{

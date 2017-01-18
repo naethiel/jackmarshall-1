@@ -3,33 +3,26 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
-	"github.com/HouzuoGuo/tiedot/data"
+	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+
 	"github.com/julienschmidt/httprouter"
 )
 
-func NewCreateRoundHandler(database *data.Collection) httprouter.Handle {
+func NewCreateRoundHandler(db *mgo.Session) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		collection := db.DB("jackmarshall").C("tournament")
 
-		id, err := strconv.Atoi(p.ByName("id"))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
+		id := p.ByName("id")
+
 		tournament := Tournament{}
 
-		doc := database.Read(id)
+		err := collection.FindId(bson.ObjectIdHex(id)).One(&tournament)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		err = json.Unmarshal(doc, &tournament)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-
-		tournament.Id = p.ByName("id")
 
 		//create pairings and assign tables
 		round := Round{
@@ -47,13 +40,7 @@ func NewCreateRoundHandler(database *data.Collection) httprouter.Handle {
 
 		tournament.Rounds = append(tournament.Rounds, round)
 
-		data, err := json.Marshal(tournament)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		_, err = database.Update(id, data)
+		err = collection.UpdateId(bson.ObjectIdHex(id), &tournament)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
