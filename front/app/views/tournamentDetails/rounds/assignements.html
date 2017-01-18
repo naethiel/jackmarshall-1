@@ -86,7 +86,8 @@
         jQuery.support.cors = true;
 
         id = getParameterByName('id');
-        $.getJSON("localhost:8080/api/tournaments/"+id, function( data ) {
+
+        $.getJSON("http://localhost:8080/api/tournaments/"+id, function( data ) {
             var table = ["","",""];
             var round = data.rounds[data.rounds.length-1];
             round.games.sort(compare)
@@ -103,6 +104,7 @@
             $('#round-number').append("Ronde "+(round.number+1));
 
         });
+
 
     })
 

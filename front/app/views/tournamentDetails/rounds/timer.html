@@ -45,25 +45,24 @@
     </div>
 
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
-    <script src="bower_components/jquery.countdown/dist/jquery.countdown.js"></script>
+    <script src="../../../js/jquery.min.js"></script>
+    <script src="../../../js/timer.vendors.js"></script>
     <script type="text/javascript">
       // Turn on Bootstrap
 
       // 15 days from now!
-      function get15dayFromNow() {
+      function getTimeFromNow() {
         return new Date(new Date().valueOf() + 2.25 * 60 * 60 * 1000);
       }
 
       var $clock = $('#clock');
 
-      $clock.countdown(get15dayFromNow(), function(event) {
+      $clock.countdown(getTimeFromNow(), function(event) {
         $(this).html(event.strftime('%H:%M:%S'));
       });
 
       $('#btn-reset').click(function() {
-        $clock.countdown(get15dayFromNow());
+        $clock.countdown(getTimeFromNow());
       });
 
       $('#btn-pause').click(function() {

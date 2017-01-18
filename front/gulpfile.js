@@ -31,6 +31,16 @@ gulp.task('jquery', function(){
 	.pipe(gulp.dest('./dist/js/'));
 })
 
+gulp.task('timerDeps', function(){
+	gulp.src([
+		path.vendors + 'jquery.countdown/dist/jquery.countdown.js',
+		path.vendors + 'moment/min/moment.min.js',
+	])
+    .pipe(concat('timer.vendors.js'))
+    .pipe(uglify())
+	.pipe(gulp.dest('./dist/js/'));
+})
+
 gulp.task('app', function(){
 	gulp.src([
 		path.app + '**/*.js',
@@ -78,4 +88,4 @@ gulp.task('watch', function () {
 	gulp.watch(path.style + '**/*.css', ['style']);
 });
 
-gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts', 'jquery']);
+gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts', 'jquery', 'timerDeps']);
