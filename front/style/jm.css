@@ -10,19 +10,52 @@
     content: "\e081";
 }
 
+.jm-header{
+    background-color: #24292e;
+    color: #dddddd;
+    height: 50px;
+    width: 100%;
+    vertical-align: middle;
+}
+
 .ng-invalid.ng-dirty{
     border-color: #FA78FE
 }
 .ng-valid.ng-dirty{
     border-color: #78FA89
 }
-.mtn,
-.mt0 {
-    margin-top: 0;
+.man,
+.ma0 {
+  margin: 0;
+}
+
+.pan,
+.pa0 {
+  padding: 0;
 }
 
 .mas {
-    margin: 1rem;
+  margin: 1rem;
+}
+
+.mam {
+  margin: 2rem;
+}
+
+.mal {
+  margin: 4rem;
+}
+
+.pas {
+  padding: 1rem;
+}
+
+.pam {
+  padding: 2rem;
+}
+
+.pal {
+  padding: 4rem;
 }
 
 .mts {
@@ -87,6 +120,76 @@
 .mll {
     margin-left: 4rem;
 }
+
+
+.ptn,
+.pt0 {
+  padding-top: 0;
+}
+
+.pts {
+  padding-top: 1rem;
+}
+
+.ptm {
+  padding-top: 2rem;
+}
+
+.ptl {
+  padding-top: 4rem;
+}
+
+.prn,
+.pr0 {
+  padding-right: 0;
+}
+
+.prs {
+  padding-right: 1rem;
+}
+
+.prm {
+  padding-right: 2rem;
+}
+
+.prl {
+  padding-right: 4rem;
+}
+
+.pbn,
+.pb0 {
+  padding-bottom: 0;
+}
+
+.pbs {
+  padding-bottom: 1rem;
+}
+
+.pbm {
+  padding-bottom: 2rem;
+}
+
+.pbl {
+  padding-bottom: 4rem;
+}
+
+.pln,
+.pl0 {
+  padding-left: 0;
+}
+
+.pls {
+  padding-left: 1rem;
+}
+
+.plm {
+  padding-left: 2rem;
+}
+
+.pll {
+  padding-left: 4rem;
+}
+
 
 .nav-tabs-primary {
     border-bottom: 1px solid #337ab7;

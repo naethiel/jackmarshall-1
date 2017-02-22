@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('ListCtrl', ['$uibModal', 'TournamentService', function($uibModal, tournamentService) {
+app.controller('ListCtrl', ['$uibModal', '$localStorage', '$location', 'TournamentService', function($uibModal, $localStorage, $location, tournamentService) {
 
     if($localStorage.currentUser == null){
         $location.path( "/auth/login" );
