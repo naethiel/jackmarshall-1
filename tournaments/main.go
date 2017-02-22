@@ -6,11 +6,12 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 
 	mgo "gopkg.in/mgo.v2"
 
 	"github.com/HouzuoGuo/tiedot/data"
+	"github.com/chibimi/jackmarshall/auth"
+	"github.com/kelseyhightower/envconfig"
 	"github.com/rs/cors"
 
 	"github.com/codegangsta/negroni"
@@ -18,7 +19,14 @@ import (
 )
 
 func main() {
-	fmt.Println(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
+
+	cfg := Configuration{}
+	err := envconfig.Process("app", &cfg)
+	if err != nil {
+		log.Fatalln("unable to read configuration from env:", err)
+	}
+	fmt.Println(cfg)
+
 	db, err := mgo.Dial("127.0.0.1:27017")
 
 	if err != nil {
@@ -31,11 +39,11 @@ func main() {
 	// if err != nil {
 	// 	panic(err)
 	// }
-
+	roles := []string{"organizer"}
 	router := httprouter.New()
 	router.GET("/api/tournaments", NewListTournamentHandler(db))
 	router.GET("/api/tournaments/:id", NewGetTournamentHandler(db))
-	router.POST("/api/tournaments", NewCreateTournamentHandler(db))
+	router.POST("/api/tournaments", auth.NewAuthHandler(NewCreateTournamentHandler(db), roles, cfg.Secret))
 	router.PUT("/api/tournaments/:id", NewUpdateTournamentHandler(db))
 	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(db))
 

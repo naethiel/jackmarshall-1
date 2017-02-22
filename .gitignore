@@ -15,3 +15,7 @@ front/dist/index.html
 tournaments/working
 tournaments/notworking
 tournaments/front
+mongo/
+auth/server/authServer
+auth/server/server
+jackmarshall-tournaments.tar

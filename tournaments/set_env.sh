@@ -1,0 +1,6 @@
+#!/bin/bash
+export APP_PASSWORD_COST= "12"
+export APP_PORT= "8080"
+export APP_DATABASE_PORT_27017_TCP_ADDR= "127.0.0.1"
+export APP_DATABASE_PORT_27017_TCP_PORT= "27017"
+export APP_SECRET= "secret"

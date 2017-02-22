@@ -4,6 +4,10 @@ app.controller('HeaderCtrl', ["$localStorage", "$location", "$http", "$scope", "
 
     var scope = this;
 
+    if ($localStorage.currentUser != null) {
+        $http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
+    }
+
     $scope.$watch(function () { return $localStorage.currentUser; },function(newVal,oldVal){
         if(newVal != null){
             scope.user = newVal.username;

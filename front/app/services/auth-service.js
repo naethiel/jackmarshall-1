@@ -18,7 +18,7 @@ app.service('AuthService', function($http, $localStorage){
             return $http.post(auth_endpoint + '/organizer', user)
             .then(function(res) {
                 $localStorage.currentUser = {username: user.login, password: user.password, token: res.data};
-                $http.defaults.headers.common.Authorization = 'Bearer ' + res.data;
+                $http.defaults.headers.common.Authorization = res.data;
                 return;
             })
             .catch(function (err){
