@@ -15,7 +15,7 @@ pkg: dependencies binary-static
 
 docker-run: pkg
 	docker run -d --name mongo mongo:3.0
-	sleep 15s
+	sleep 8s
 	docker run -p 8080:8080 -it --link mongo:database  --name jackmarshallT jackmarshall/tournaments
 
 docker-rm:

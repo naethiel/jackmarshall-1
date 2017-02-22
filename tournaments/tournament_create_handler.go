@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -19,14 +20,15 @@ func NewCreateTournamentHandler(db *mgo.Session) httprouter.Handle {
 			return
 		}
 
+		tournament.ID = bson.NewObjectId()
 		err = collection.Insert(&tournament)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		//	w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		//	json.NewEncoder(w).Encode(strconv.Itoa(id))
+		json.NewEncoder(w).Encode(tournament.ID)
 	}
 }

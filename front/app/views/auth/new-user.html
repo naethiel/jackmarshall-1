@@ -1,0 +1,48 @@
+<div ng-controller="NewUserCtrl as NewUserCtrl">
+    <form class="form-horizontal" ng-submit="NewUserCtrl.create()" name="registerForm">
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">Username</label>
+            <div class="col-sm-10">
+                <input ng-model="NewUserCtrl.user.login" type="text" class="form-control" id="username" placeholder="username" required>
+            </div>
+        </div>
+        <div class="form-group" >
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input ng-model="NewUserCtrl.user.email" type="email" class="form-control" id="email" placeholder="toto@tata.com" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input ng-model="NewUserCtrl.user.password" type="password" class="form-control" id="password" name="password" placeholder="password" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirm" class="col-sm-2 control-label">Confirm Password</label>
+            <div class="col-sm-10">
+                <input ng-model="NewUserCtrl.user.password_confirm" type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="confirm password" required equals-to="registerForm.password"  />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary pull-right" ng-disabled="registerForm.$invalid">Create account</button>
+            </div>
+        </div>
+
+    </form>
+
+    <div ng-show="NewUserCtrl.error==400" class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        Error : Wrong parameters, please check your inputs.
+    </div>
+    <div ng-show="NewUserCtrl.error==500" class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        Server Error : It's not your fault, try again later.
+    </div>
+
+</div>

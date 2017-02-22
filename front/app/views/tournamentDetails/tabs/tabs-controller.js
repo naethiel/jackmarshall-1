@@ -19,8 +19,6 @@ app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", functio
     this.getNextRound = function(){
         scope.roundLoading = true;
         tournamentService.update(scope.tournament).then(function(id){
-            scope.tournament.id = id;
-            $route.updateParams({id:id});
             tournamentService.getNextRound(id).then(function(tournament){
                 scope.tournament = tournament;
                 $route.updateParams({id:tournament.id});

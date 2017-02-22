@@ -1,10 +1,17 @@
 'use strict';
 
-app.controller('AuthCtrl', ["$localStorage", "$http", "$location", "AuthService", function($localStorage, $http, $location, authService) {
+app.controller('LoginCtrl', ["$localStorage", "$http", "$location", "AuthService", function($localStorage, $http, $location, authService) {
+
+    if($localStorage.currentUser != null){
+        $location.path( "/tournament/list" );
+    }
+
     var scope = this;
     scope.username = "";
     scope.password = "";
     scope.error = undefined;
+
+    scope.newUser = {};
 
     this.login = function(){
         scope.error = null;
@@ -20,4 +27,9 @@ app.controller('AuthCtrl', ["$localStorage", "$http", "$location", "AuthService"
         $localStorage.currentUser = null;
         $http.defaults.headers.common.Authorization = null;
     };
+
+    this.toNewAccount = function(){
+        $location.path( "/auth/new" );
+    };
+
 }]);

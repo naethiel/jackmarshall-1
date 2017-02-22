@@ -15,8 +15,6 @@ app.controller('TablesCtrl', ["$route", "uuid", "TournamentService", function ($
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.tables.push(scope.table);
         tournamentService.update(temp).then(function(id){
-            scope.tournament.id = id;
-            $route.updateParams({id:id});
             scope.tournament.tables.push(scope.table);
             scope.table = {};
         }).catch(function(err){
@@ -30,19 +28,16 @@ app.controller('TablesCtrl', ["$route", "uuid", "TournamentService", function ($
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.tables.splice(temp.tables.indexOf(table), 1);
         tournamentService.update(temp).then(function(id){
-            scope.tournament.id = id
-            $route.updateParams({id:id});
             scope.tournament.tables.splice(scope.tournament.tables.indexOf(table), 1);
         }).catch(function(err){
             scope.errorDelete = true;
         })
     };
+    //FIXME then empty
 
     this.updateTable = function(){
         scope.errorUpdate = null;
         tournamentService.update(scope.tournament).then(function(id){
-            scope.tournament.id = id
-            $route.updateParams({id:id});
         }).catch(function(err){
             scope.errorUpdate = true;
         })

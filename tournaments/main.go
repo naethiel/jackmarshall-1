@@ -18,8 +18,9 @@ import (
 )
 
 func main() {
+	fmt.Println(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
+	db, err := mgo.Dial("127.0.0.1:27017")
 
-	db, err := mgo.Dial(os.Getenv("DATABASE_PORT_27017_TCP_ADDR"))
 	if err != nil {
 		log.Fatalln(err)
 	}

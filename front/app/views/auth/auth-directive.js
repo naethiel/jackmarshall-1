@@ -3,7 +3,7 @@
 app.directive("auth", ["$localStorage", "$http", function($localStorage, $http) {
     return {
         restrict: "E",
-        templateUrl: "/views/auth/auth.html",
+        templateUrl: "/views/auth/login/login.html",
         controller: function() {
 			var scope = this;
 			this.username = "";

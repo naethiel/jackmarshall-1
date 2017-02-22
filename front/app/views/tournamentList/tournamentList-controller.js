@@ -1,6 +1,11 @@
 'use strict';
 
 app.controller('ListCtrl', ['$uibModal', 'TournamentService', function($uibModal, tournamentService) {
+
+    if($localStorage.currentUser == null){
+        $location.path( "/auth/login" );
+    }
+
     var scope = this;
     scope.tournaments = [];
     scope.error = undefined;

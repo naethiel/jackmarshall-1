@@ -1,31 +1,32 @@
-<div ng-controller="AuthCtrl as AuthCtrl">
-    <form class="form-horizontal" ng-submit="AuthCtrl.login()">
+<div ng-controller="LoginCtrl as LoginCtrl">
+    <form class="form-horizontal" ng-submit="LoginCtrl.login()">
         <div class="form-group">
             <label for="username" class="col-sm-2 control-label">Username</label>
             <div class="col-sm-10">
-                <input ng-model="AuthCtrl.username" type="text" class="form-control" id="username" placeholder="username" required>
+                <input ng-model="LoginCtrl.username" type="text" class="form-control" id="username" placeholder="username" required>
             </div>
         </div>
         <div class="form-group">
             <label for="password" class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-                <input ng-model="AuthCtrl.password" type="text" class="form-control" id="password" placeholder="password" required>
+                <input ng-model="LoginCtrl.password" type="text" class="form-control" id="password" placeholder="password" required>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary pull-right">Login</button>
-                <button type="button" class="btn btn-danger pull-right" ng-click="AuthCtrl.logout()">Logout</button>
+                <button type="button" class="btn btn-danger pull-right" ng-click="LoginCtrl.logout()">Logout</button>
             </div>
         </div>
+        <a ng-click="LoginCtrl.toNewAccount()">Créer un compte</a>
     </form>
 
-    <div ng-show="AuthCtrl.error==401" class="alert alert-danger" role="alert">
+    <div ng-show="LoginCtrl.error==401" class="alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         Error : Wrong username or password.
     </div>
-    <div ng-show="AuthCtrl.error==500" class="alert alert-danger" role="alert">
+    <div ng-show="LoginCtrl.error==500" class="alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
         Server Error : It's not your fault, try again later.
     </div>

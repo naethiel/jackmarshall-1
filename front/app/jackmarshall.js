@@ -13,9 +13,13 @@ var app = angular.module('jackmarshall', [
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-    $routeProvider.when('/auth', {
-        templateUrl: 'views/auth/auth.html',
-        controller: 'AuthCtrl'
+    $routeProvider.when('/auth/login', {
+        templateUrl: 'views/auth/login.html',
+        controller: 'LoginCtrl'
+    });
+    $routeProvider.when('/auth/new', {
+        templateUrl: 'views/auth/new-user.html',
+        controller: 'NewUserCtrl'
     });
     $routeProvider.when('/tournament/list', {
         templateUrl: 'views/tournamentList/tournament-list.html',
@@ -25,5 +29,5 @@ app.config(['$locationProvider', '$routeProvider', function($locationProvider, $
         templateUrl: '/views/tournamentDetails/tournament-details.html',
         controller: 'TournamentCtrl'
     });
-    $routeProvider.otherwise({redirectTo: '/tournament/list'});
+    $routeProvider.otherwise({redirectTo: '/auth/login'});
 }]);

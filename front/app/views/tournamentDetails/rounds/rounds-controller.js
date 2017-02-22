@@ -12,8 +12,6 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "TournamentSe
         scope.errorUpdate = null;
         scope.succesUpdate = null;
         tournamentService.update(scope.tournament).then(function(id){
-            scope.tournament.id = id
-            $route.updateParams({id:id});
             scope.successUpdate = true;
             $rootScope.$emit("UpdateResult");
         }).catch(function(err){
@@ -26,8 +24,6 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "TournamentSe
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.rounds.splice(temp.rounds.indexOf(round), 1);
         tournamentService.update(temp).then(function(id){
-            scope.tournament.id = id
-            $route.updateParams({id:id});
             scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
             $rootScope.$emit("UpdateResult");
         }).catch(function(err){
