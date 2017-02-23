@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -14,10 +15,19 @@ func NewDeleteTournamentHandler(db *mgo.Session) httprouter.Handle {
 		collection := db.DB("jackmarshall").C("tournament")
 		id := p.ByName("id")
 
-		err := collection.RemoveId(bson.ObjectIdHex(id))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+		if p.ByName("root") == "ok" {
+			err := collection.RemoveId(id)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		} else {
+			userID, _ := strconv.ParseInt(p.ByName("userId"), 10, 64)
+			err := collection.Remove(bson.M{"_id": bson.ObjectIdHex(id), "owner": userID})
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 		}
 
 		w.WriteHeader(http.StatusOK)

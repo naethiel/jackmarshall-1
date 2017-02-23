@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -54,7 +55,7 @@ func NewAuthHandler(next httprouter.Handle, authorizedRole []string, secret stri
 			w.Write([]byte("unauthorized"))
 			return
 		}
-
+		fmt.Println(requester)
 		p = append(p, httprouter.Param{"userId", strconv.Itoa(int(requester.ID))})
 
 		next(w, r, p)

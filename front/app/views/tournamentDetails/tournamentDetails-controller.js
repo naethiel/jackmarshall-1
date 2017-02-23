@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage', 'TournamentService', function($rootScope, $routeParams, $localStorage, tournamentService) {
+app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage', '$scope', 'TournamentService', function($rootScope, $routeParams, $localStorage, $scope, tournamentService) {
 
     if($localStorage.currentUser == null){
         $location.path( "/auth/login" );
@@ -8,7 +8,7 @@ app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage',
 
     var scope = this;
     scope.tournament = {};
-    scope.error = undefined;
+    scope.error = false;
 
     tournamentService.get($routeParams.id).then(function(tournament){
         scope.tournament = tournament;
@@ -19,4 +19,5 @@ app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage',
     }).catch(function(err){
         scope.error = err;
     });
+
 }]);

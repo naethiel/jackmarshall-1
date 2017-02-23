@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -18,16 +19,30 @@ func NewCreateRoundHandler(db *mgo.Session) httprouter.Handle {
 
 		tournament := Tournament{}
 
-		err := collection.FindId(bson.ObjectIdHex(id)).One(&tournament)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+		if p.ByName("root") == "ok" {
+			err := collection.FindId(bson.ObjectIdHex(id)).One(&tournament)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		} else {
+			userID, _ := strconv.ParseInt(p.ByName("userId"), 10, 64)
+			err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id), "owner": userID}).One(&tournament)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 		}
 
 		//create pairings and assign tables
 		round := Round{
 			Number: len(tournament.Rounds),
 			Games:  []Game{},
+		}
+
+		if len(tournament.Players) == 0 || len(tournament.Tables) < len(tournament.Players)/2 {
+			http.Error(w, "Incorect number of players or tables", http.StatusInternalServerError)
+			return
 		}
 
 		var pairings = CreatePairs(tournament.Players, tournament, &round)
@@ -40,7 +55,7 @@ func NewCreateRoundHandler(db *mgo.Session) httprouter.Handle {
 
 		tournament.Rounds = append(tournament.Rounds, round)
 
-		err = collection.UpdateId(bson.ObjectIdHex(id), &tournament)
+		err := collection.UpdateId(bson.ObjectIdHex(id), &tournament)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

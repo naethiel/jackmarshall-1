@@ -1,5 +1,5 @@
 <div ng-controller="TournamentCtrl as TournamentCtrl">
-    <div class="row">
+    <div ng-if="TournamentCtrl.error===false" class="row">
         <div class="col-md-6">
             <player-list tournament="TournamentCtrl.tournament"></player-list>
         </div>
@@ -7,5 +7,7 @@
             <table-list tournament="TournamentCtrl.tournament"></table-list>
         </div>
     </div>
-    <tabs tournament="TournamentCtrl.tournament"></tabs>
+    <tabs ng-if="TournamentCtrl.error===false" tournament="TournamentCtrl.tournament"></tabs>
+    <div ng-if="TournamentCtrl.error">ERROR</div>
+
 </div>

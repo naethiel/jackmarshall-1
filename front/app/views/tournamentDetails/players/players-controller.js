@@ -1,10 +1,7 @@
 'use strict';
 
 app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
-    var scope = this;
-    scope.tournament = {};
-    scope.player = {};
-    scope.player.lists = [{
+    var lists = [{
         caster: "",
         theme: "",
         played: false,
@@ -15,6 +12,10 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         played: false,
         list: ""
     }];
+    var scope = this;
+    scope.tournament = {};
+    scope.player = {};
+    scope.player.lists = lists
     scope.errorAdd = undefined;
     scope.errorUpdate = undefined;
     scope.errorDelete = undefined;
@@ -33,7 +34,7 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         tournamentService.update(temp).then(function(id){
             scope.tournament.players.push(scope.player);
             scope.player = {};
-            scope.player.lists = ["",""];
+            scope.player.lists = lists;
             $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorAdd = true;

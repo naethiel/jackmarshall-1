@@ -3,6 +3,7 @@
 app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", function ($rootScope, $route, tournamentService) {
     var scope = this;
     scope.tab = -1;
+    scope.error = undefined
 
     $rootScope.$on("SetTab", function(event, tab){
         scope.tab = tab;
@@ -18,10 +19,9 @@ app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", functio
 
     this.getNextRound = function(){
         scope.roundLoading = true;
-        tournamentService.update(scope.tournament).then(function(id){
-            tournamentService.getNextRound(id).then(function(tournament){
+        tournamentService.update(scope.tournament).then(function(){
+            tournamentService.getNextRound(scope.tournament.id).then(function(tournament){
                 scope.tournament = tournament;
-                $route.updateParams({id:tournament.id});
                 scope.round = scope.tournament.rounds[scope.tournament.rounds.length - 1];
                 scope.tab = scope.tournament.rounds.length - 1;
                 tournamentService.verifyRound(scope.tournament, scope.round.number);

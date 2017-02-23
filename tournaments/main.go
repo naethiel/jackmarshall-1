@@ -34,21 +34,16 @@ func main() {
 	}
 	defer db.Close()
 
-	// databasePath := "database"
-	// database, err := data.OpenCollection(databasePath)
-	// if err != nil {
-	// 	panic(err)
-	// }
 	roles := []string{"organizer"}
 	router := httprouter.New()
-	router.GET("/api/tournaments", NewListTournamentHandler(db))
-	router.GET("/api/tournaments/:id", NewGetTournamentHandler(db))
+	router.GET("/api/tournaments", auth.NewAuthHandler(NewListTournamentHandler(db), roles, cfg.Secret))
+	router.GET("/api/tournaments/:id", auth.NewAuthHandler(NewGetTournamentHandler(db), roles, cfg.Secret))
 	router.POST("/api/tournaments", auth.NewAuthHandler(NewCreateTournamentHandler(db), roles, cfg.Secret))
-	router.PUT("/api/tournaments/:id", NewUpdateTournamentHandler(db))
-	router.DELETE("/api/tournaments/:id", NewDeleteTournamentHandler(db))
+	router.PUT("/api/tournaments/:id", auth.NewAuthHandler(NewUpdateTournamentHandler(db), roles, cfg.Secret))
+	router.DELETE("/api/tournaments/:id", auth.NewAuthHandler(NewDeleteTournamentHandler(db), roles, cfg.Secret))
 
-	router.GET("/api/tournaments/:id/round", NewCreateRoundHandler(db))
-	router.GET("/api/tournaments/:id/results", NewGetResultsHandler(db))
+	router.GET("/api/tournaments/:id/round", auth.NewAuthHandler(NewCreateRoundHandler(db), roles, cfg.Secret))
+	router.GET("/api/tournaments/:id/results", auth.NewAuthHandler(NewGetResultsHandler(db), roles, cfg.Secret))
 
 	// Initialize the middleware stack
 	cors := cors.New(cors.Options{

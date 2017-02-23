@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -18,10 +19,19 @@ func NewGetTournamentHandler(db *mgo.Session) httprouter.Handle {
 
 		result := Tournament{}
 
-		err := collection.FindId(bson.ObjectIdHex(id)).One(&result)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+		if p.ByName("root") == "ok" {
+			err := collection.FindId(bson.ObjectIdHex(id)).One(&result)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		} else {
+			userID, _ := strconv.ParseInt(p.ByName("userId"), 10, 64)
+			err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id), "owner": userID}).One(&result)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 		}
 
 		w.Header().Set("Content-Type", "application/json")

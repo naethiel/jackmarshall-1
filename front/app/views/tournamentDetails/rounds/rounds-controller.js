@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "TournamentService", function ($rootScope, $route, $uibModal, tournamentService) {
+app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "TournamentService", function ($rootScope, $route, $uibModal, $scope, tournamentService) {
     var scope = this;
     scope.tournament = {};
     scope.round = {};

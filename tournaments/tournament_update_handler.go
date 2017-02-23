@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -24,10 +25,19 @@ func NewUpdateTournamentHandler(db *mgo.Session) httprouter.Handle {
 			return
 		}
 
-		err = collection.UpdateId(bson.ObjectIdHex(id), &tournament)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+		if p.ByName("root") == "ok" {
+			err = collection.UpdateId(bson.ObjectIdHex(id), &tournament)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		} else {
+			userID, _ := strconv.ParseInt(p.ByName("userId"), 10, 64)
+			err := collection.Update(bson.M{"_id": bson.ObjectIdHex(id), "owner": userID}, &tournament)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 		}
 
 		w.Header().Set("Content-Type", "application/json")
