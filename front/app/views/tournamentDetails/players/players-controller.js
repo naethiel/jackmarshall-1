@@ -1,7 +1,7 @@
 'use strict';
 
 app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
-    var lists = [{
+    var lists = JSON.stringify([{
         caster: "",
         theme: "",
         played: false,
@@ -11,11 +11,11 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         theme: "",
         played: false,
         list: ""
-    }];
+    }]);
     var scope = this;
     scope.tournament = {};
     scope.player = {};
-    scope.player.lists = lists
+    scope.player.lists = JSON.parse(lists);
     scope.errorAdd = undefined;
     scope.errorUpdate = undefined;
     scope.errorDelete = undefined;
@@ -34,7 +34,7 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         tournamentService.update(temp).then(function(id){
             scope.tournament.players.push(scope.player);
             scope.player = {};
-            scope.player.lists = lists;
+            scope.player.lists = JSON.parse(lists);
             $rootScope.$emit("UpdateResult");
         }).catch(function(err){
             scope.errorAdd = true;

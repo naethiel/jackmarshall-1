@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage', '$scope', 'TournamentService', function($rootScope, $routeParams, $localStorage, $scope, tournamentService) {
+app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage', 'TournamentService', function($rootScope, $routeParams, $localStorage, tournamentService) {
 
     if($localStorage.currentUser == null){
         $location.path( "/auth/login" );

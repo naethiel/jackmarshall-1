@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-1 text-left">
             <label class="font-normal"  ng-class="{'played': list.played}" ng-repeat="list in GamesCtrl.game.results[0].player.lists track by $index">
-                <input type="radio" ng-model="GamesCtrl.game.results[0].list" value="{{list.caster}}" >
+                <input type="radio" ng-model="GamesCtrl.game.results[0].list" value="{{list.caster}}"  ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'>
                 {{list.caster}}
             </label>
         </div>
@@ -17,19 +17,19 @@
             <button ng-show="GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==1" type="button" class="btn btn-danger"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 0, 1)">Loss</button>
             <button ng-show="GamesCtrl.game.results[0].victory_points==1" type="button" class="btn btn-success" ng-click="GamesCtrl.setLoss(GamesCtrl.game, 0, 1)">Win</button>
         </div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" required/></div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
+        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
         <div class="col-md-1">vs</div>
         <div class="col-md-1">
             <button ng-show="GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0" type="button" class="btn btn-default"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 1, 0)">Victory ?</button>
             <button ng-show="GamesCtrl.game.results[1].victory_points==0 && GamesCtrl.game.results[0].victory_points==1" type="button" class="btn btn-danger"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 1, 0)">Loss</button>
             <button ng-show="GamesCtrl.game.results[1].victory_points==1" type="button" class="btn btn-success" ng-click="GamesCtrl.setLoss(GamesCtrl.game, 1, 0)">Win</button>
         </div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" required/></div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" required/></div>
+        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
         <div class="col-md-1 text-left">
             <label class="font-normal" ng-class="{'played': list.played}" ng-repeat="list in GamesCtrl.game.results[1].player.lists track by $index">
-                <input type="radio" ng-model="GamesCtrl.game.results[1].list" value="{{list.caster}}" >
+                <input type="radio" ng-model="GamesCtrl.game.results[1].list" value="{{list.caster}}"  ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'>
                 {{list.caster}}
             </label>
         </div>

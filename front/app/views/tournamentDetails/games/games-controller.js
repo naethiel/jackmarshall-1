@@ -4,15 +4,18 @@ app.controller('GamesCtrl', ["$rootScope", "TournamentService", function ($rootS
     var scope = this;
     scope.tournament = {};
     scope.game = {};
+    scope.errorUpdate = undefined;
 
     this.setWin = function(game, player_index, opponent_index){
         game.results[player_index].victory_points = 1;
         game.results[opponent_index].victory_points = 0;
+        this.updateGame()
     };
 
     this.setLoss = function(game, player_index, opponent_index){
         game.results[player_index].victory_points = 0;
         game.results[opponent_index].victory_points = 1;
+        this.updateGame()
     };
 
     this.onDropComplete=function(source, destination){
@@ -27,6 +30,16 @@ app.controller('GamesCtrl', ["$rootScope", "TournamentService", function ($rootS
         destination.payed_fee = sourceTemp.payed_fee;
         destination.lists = sourceTemp.lists;
         destination.leave = sourceTemp.leave;
+        this.updateGame()
         tournamentService.verifyRound(scope.tournament, scope.roundNumber);
+    };
+
+    this.updateGame = function(){
+        scope.errorUpdate = null;
+        tournamentService.update(scope.tournament).then(function(id){
+            $rootScope.$emit("UpdateResult");
+        }).catch(function(err){
+            scope.errorUpdate = true;
+        })
     };
 }]);
