@@ -34,6 +34,8 @@ func main() {
 	router.GET("/users/:id", NewUserShowHandler(database))
 	router.PUT("/users/:id", NewUserUpdateHandler(database, configuration))
 	router.POST("/login", NewUserLoginHandler(database, configuration))
+	router.POST("/refresh", NewRefreshTokenHandler(database, configuration))
+	router.DELETE("/refresh", NewInvalidateRefreshTokenHandler(database, configuration))
 
 	router.GET("/usersAuth", auth.NewAuthHandler(NewUserListHandler(database), []string{"roleTest"}, configuration.Secret))
 

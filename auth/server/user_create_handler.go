@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/chibimi/jackmarshall/auth"
 
@@ -42,6 +45,9 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 			return
 		}
 		user.Password = string(password)
+
+		// Generate random Secret
+		user.Secret = RandomString(8)
 
 		// Get an ID for the new user
 		ID, err := db.Incr("users_max")
@@ -102,6 +108,9 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		}
 		user.Password = string(password)
 
+		// Generate random Secret
+		user.Secret = RandomString(8)
+
 		// Get an ID for the new user
 		ID, err := db.Incr("users_max")
 		if err != nil {
@@ -128,4 +137,16 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		// Report success
 		w.Write([]byte("OK"))
 	}
+}
+
+var r *rand.Rand
+
+func init() {
+	r = rand.New(rand.NewSource(time.Now().Unix()))
+}
+
+func RandomString(len int) string {
+	b := make([]byte, len)
+	r.Read(b)
+	return base64.URLEncoding.EncodeToString(b)
 }

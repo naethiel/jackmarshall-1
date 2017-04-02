@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/chibimi/jackmarshall/auth"
 	"github.com/elwinar/token"
@@ -10,6 +11,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"menteslibres.net/gosexy/redis"
 )
+
+type Auth struct {
+	Token        string `json:"token"`
+	Expiration   int64  `json:"expiration"`
+	RefreshToken string `json:"refresh_token"`
+}
 
 func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -60,9 +67,28 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 			return
 		}
 
+		refreshClaims := token.Claims{
+			"userID": user.ID,
+			"exp":    time.Now().AddDate(0, 1, 0).Unix(),
+		}
+
+		refreshToken, err := token.SignHS256(refreshClaims, []byte(user.Secret))
+		if err != nil {
+			http.Error(w, "unable to generate the token: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Ensure the password hash isn't disclosed
+		user.Password = ""
+		user.Secret = ""
+
+		// Set expiration date
+		exp := time.Now().Add(30 * time.Minute).Unix()
+
 		// Initialize the claims to be used
 		claims := token.Claims{
 			"user": user,
+			"exp":  exp,
 		}
 
 		// Generate the token
@@ -72,7 +98,18 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 			return
 		}
 
-		// Send the token
-		w.Write([]byte(token))
+		auth := Auth{
+			Token:        token,
+			Expiration:   exp,
+			RefreshToken: refreshToken,
+		}
+
+		res, err := json.Marshal(auth)
+		if err != nil {
+			http.Error(w, "unable to generate the auth: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		// Send the tokens
+		w.Write(res)
 	}
 }

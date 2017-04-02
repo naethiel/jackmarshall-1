@@ -27,6 +27,7 @@ func NewUserShowHandler(db *redis.Client) httprouter.Handle {
 
 		// Ensure the password hash isn't disclosed
 		user.Password = ""
+		user.Secret = ""
 
 		// Send the user
 		response, _ := json.Marshal(user) // Skipping the error because the user was just unmarshalled
