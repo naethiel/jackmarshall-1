@@ -16,7 +16,7 @@ func NewDeleteTournamentHandler(db *mgo.Session) httprouter.Handle {
 		id := p.ByName("id")
 
 		if p.ByName("root") == "ok" {
-			err := collection.RemoveId(id)
+			err := collection.RemoveId(bson.ObjectIdHex(id))
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return

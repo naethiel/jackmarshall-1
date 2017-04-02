@@ -11,14 +11,13 @@ app.controller('HeaderCtrl', ["$localStorage", "$location", "$http", "$scope", "
     $scope.$watch(function () { return $localStorage.currentUser; },function(newVal,oldVal){
         if(newVal != null){
             scope.user = newVal.username;
+        }else {
+            scope.user = null
         }
     })
 
     this.logout = function(){
         scope.error = null;
-        $localStorage.currentUser = null;
-        this.user = null;
-        $http.defaults.headers.common.Authorization = null;
-        $location.path( "/auth/login" );
+        authService.logout();
     };
 }]);

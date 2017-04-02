@@ -66,9 +66,10 @@ func NewRefreshTokenHandler(db *redis.Client, c Configuration) httprouter.Handle
 		user.Secret = ""
 
 		// Initialize the claims to be used
+		exp := time.Now().Add(5 * time.Minute).Unix()
 		claims = token.Claims{
 			"user": user,
-			"exp":  time.Now().Add(30 * time.Minute).Unix(),
+			"exp":  exp,
 		}
 
 		// Generate the new token
@@ -77,8 +78,18 @@ func NewRefreshTokenHandler(db *redis.Client, c Configuration) httprouter.Handle
 			http.Error(w, "unable to generate the token: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.Write([]byte(token))
-		return
+		auth := Auth{
+			Token:      token,
+			Expiration: exp,
+		}
+
+		res, err := json.Marshal(auth)
+		if err != nil {
+			http.Error(w, "unable to generate the auth: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		// Send the tokens
+		w.Write(res)
 	}
 }
 
@@ -124,7 +135,7 @@ func NewInvalidateRefreshTokenHandler(db *redis.Client, c Configuration) httprou
 			http.Error(w, "unable to get user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
-		if _, err := token.ParseHS256(string(data), []byte(user.Secret)); err != nil {
+		if _, err := token.ParseHS256(string(data), []byte(c.Secret)); err != nil {
 			http.Error(w, "invalid token: "+err.Error(), http.StatusBadRequest)
 			return
 		}
