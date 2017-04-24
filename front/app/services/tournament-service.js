@@ -124,6 +124,9 @@ function verifyParing(tournament, g, index){
 };
 
 function verifyList(tournament, player, index){
+	player.lists.forEach(function(list) {
+		list.played = false;
+	});
 	for (var i=0; i < index; i++){
 		var round = tournament.rounds[i];
 		round.games.forEach(function(game){
@@ -146,7 +149,10 @@ function verifyList(tournament, player, index){
 };
 
 function verifyTable(tournament, g, index){
-
+	g.results[0].errorTable = false;
+	g.results[1].errorTable = false;
+	g.results[0].errorScenario = false;
+	g.results[1].errorScenario = false;
 	for (var i=0; i < index; i++){
 		var round = tournament.rounds[i];
 		if (round.number===index){

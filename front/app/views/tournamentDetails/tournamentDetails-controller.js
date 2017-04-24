@@ -14,9 +14,10 @@ app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage',
         scope.tournament = tournament;
         $rootScope.$emit("SetTab", scope.tournament.rounds.length -1);
         scope.tournament.rounds.forEach(function(round){
-            tournamentService.verifyRound(scope.tournament, scope.tournament.rounds.length -1)
+            tournamentService.verifyRound(scope.tournament, round.number)
         });
     }).catch(function(err){
+        console.error(err)
         scope.error = err;
     });
 

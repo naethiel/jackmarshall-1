@@ -37,7 +37,7 @@
 
     <input type="submit" class="btn btn-primary pull-right mrs mbs" value="Save round" />
 </form>
-<button type="submit" class="btn btn-danger pull-right mrs mbs" ng-click=RoundsCtrl.deleteRound(RoundsCtrl.round)>Delete Round</button>
+<button type="submit" class="btn btn-danger pull-right mrs mbs" ng-click=RoundsCtrl.confirmDelete(RoundsCtrl.round)>Delete Round</button>
 <button type="submit" class="btn btn-default pull-right mrs mbs" onclick="window.open('views/tournamentDetails/rounds/timer.html')">Timer</button>
 <button type="submit" class="btn btn-default pull-right mrs mbs" ng-click="RoundsCtrl.openAssignements(RoundsCtrl.tournament.id)">Assignements</button>
 <button type="submit" class="btn btn-default pull-right mrs mbs" ng-click="RoundsCtrl.bbCodeRound(RoundsCtrl.round)">Export forum</button>

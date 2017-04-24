@@ -53,6 +53,34 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
         var modalInstance = $uibModal.open(params);
     };
 
+    this.confirmDelete = function (round) {
+        var params = {
+            animation: true,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: '/views/tournamentDetails/rounds/round-delete-popup.html',
+            controller: 'DeleteRoundCtrl',
+            controllerAs: 'DeleteRoundCtrl',
+            size: 'md',
+            appendTo: undefined,
+            resolve: {
+                tournament: function () {
+                    return scope.tournament;
+                },
+                round: function () {
+                    return round;
+                },
+                scopeParent: function(){
+                    return scope;
+                },
+                tournamentService: function(){
+                    return tournamentService;
+                }
+            }
+        }
+        var modalInstance = $uibModal.open(params);
+    };
+
     this.openAssignements = function(id){
         window.open('views/tournamentDetails/rounds/assignements.html?id='+id);
     }
