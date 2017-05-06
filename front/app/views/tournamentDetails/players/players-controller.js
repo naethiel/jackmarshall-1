@@ -53,8 +53,17 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         })
     };
 
-    this.updatePlayer = function(){
+    this.updatePlayer = function(player){
         scope.errorUpdate = null;
+        scope.tournament.rounds.forEach(function(round){
+            round.games.forEach(function(game){
+                game.results.forEach(function(result){
+        			if (result.player.id === player.id){
+                        result.player = player;
+                    }
+        		});
+    		});
+		});
         tournamentService.update(scope.tournament).then(function(id){
             $rootScope.$emit("UpdateResult");
         }).catch(function(err){

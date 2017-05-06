@@ -23,7 +23,6 @@ app.controller('TablesCtrl', ["$route", "uuid", "TournamentService", function ($
     };
 
     this.deleteTable = function(table){
-        console.log("TOTO");
         scope.errorDelete = null;
         var temp = JSON.parse(JSON.stringify(scope.tournament));
         temp.tables.splice(temp.tables.indexOf(table), 1);
@@ -35,8 +34,15 @@ app.controller('TablesCtrl', ["$route", "uuid", "TournamentService", function ($
     };
     //FIXME then empty
 
-    this.updateTable = function(){
+    this.updateTable = function(table){
         scope.errorUpdate = null;
+        scope.tournament.rounds.forEach(function(round){
+            round.games.forEach(function(game){
+                if (game.table.id === table.id){
+                    game.table = table;
+                }
+            });
+        });
         tournamentService.update(scope.tournament).then(function(id){
         }).catch(function(err){
             scope.errorUpdate = true;
