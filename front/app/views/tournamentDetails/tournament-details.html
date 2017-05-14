@@ -1,4 +1,21 @@
 <div ng-controller="TournamentCtrl as TournamentCtrl">
+    <div ng-if="TournamentCtrl.error===false" class="row p-3">
+        <div class="col-md-6">
+            <player-list tournament="TournamentCtrl.tournament"></player-list>
+        </div>
+        <div class="col-md-6">
+            <table-list tournament="TournamentCtrl.tournament"></table-list>
+        </div>
+    </div>
+    <tabs ng-if="TournamentCtrl.error===false" tournament="TournamentCtrl.tournament"></tabs>
+    <div ng-if="TournamentCtrl.error && NewUserCtrl.error!=400" class="alert alert-danger" role="alert">
+        <i class="fa fa-exclamation-circle"></i>Server Error : Unable to get tournament details.
+    </div>
+</div>
+
+<!--    
+
+<div ng-controller="TournamentCtrl as TournamentCtrl">
     <div ng-if="TournamentCtrl.error===false" class="row">
         <div class="col-md-6">
             <player-list tournament="TournamentCtrl.tournament"></player-list>
@@ -10,4 +27,4 @@
     <tabs ng-if="TournamentCtrl.error===false" tournament="TournamentCtrl.tournament"></tabs>
     <div ng-if="TournamentCtrl.error">ERROR</div>
 
-</div>
+</div> -->

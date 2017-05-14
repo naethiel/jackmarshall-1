@@ -44,6 +44,7 @@ app.controller('TablesCtrl', ["$route", "uuid", "TournamentService", function ($
             });
         });
         tournamentService.update(scope.tournament).then(function(id){
+            table.detailsVisible=false;    
         }).catch(function(err){
             scope.errorUpdate = true;
         })

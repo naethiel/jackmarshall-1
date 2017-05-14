@@ -1,28 +1,28 @@
-<div class="panel panel-primary mls">
-    <div class="panel-heading" ng-class="{'collapsed': PlayersCtrl.playersCollapsed}" ng-click="PlayersCtrl.playersCollapsed = !PlayersCtrl.playersCollapsed">
-        <h3 class="panel-title">Players ( {{PlayersCtrl.tournament.players.length}} / {{PlayersCtrl.tournament.slots}} )</h3>
-    </div>
-    <ul class="list-group" uib-collapse="PlayersCtrl.playersCollapsed">
+<div class="card card-outline-primary">
+    <h5  ng-class="{'collapsed': PlayersCtrl.playersCollapsed}" class="card-header card-inverse card-primary" ng-click="PlayersCtrl.playersCollapsed = !PlayersCtrl.playersCollapsed">Players ( {{PlayersCtrl.tournament.players.length}} / {{PlayersCtrl.tournament.slots}} )</h5>
+    <ul class="list-group list-group-flush" uib-collapse="PlayersCtrl.playersCollapsed">
         <li class="list-group-item" ng-repeat="player in PlayersCtrl.tournament.players |orderBy: 'name'">
             <span class="{{player.faction |trim}}">{{player.name}} </span>
-            <span class="float-right">
-                <button type="button" class="btn btn-primary btn-xs" ng-click="player.detailsVisible = !player.detailsVisible">
-                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span> Details
+            <span class="ml-auto">
+                <button type="button" class="btn btn-primary btn-xs"  ng-click="player.detailsVisible = !player.detailsVisible">
+                    <i class="fa fa-chevron-down"></i> Details
                 </button>
                 <button ng-show="PlayersCtrl.tournament.rounds.length > 0 && !player.leave" type="button" class="btn btn-warning btn-xs" ng-click="PlayersCtrl.dropPlayer(player)">
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Drop
+                    <i class="fa fa-minus"></i> Drop
                 </button>
                 <button ng-show="PlayersCtrl.tournament.rounds.length > 0 && player.leave" type="button" class="btn btn-success btn-xs" ng-click="PlayersCtrl.rejoinPlayer(player)">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Rejoin
+                    <i class="fa fa-plus"></i> Rejoin
                 </button>
                 <button ng-show="PlayersCtrl.tournament.rounds.length === 0" type="button" class="btn btn-danger btn-xs" ng-click="PlayersCtrl.deletePlayer(player)">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
+                    <i class="fa fa-times"></i> Remove
                 </button>
             </span>
-            <div uib-collapse="!player.detailsVisible">
+            <div class="w-100" uib-collapse="!player.detailsVisible">
                 <edit-player></edit-player>
             </div>
         </li>
-        <add-player></add-player>
+        <div class="card-block">
+            <add-player></add-player>
+        </diV>
     </ul>
 </div>

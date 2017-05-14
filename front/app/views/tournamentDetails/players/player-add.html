@@ -1,47 +1,25 @@
-<form class="form-horizontal mts mrs mls" ng-submit="PlayersCtrl.addPlayer()">
-    <div class="form-group">
-
-        <label for="player_name" class="col-sm-2 control-label">Name</label>
-        <div class="col-sm-10">
-            <input ng-model="PlayersCtrl.player.name" type="text" class="form-control" id="player_name" placeholder="Name">
-        </div>
-
-        <label for="player_faction" class="col-sm-2 control-label">Faction</label>
-        <div class="col-sm-10" >
-            <select ng-model="PlayersCtrl.player.faction" class="form-control" id="player_faction">
-                <option value="Cygnar">Cygnar</option>
-                <option value="Protectorate of Menoth">Protectorate of Menoth</option>
-                <option value="Khador">Khador</option>
-                <option value="Cryx">Cryx</option>
-                <option value="Retribution of Scyrah">Retribution of Scyrah</option>
-                <option value="Convergence of Cyriss">Convergence of Cyriss</option>
-                <option value="Mercenary">Mercenary</option>
-                <option value="Trollbloods">Trollbloods</option>
-                <option value="Circle Orboros">Circle Orboros</option>
-                <option value="Skorne">Skorne</option>
-                <option value="Legion of Everblight">Legion of Everblight</option>
-                <option value="Minions">Minions</option>
-            </select>
-        </div>
-
-        <div ng-repeat="list in PlayersCtrl.player.lists track by $index">
-            <label for="{{'player_list' + $index}}" class="col-sm-2 control-label">Caster {{$index+1}}</label>
-            <div class="col-sm-10">
-                <input autocomplete="off" ng-model="PlayersCtrl.player.lists[$index].caster" type="text" typeahead-template-url="/views/tournamentDetails/players/autocomplete-caster-template.html" class="form-control" id="{{'player_list' + $index}}" uib-typeahead="caster.name for caster in PlayersCtrl.casters |filter: {faction: PlayersCtrl.player.faction, $: $viewValue} | limitTo:28">
-            </div>
-        </div>
+<form class="form-horizontal my-3" ng-submit="PlayersCtrl.addPlayer()">
+    <input ng-model="PlayersCtrl.player.name" type="text" id="player_name" class="form-control first" placeholder="Name" required autofocus>
+    <select ng-model="PlayersCtrl.player.faction" class="form-control" id="player_faction">
+        <option value="Cygnar">Cygnar</option>
+        <option value="Protectorate of Menoth">Protectorate of Menoth</option>
+        <option value="Khador">Khador</option>
+        <option value="Cryx">Cryx</option>
+        <option value="Retribution of Scyrah">Retribution of Scyrah</option>
+        <option value="Convergence of Cyriss">Convergence of Cyriss</option>
+        <option value="Mercenary">Mercenary</option>
+        <option value="Trollbloods">Trollbloods</option>
+        <option value="Circle Orboros">Circle Orboros</option>
+        <option value="Skorne">Skorne</option>
+        <option value="Legion of Everblight">Legion of Everblight</option>
+        <option value="Minions">Minions</option>
+    </select>
+    <div ng-repeat="list in PlayersCtrl.player.lists track by $index">
+        <input autocomplete="off" ng-model="PlayersCtrl.player.lists[$index].caster" type="text" typeahead-template-url="/views/tournamentDetails/players/autocomplete-caster-template.html" class="form-control last" id="{{'player_list' + $index}}" uib-typeahead="caster.name for caster in PlayersCtrl.casters |filter: {faction: PlayersCtrl.player.faction, $: $viewValue} | limitTo:28">
     </div>
 
-    <div ng-show="PlayersCtrl.errorAdd" class="alert alert-danger" role="alert">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        Server Error : Unable to add player.
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary pull-right">Add player</button>
-        </div>
-    </div>
-
-
+    <button class="btn btn-sm btn-success my-3 float-right" type="submit">Add player</button>
+    <p ng-show="PlayersCtrl.errorAdd" class="card-block text-danger mb-0" role="alert">
+        <i class="fa fa-exclamation-circle"></i> Server Error : Unable to add player.
+    </p>
 </form>

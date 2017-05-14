@@ -66,6 +66,7 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
 		});
         tournamentService.update(scope.tournament).then(function(id){
             $rootScope.$emit("UpdateResult");
+            player.detailsVisible=false;
         }).catch(function(err){
             scope.errorUpdate = true;
         })

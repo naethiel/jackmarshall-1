@@ -16,6 +16,42 @@ $btn-padding-y-xs: .18rem !default;
     opacity: $modal-backdrop-opacity;
 }
 
+.collapse {
+    display: none !important;
+}
+
+.collapse.in {
+    display: block !important;
+}
+
+tr.collapse.in {
+    display: table-row;
+}
+
+
+tbody.collapse.in  {
+    display: table-row-group;
+}
+
+.uib-typeahead-match.ng-scope.active{
+    background-color: lighten($blue, 25%);
+}
+
+.card-header:after{
+    /* symbol for "opening" panels */
+    font-family: 'FontAwesome';  /* essential for enabling glyphicon */
+    content: "\f056";
+    float: right;
+    opacity:0.6;
+}
+.card-header.collapsed:after  {
+    /* symbol for "collapsed" panels */
+    font-family: 'FontAwesome';  /* essential for enabling glyphicon */
+
+    content: "\f055";
+}
+
+
 .jm-color {
     background-color: $bg-color;
     color: $dark-gray
@@ -61,4 +97,125 @@ input{
         border-top:1px solid $light-gray;
         margin: 15 -25px 15 -25px;
     }
+}
+
+.cygnar::before {
+    background-image: url('../images/cygnar.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.cryx::before {
+    background-image: url('../images/cryx.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.convergenceofcyriss::before {
+    background-image: url('../images/cyriss.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.khador::before {
+    background-image: url('../images/khador.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.legionofeverblight::before {
+    background-image: url('../images/legion.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.protectorateofmenoth::before {
+    background-image: url('../images/menoth.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.mercenary::before {
+    background-image: url('../images/mercs.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.minions::before {
+    background-image: url('../images/minions.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.circleorboros::before {
+    background-image: url('../images/orboros.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.retributionofscyrah::before {
+    background-image: url('../images/scyrah.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.trollbloods::before {
+    background-image: url('../images/troll.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.skorne::before {
+    background-image: url('../images/skorne.png');
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
 }
