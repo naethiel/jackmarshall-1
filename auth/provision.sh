@@ -33,7 +33,7 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 chmod 600 /home/vagrant/.ssh/id_rsa
 
 # Update the system globally
-pacman -Sy --noconfirm
+pacman -Suyy --noconfirm
 
 # Install utilities
 pacman -S --noconfirm gcc

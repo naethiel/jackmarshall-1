@@ -1,0 +1,46 @@
+@import '../bower_components/bootstrap/scss/bootstrap.scss';
+@import '../bower_components/fontawesome/scss/font-awesome.scss';
+
+$bg-color: #fcfcfc;
+$light-gray: #adadad;
+$medium-gray: #eeeeee;
+$dark-gray: #505050;
+
+body {
+    background-color: $bg-color;
+    color: $dark-gray;
+}
+
+
+.form-signin {
+    width: 380px;
+    padding: 25px;
+    margin: 0 auto;
+    background-color: $medium-gray;
+    border-radius: 0.5rem;
+
+    .first {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .mid {
+        margin-bottom: -1px;
+        border-radius: 0;
+    }
+    .last {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.form-signin-heading{
+    text-align: center;
+    &:after {
+        content:' ';
+        display:block;
+        border-top:1px solid $light-gray;
+        margin: 15 -25px 15 -25px;
+    }
+}

@@ -21,6 +21,10 @@ app.controller('NewUserCtrl', ["$localStorage", "$http", "$location", "AuthServi
         })
     };
 
+    this.toLogin = function(){
+        $location.path( "/auth/login" );
+    };
+
 }]);
 
 app.directive('equalsTo', [function () {
