@@ -1,23 +1,17 @@
-<div ng-controller="NewUserCtrl as NewUserCtrl">
+<div class="mt-5" ng-controller="NewUserCtrl as NewUserCtrl">
     <form class="form-signin" ng-submit="NewUserCtrl.create()" name="registerForm">
         <h2 class="form-signin-heading">Jackmarshall</h2>
-        <label for="username" class="sr-only">Username</label>
         <input ng-model="NewUserCtrl.user.login" type="text" id="username" class="form-control first" placeholder="Username" required autofocus>
-        <label for="email" class="sr-only">Email</label>
         <input ng-model="NewUserCtrl.user.email" type="email" id="email" class="form-control mid" placeholder="Email" required>
-        <label for="password" class="sr-only">Password</label>
         <input ng-model="NewUserCtrl.user.password" type="password" id="password" name="password" class="form-control mid" placeholder="Password" required>
-        <label for="password_confirm" class="sr-only">Confirm password</label>
         <input ng-model="NewUserCtrl.user.password_confirm" type="password" id="password_confirm" class="form-control last" placeholder="Confirm Password" required equals-to="registerForm.password">
         <button class="btn btn-lg btn-primary btn-block mb-2" type="submit" ng-disabled="registerForm.$invalid">Register</button>
 
         <div ng-show="NewUserCtrl.error==400" class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            Error : Username {{NewUserCtrl.user.login}} already exists.
+            <i class="fa fa-exclamation-circle"></i>Error : Username {{NewUserCtrl.user.login}} already exists.
         </div>
         <div ng-show="NewUserCtrl.error && NewUserCtrl.error!=400" class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            Server Error : Try again later.
+            <i class="fa fa-exclamation-circle"></i>Server Error : Try again later.
         </div>
         <div class="text-right"><a href="" ng-click="NewUserCtrl.toLogin()">Back to login page</a></div>
     </form>

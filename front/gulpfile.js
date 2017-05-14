@@ -25,7 +25,7 @@ gulp.task('vendors', function(){
 		path.vendors + 'angular-uuids/angular-uuid.js',
 	])
 	.pipe(concat('vendors.js'))
-	.pipe(uglify())
+	// .pipe(uglify())
 	.pipe(gulp.dest('./dist/js/'));
 })
 

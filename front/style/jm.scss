@@ -3,7 +3,18 @@
 @import '../bower_components/fontawesome/scss/font-awesome.scss';
 
 
+$btn-padding-x-xs: .38rem !default;
+$btn-padding-y-xs: .18rem !default;
 
+.btn-xs {
+    @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $btn-border-radius-sm);
+}
+.model.in .modal-dialog {
+    transform: translate(0, 0);
+}
+.modal-backdrop.in {
+    opacity: $modal-backdrop-opacity;
+}
 
 .jm-color {
     background-color: $bg-color;
@@ -15,6 +26,23 @@
     color: $bg-color;
 }
 
+input{
+    &.first {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    &.mid {
+        margin-bottom: -1px;
+        border-radius: 0;
+    }
+    &.last {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
 .form-signin {
     width: 380px;
     padding: 25px;
@@ -22,20 +50,7 @@
     background-color: $medium-gray;
     border-radius: 0.5rem;
 
-    .first {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-    .mid {
-        margin-bottom: -1px;
-        border-radius: 0;
-    }
-    .last {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
+
 }
 
 .form-signin-heading{

@@ -10,9 +10,6 @@ app.controller('ListCtrl', ['$uibModal', '$localStorage', '$location', 'Tourname
     scope.tournaments = [];
     scope.error = undefined;
 
-    scope.futureTournamentCollapsed = false;
-    scope.pastTournamentCollapsed = true;
-
     tournamentService.getAll().then(function(tournaments){
         scope.tournaments = tournaments;
     }).catch(function(){
@@ -21,7 +18,7 @@ app.controller('ListCtrl', ['$uibModal', '$localStorage', '$location', 'Tourname
 
     this.confirmDelete = function (tournament) {
         var params = {
-            animation: true,
+            animation: false,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: '/views/tournamentList/tournamentDelete/tournament-delete-popup.html',

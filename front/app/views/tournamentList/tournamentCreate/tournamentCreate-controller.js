@@ -4,7 +4,6 @@ app.controller('CreateTournamentCtrl', ["TournamentService", function (tournamen
     var scope = this;
     scope.tournament = {};
     scope.error = undefined;
-    scope.newTournamentCollapsed = false;
     
     this.createTournament = function(){
         scope.error = null

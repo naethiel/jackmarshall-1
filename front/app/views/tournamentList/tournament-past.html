@@ -1,16 +1,14 @@
-<div class="panel panel-primary">
-    <div class="panel-heading" ng-class="{'collapsed': ListCtrl.pastTournamentCollapsed}" ng-click="ListCtrl.pastTournamentCollapsed = !ListCtrl.pastTournamentCollapsed">
-        <h3 class="panel-title">Past tournaments</h3>
-    </div>
-
-    <ul class="list-group" uib-collapse="ListCtrl.pastTournamentCollapsed">
+<div class="card card-outline-primary">
+    <h5 class="card-header card-inverse card-primary">Past tournaments</h5>
+    <ul class="list-group list-group-flush">
         <li class="list-group-item" ng-repeat="tournament in ListCtrl.tournaments |isPast |orderBy: '-date'">
-            <a ng-href="/#!/tournament/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}} </a>
-            <span class="float-right">
-                <button type="button" class="btn btn-danger btn-xs" ng-click="ListCtrl.confirmDelete(tournament)">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove
-                </button>
-            </span>
+            <a ng-href="/#!/tournament/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}  ({{tournament.players.length}}/{{tournament.slots}})</a>
+            <button type="button" class="btn btn-danger btn-xs ml-auto" ng-click="ListCtrl.confirmDelete(tournament)">
+                <i class="fa fa-times"></i> Remove
+            </button>
         </li>
     </ul>
+    <p ng-show="ListCtrl.error" class="card-block text-danger mb-0" role="alert">
+        <i class="fa fa-exclamation-circle"></i> Server Error : Unable to retreive tournaments.
+    </p>
 </div>

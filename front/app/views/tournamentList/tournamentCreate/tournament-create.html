@@ -1,42 +1,17 @@
-<div class="panel panel-primary">
-    <div class="panel-heading" ng-class="{'collapsed': CreateCtrl.newTournamentCollapsed}" ng-click="CreateCtrl.newTournamentCollapsed = !CreateCtrl.newTournamentCollapsed">
-        <h3 class="panel-title">Create tournament</h3>
-    </div>
-    <div class="panel-body" uib-collapse="CreateCtrl.newTournamentCollapsed">
+<div class="card card-outline-primary">
+    <h5 class="card-header card-inverse card-primary" ng-class="{'collapsed': CreateCtrl.newTournamentCollapsed}" ng-click="CreateCtrl.newTournamentCollapsed = !CreateCtrl.newTournamentCollapsed">
+        Create tournament
+    </h5>
+    <div class="card-block" >
         <form class="form-horizontal" ng-submit="CreateCtrl.createTournament()">
-            <div class="form-group">
-                <label for="tournament_name" class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-10">
-                    <input ng-model="CreateCtrl.tournament.name" type="text" class="form-control" id="tournament_name" placeholder="Name">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="tounament_date" class="col-sm-2 control-label">Date</label>
-                <div class="col-sm-10">
-                    <input ng-model="CreateCtrl.tournament.date" date-format="DD/MM/YYYY" type="text" class="form-control" id="tournament_date" placeholder="23/12/2017">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="tounament_format" class="col-sm-2 control-label">Format</label>
-                <div class="col-sm-10">
-                    <input ng-model="CreateCtrl.tournament.format" type="number" class="form-control" id="tournament_format" placeholder="25, 50, 75...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="tounament_slots" class="col-sm-2 control-label">Slots</label>
-                <div class="col-sm-10">
-                    <input ng-model="CreateCtrl.tournament.slots" type="number" class="form-control" id="tournament_slots" placeholder="8, 16, 20, 32...">
-                </div>
-            </div>
-            <div class="alert alert-danger" role="alert" ng-show="CreateCtrl.error">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                Error : Unable to create tournament, check inputs and try again.
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary pull-right">Create</button>
-                </div>
-            </div>
+            <input ng-model="CreateCtrl.tournament.name" type="text" id="tournament_name" class="form-control first" placeholder="Name" required autofocus>
+            <input ng-model="CreateCtrl.tournament.date"  date-format="DD/MM/YYYY" type="text" id="tournament_date" class="form-control mid" placeholder="Date : 23/12/2017" required>
+            <input ng-model="CreateCtrl.tournament.format" type="number" id="tounament_format" class="form-control mid" placeholder="Format : 25, 50, 75...">
+            <input ng-model="CreateCtrl.tournament.slots" type="number" id="tounament_slots" class="form-control last" placeholder="Slots : 8, 16, 40...">
+            <button class="btn btn-lg btn-primary btn-block mb-2" type="submit">Create</button>
+            <p ng-show="CreateCtrl.error" class="card-block text-danger mb-0" role="alert">
+                <i class="fa fa-exclamation-circle"></i> Server Error : Unable to create tournament.
+            </p>
         </form>
     </div>
 </div>
