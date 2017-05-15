@@ -16,6 +16,10 @@ $btn-padding-y-xs: .18rem !default;
     opacity: $modal-backdrop-opacity;
 }
 
+.played{
+    color:green;
+}
+
 .collapse {
     display: none !important;
 }
@@ -28,6 +32,9 @@ tr.collapse.in {
     display: table-row;
 }
 
+.played{
+    color:$green;
+}
 
 tbody.collapse.in  {
     display: table-row-group;
@@ -98,7 +105,23 @@ input{
         margin: 15 -25px 15 -25px;
     }
 }
+.nav-tabs-primary {
+    border-bottom: 1px solid $darker-blue;
+}
 
+
+.nav-tabs-primary > li > a:hover {
+    border-color: #2e6da4 #2e6da4 #2e6da4;
+}
+.nav-link.active,
+.nav-link.active > a:hover,
+.nav-link.active > a:focus {
+    color: #ffffff;
+    cursor: default;
+    background-color: #337ab7;
+    border: 1px solid #2e6da4;
+    border-bottom-color: transparent;
+}
 .cygnar::before {
     background-image: url('../images/cygnar.png');
     background-size: 30px 30px;
@@ -218,4 +241,25 @@ input{
     content:"";
     margin-right: 1em;
     vertical-align: middle;
+}
+
+
+.game-container {
+    @include make-container();
+    .game-row {
+        @include make-row();
+        display: flex;
+        // justify-content: space-between;
+        align-items: center;
+        text-align: center;
+    }
+
+    .flex-1 { flex: 1; }
+    .flex-2 { flex: 2; }
+    .flex-3 { flex: 3; }
+    .flex-4 { flex: 4; }
+    .flex-5 { flex: 5; }
+    .flex-6 { flex: 6; }
+    .flex-10 { flex: 10; }
+
 }

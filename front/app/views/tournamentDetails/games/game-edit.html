@@ -1,50 +1,60 @@
-<div class="container-fluid text-center">
-    <div class="row row-center">
-        <div class="col-md-1">
+<div class="game-container">
+    <div class="game-row">
+        <div class="flex-2">
             {{GamesCtrl.game.table.name}}<br /> <small>({{GamesCtrl.game.table.scenario}})</small>
         </div>
-        <div class="col-md-1" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0].player)">
+        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0].player)">
             <span class="{{GamesCtrl.game.results[0].player.faction |trim}}">{{GamesCtrl.game.results[0].player.name}} </span>
         </div>
-        <div class="col-md-1 text-left">
-            <label class="font-normal"  ng-class="{'played': list.played}" ng-repeat="list in GamesCtrl.game.results[0].player.lists track by $index">
+        <div class="flex-3 ml-2 text-left">
+            <div class="font-normal"  ng-class="{'played': list.played}" ng-repeat="list in GamesCtrl.game.results[0].player.lists track by $index">
                 <input type="radio" ng-model="GamesCtrl.game.results[0].list" value="{{list.caster}}"  ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'>
                 {{list.caster}}
-            </label>
+            </div>
         </div>
-        <div class="col-md-1">
-            <button ng-show="GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0" type="button" class="btn btn-default"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 0, 1)">Victory ?</button>
-            <button ng-show="GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==1" type="button" class="btn btn-danger"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 0, 1)">Loss</button>
-            <button ng-show="GamesCtrl.game.results[0].victory_points==1" type="button" class="btn btn-success" ng-click="GamesCtrl.setLoss(GamesCtrl.game, 0, 1)">Win</button>
+        <div class="flex-2 mx-1">
+            <button  type="button" class="btn btn-block"
+                ng-click="GamesCtrl.changeRes(GamesCtrl.game, 0, 1)"
+                ng-class="[{'btn-outline-secondary': GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0},
+                            {'btn-danger': GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==1},
+                            {'btn-success': GamesCtrl.game.results[0].victory_points==1}]">
+                            {{GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0 ? 'Victory ?' : GamesCtrl.game.results[0].victory_points==1 ? 'Win' : 'Loss'}}
+            </button>
         </div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="col-md-1">vs</div>
-        <div class="col-md-1">
-            <button ng-show="GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0" type="button" class="btn btn-default"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 1, 0)">Victory ?</button>
-            <button ng-show="GamesCtrl.game.results[1].victory_points==0 && GamesCtrl.game.results[0].victory_points==1" type="button" class="btn btn-danger"  ng-click="GamesCtrl.setWin(GamesCtrl.game, 1, 0)">Loss</button>
-            <button ng-show="GamesCtrl.game.results[1].victory_points==1" type="button" class="btn btn-success" ng-click="GamesCtrl.setLoss(GamesCtrl.game, 1, 0)">Win</button>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="number" min=0 class="form-control" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1">vs</div>
+        <div class="flex-2 mx-1">
+            <button  type="button" class="btn btn-block"
+                ng-click="GamesCtrl.changeRes(GamesCtrl.game, 1, 0)"
+                ng-class="[{'btn-outline-secondary': GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0},
+                            {'btn-danger': GamesCtrl.game.results[1].victory_points==0 && GamesCtrl.game.results[1].victory_points==0},
+                            {'btn-success': GamesCtrl.game.results[1].victory_points==1}]">
+                            {{GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0 ? 'Victory ?' : GamesCtrl.game.results[1].victory_points==1 ? 'Win' : 'Loss'}}
+            </button>
         </div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="scenario points" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="col-md-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="destruction points" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="col-md-1 text-left">
-            <label class="font-normal" ng-class="{'played': list.played}" ng-repeat="list in GamesCtrl.game.results[1].player.lists track by $index">
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="number" min=0 max=5 class="form-control" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="number" min=0 class="form-control" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-3 ml-3 text-left">
+            <div class="font-normal" ng-class="{'played': list.played}" ng-repeat="list in GamesCtrl.game.results[1].player.lists track by $index">
                 <input type="radio" ng-model="GamesCtrl.game.results[1].list" value="{{list.caster}}"  ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'>
                 {{list.caster}}
-            </label>
+            </div>
         </div>
-        <div class="col-md-1" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1].player)">
+        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1].player)">
             <span class="{{GamesCtrl.game.results[1].player.faction |trim}}">{{GamesCtrl.game.results[1].player.name}} </span>
         </div>
     </div>
-    <div class="row text-left bg-danger" ng-show="GamesCtrl.game.errorPairing">Pairing error</div>
-    <div class="row text-left">
-        <div class="col-md-1"></div>
-        <div ng-hide="GamesCtrl.game.results[0].errorTable || GamesCtrl.game.results[0].errorScenario" class="col-md-5"></div>
-        <div ng-show="GamesCtrl.game.results[0].errorTable" class="col-md-5 bg-danger">{{GamesCtrl.game.results[0].player.name}} has already played on table {{GamesCtrl.game.table.name}}</div>
-        <div ng-show="GamesCtrl.game.results[0].errorScenario && !GamesCtrl.game.results[0].errorTable" class="col-md-5 bg-warning">{{GamesCtrl.game.results[0].player.name}} has already played on scenario {{GamesCtrl.game.table.scenario}}</div>
-        <div class="col-md-1"></div>
-        <div ng-show="GamesCtrl.game.results[1].errorTable" class="col-md-5 bg-danger">{{GamesCtrl.game.results[1].player.name}} has already played on table {{GamesCtrl.game.table.name}}</div>
-        <div ng-show="GamesCtrl.game.results[1].errorScenario && !GamesCtrl.game.results[1].errorTable" class="col-md-5 bg-warning">{{GamesCtrl.game.results[1].player.name}} has already played on scenario {{GamesCtrl.game.table.scenario}}</div>
+    <div class="game-row text-danger" ng-show="GamesCtrl.game.errorPairing"><i class="fa fa-exclamation-circle"></i>&nbsp;Pairing error.</div>
+    <div class="game-row text-danger">
+        <div class="flex-1"></div>
+
+        <div ng-hide="GamesCtrl.game.results[0].errorTable || GamesCtrl.game.results[0].errorScenario" class="flex-10"></div>
+        <div ng-show="GamesCtrl.game.results[0].errorTable" class="flex-10 text-danger"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played on table {{GamesCtrl.game.table.name}}</div>
+        <div ng-show="GamesCtrl.game.results[0].errorScenario && !GamesCtrl.game.results[0].errorTable" class="flex-10 text-warning"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played on scenario {{GamesCtrl.game.table.scenario}}</div>
+        <div class="flex-1"></div>
+        <div ng-hide="GamesCtrl.game.results[1].errorTable || GamesCtrl.game.results[1].errorScenario" class="flex-10"></div>
+        <div ng-show="GamesCtrl.game.results[1].errorTable" class="flex-10 text-danger"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[1].player.name}} has already played on table {{GamesCtrl.game.table.name}}</div>
+        <div ng-show="GamesCtrl.game.results[1].errorScenario && !GamesCtrl.game.results[1].errorTable" class="flex-10 text-warning"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[1].player.name}} has already played on scenario {{GamesCtrl.game.table.scenario}}</div>
     </div>
 </div>

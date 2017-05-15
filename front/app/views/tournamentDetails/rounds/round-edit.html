@@ -1,28 +1,27 @@
-
 <form name="roundForm" ng-submit="roundForm.$valid && RoundsCtrl.updateRound()" novalidate>
 <div class="input-group">
-  <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></span>
+  <span class="input-group-addon" id="sizing-addon2"><i class="fa fa-search"></i></span>
   <input type="text" ng-model="searchText" class="form-control" placeholder="Search..." aria-describedby="sizing-addon2">
 </div>
     <ul class="list-group">
         <li class="list-group-item">
-            <div class="container-fluid text-center">
-                <div class="row row-center font-bold">
-                    <div class="col-md-1">Table</div>
-                    <div class="col-md-2">Joueur 1</div>
-                    <div class="col-md-1">Victory</div>
-                    <div class="col-md-1">Scenario</div>
-                    <div class="col-md-1">Destruction</div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1">Victory</div>
-                    <div class="col-md-1">Scenario</div>
-                    <div class="col-md-1">Destruction</div>
-                    <div class="col-md-2">Joueur 2</div>
+            <div class="w-100 game-container">
+                <div class="row row-center game-row font-bold">
+                    <div class="flex-2">Table</div>
+                    <div class="flex-6 ml-2">Joueur 1</div>
+                    <div class="flex-2 mx-1">Victory</div>
+                    <div class="flex-1 mx-1">SP</div>
+                    <div class="flex-1 mx-1">Dest</div>
+                    <div class="flex-1 mx-1"></div>
+                    <div class="flex-2 mx-1">Victory</div>
+                    <div class="flex-1 mx-1">SP</div>
+                    <div class="flex-1 mx-1">Dest</div>
+                    <div class="flex-6 ml-3">Joueur 2</div>
                 </div>
             </div>
         </li>
         <li class="list-group-item" ng-repeat="game in RoundsCtrl.round.games |filter:searchText |orderBy: 'table.name'">
-            <edit-game tournament="RoundsCtrl.tournament" game="game" roundnumber="RoundsCtrl.round.number"></edit-game>
+            <edit-game class="w-100"  tournament="RoundsCtrl.tournament" game="game" roundnumber="RoundsCtrl.round.number"></edit-game>
         </li>
     </ul>
 

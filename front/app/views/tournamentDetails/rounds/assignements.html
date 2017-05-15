@@ -82,11 +82,8 @@
 
 
     $(document).ready(function(){
-
         jQuery.support.cors = true;
-
         id = getParameterByName('id');
-
         $.getJSON("http://localhost:8080/api/tournaments/"+id, function( data ) {
             var table = ["","",""];
             var round = data.rounds[data.rounds.length-1];

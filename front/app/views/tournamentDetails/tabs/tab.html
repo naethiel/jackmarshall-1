@@ -1,21 +1,18 @@
-<ul class="nav nav-tabs nav-tabs-primary" >
-    <li ng-class="{'active': TabsCtrl.isSet(-1)}">
-        <a href="" ng-click="TabsCtrl.setTab(-1)">Results</a>
+<ul class="nav nav-tabs nav-tabs-primary">
+    <li class="nav-item">
+        <a ng-class="{'active': TabsCtrl.isSet(-1)}" class="nav-link" href="" ng-click="TabsCtrl.setTab(-1)">Results</a>
     </li>
-    <li ng-repeat="round in TabsCtrl.tournament.rounds" ng-class="{'active': TabsCtrl.isSet(round.number)}">
-        <a href="" ng-click="TabsCtrl.setTab(round.number)">Round {{round.number + 1}}</a>
+    <li class="nav-item" ng-repeat="round in TabsCtrl.tournament.rounds">
+        <a ng-class="{'active': TabsCtrl.isSet(round.number)}" class="nav-link" href="" ng-click="TabsCtrl.setTab(round.number)">Round {{round.number + 1}}</a>
     </li>
-    <li ng-click="TabsCtrl.getNextRound()">
-        <a href="" ng-hide="TabsCtrl.roundLoading">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New round
-        </a>
+    <li class="nav-item" ng-hide="TabsCtrl.roundLoading">
+        <a class="nav-link" href="" ng-click="TabsCtrl.getNextRound()"><i class="fa fa-plus" ></i> New round</a>
     </li>
-    <li>
-        <a href="" ng-show="TabsCtrl.roundLoading">
-            <span>Loading <span class="fa fa-spinner fa-spin fa-fw"></span></span>
-        </a>
+    <li class="nav-item" ng-show="TabsCtrl.roundLoading">
+        <a class="nav-link" href="" ng-click="TabsCtrl.getNextRound()">Loading <i class="fa fa-spinner fa-spin fa-fw" ></i></a>
     </li>
 </ul>
+
 <div  ng-repeat="round in TabsCtrl.tournament.rounds">
     <edit-round tournament="TabsCtrl.tournament" round="round" ng-show="TabsCtrl.isSet(round.number)"></edit-round>
 </div>
