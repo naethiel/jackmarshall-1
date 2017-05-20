@@ -1,0 +1,57 @@
+.faction {
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content:"";
+    margin-right: 1em;
+    vertical-align: middle;
+}
+.cygnar::before {
+    background-image: url('../images/cygnar.png');
+    @extend .faction;
+}
+.cryx::before {
+    background-image: url('../images/cryx.png');
+    @extend .faction;
+}
+.convergenceofcyriss::before {
+    background-image: url('../images/cyriss.png');
+    @extend .faction;
+}
+.khador::before {
+    background-image: url('../images/khador.png');
+    @extend .faction;
+}
+.legionofeverblight::before {
+    background-image: url('../images/legion.png');
+    @extend .faction;
+}
+.protectorateofmenoth::before {
+    background-image: url('../images/menoth.png');
+    @extend .faction;
+}
+.mercenary::before {
+    background-image: url('../images/mercs.png');
+    @extend .faction;
+}
+.minions::before {
+    background-image: url('../images/minions.png');
+    @extend .faction;
+}
+.circleorboros::before {
+    background-image: url('../images/orboros.png');
+    @extend .faction;
+}
+.retributionofscyrah::before {
+    background-image: url('../images/scyrah.png');
+    @extend .faction;
+}
+.trollbloods::before {
+    background-image: url('../images/troll.png');
+    @extend .faction;
+}
+.skorne::before {
+    background-image: url('../images/skorne.png');
+    @extend .faction;
+}

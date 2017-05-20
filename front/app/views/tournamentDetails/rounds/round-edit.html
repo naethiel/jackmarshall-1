@@ -1,3 +1,4 @@
+<div>
 <form name="roundForm" ng-submit="roundForm.$valid && RoundsCtrl.updateRound()" novalidate>
 <div class="input-group">
   <span class="input-group-addon" id="sizing-addon2"><i class="fa fa-search"></i></span>
@@ -34,9 +35,10 @@
         Error during update, please try again...
     </div>
 
-    <input type="submit" class="btn btn-primary pull-right mrs mbs" value="Save round" />
 </form>
-<button type="submit" class="btn btn-danger pull-right mrs mbs" ng-click=RoundsCtrl.confirmDelete(RoundsCtrl.round)>Delete Round</button>
-<button type="submit" class="btn btn-default pull-right mrs mbs" onclick="window.open('views/tournamentDetails/rounds/timer.html')">Timer</button>
-<button type="submit" class="btn btn-default pull-right mrs mbs" ng-click="RoundsCtrl.openAssignements(RoundsCtrl.tournament.id)">Assignements</button>
-<button type="submit" class="btn btn-default pull-right mrs mbs" ng-click="RoundsCtrl.bbCodeRound(RoundsCtrl.round)">Export forum</button>
+<div class="float-right mb-3 mr-3">
+    <button type="submit" class="btn btn-primary" onclick="window.open('views/tournamentDetails/rounds/timer.html')">Timer</button>
+    <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.openAssignements(RoundsCtrl.tournament.id)">Assignments</button>
+    <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.bbCodeRound(RoundsCtrl.round)">Forum export</button>
+    <button type="submit" class="btn btn-danger" ng-click=RoundsCtrl.confirmDelete(RoundsCtrl.round)>Delete round</button>
+</div>

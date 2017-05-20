@@ -33,7 +33,7 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
 
     this.bbCodeRound = function(round) {
         var params = {
-            animation: true,
+            animation: false,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'views/tournamentDetails/rounds/bbcode-popup.html',

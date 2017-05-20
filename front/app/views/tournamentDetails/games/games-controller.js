@@ -7,8 +7,15 @@ app.controller('GamesCtrl', ["$rootScope", "TournamentService", function ($rootS
     scope.errorUpdate = undefined;
 
     this.changeRes = function(game, player_index, opponent_index){
-        game.results[player_index].victory_points = !game.results[player_index].victory_points;
-        game.results[opponent_index].victory_points = !game.results[player_index].victory_points;
+        if (game.results[player_index].victory_points===0 ||game.results[player_index].victory_points===false){
+            game.results[player_index].victory_points = 1;
+            game.results[opponent_index].victory_points = 0;
+        } else {
+            game.results[player_index].victory_points = 0;
+            game.results[opponent_index].victory_points = 1;
+        }
+        // game.results[player_index].victory_points = !game.results[player_index].victory_points;
+        // game.results[opponent_index].victory_points = !game.results[player_index].victory_points;
         this.updateGame()
     };
 
