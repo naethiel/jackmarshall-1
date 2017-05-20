@@ -85,7 +85,7 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		user.Secret = ""
 
 		// Set expiration date
-		exp := time.Now().Add(30 * time.Minute).Unix()
+		exp := time.Now().Add(1 * time.Minute).Unix()
 
 		// Initialize the claims to be used
 		claims := token.Claims{
