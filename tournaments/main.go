@@ -58,12 +58,7 @@ func main() {
 	stack.Use(negroni.NewRecovery())
 	stack.UseHandler(router)
 
-	//testAssignement()
-	//createTestTournament(database, "testB&R - 8", 64, 32, 8)
-	//createTestTournament(database, "testB&R - 7", 64, 32, 7)
-	//createTestTournament(database, "testB&R - 6", 64, 32, 6)
-	fmt.Println("Server running on localhost:8080...")
-	log.Fatalln(http.ListenAndServe(":8080", stack))
+	log.Fatalln(http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), stack))
 }
 
 func createTestTournament(database *data.Collection, name string, nbPlayers int, nbTables int, nbScenario int) {
