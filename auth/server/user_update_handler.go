@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/chibimi/jackmarshall/auth"
 	"github.com/elwinar/token"
@@ -75,6 +76,7 @@ func NewUserUpdateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 			}
 			user.Password = string(password)
 		}
+		user.Login = strings.ToLower(user.Login)
 
 		// Insert the json-encoded user in the database
 		raw, _ := json.Marshal(user)

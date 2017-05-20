@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/chibimi/jackmarshall/auth"
@@ -26,6 +27,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 			http.Error(w, "malformed request payload: "+err.Error(), http.StatusBadRequest)
 			return
 		}
+		user.Login = strings.ToLower(user.Login)
 
 		// Ensure the roles are always empty when creating a new user, so that
 		// they can only be set by administrators in a protected endpoint.
@@ -88,6 +90,7 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 			http.Error(w, "malformed request payload: "+err.Error(), http.StatusBadRequest)
 			return
 		}
+		user.Login = strings.ToLower(user.Login)
 
 		// Ensure the roles are always empty when creating a new user, so that
 		// they can only be set by administrators in a protected endpoint.

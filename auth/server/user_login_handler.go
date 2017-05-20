@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/chibimi/jackmarshall/auth"
@@ -32,6 +33,7 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 			http.Error(w, "malformed request payload: "+err.Error(), http.StatusBadRequest)
 			return
 		}
+		credentials.Login = strings.ToLower(credentials.Login)
 
 		// Get the corresponding user ID
 		ID, err := db.HGet("users", credentials.Login)

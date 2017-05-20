@@ -25,14 +25,14 @@ docker-rm:
 redis:
 	#password = password
 	redis-cli FLUSHALL
-	redis-cli SET user:1 '{"id":1,"login":"Emilie","password":"$$2a$$12$$2sL26WwNWZ2vIXmJG86O9ulhOHXnzpHslow97Pi3F1fC7jqCfR5MC","roles":["root"]}'
-	redis-cli SET user:2 '{"id":2,"login":"Conelle","password":"$$2a$$12$$2sL26WwNWZ2vIXmJG86O9ulhOHXnzpHslow97Pi3F1fC7jqCfR5MC","roles":["organizer"]}'
-	redis-cli SET user:3 '{"id":3,"login":"Camille","password":"$$2a$$12$$2sL26WwNWZ2vIXmJG86O9ulhOHXnzpHslow97Pi3F1fC7jqCfR5MC","roles":null}'
-	redis-cli HSET users "Emilie" 1
+	redis-cli SET user:1 '{"id":1,"login":"emilie","password":"$$2a$$12$$2sL26WwNWZ2vIXmJG86O9ulhOHXnzpHslow97Pi3F1fC7jqCfR5MC","roles":["root"]}'
+	redis-cli SET user:2 '{"id":2,"login":"conelle","password":"$$2a$$12$$2sL26WwNWZ2vIXmJG86O9ulhOHXnzpHslow97Pi3F1fC7jqCfR5MC","roles":["organizer"]}'
+	redis-cli SET user:3 '{"id":3,"login":"camille","password":"$$2a$$12$$2sL26WwNWZ2vIXmJG86O9ulhOHXnzpHslow97Pi3F1fC7jqCfR5MC","roles":null}'
+	redis-cli HSET users "emilie" 1
 	redis-cli INCR users_max
 
-	redis-cli HSET users "Conelle" 2
+	redis-cli HSET users "conelle" 2
 	redis-cli INCR users_max
 
-	redis-cli HSET users "Camille" 3
+	redis-cli HSET users "camille" 3
 	redis-cli INCR users_max
