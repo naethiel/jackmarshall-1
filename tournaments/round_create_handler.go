@@ -37,7 +37,7 @@ func NewCreateRoundHandler(db *mgo.Session, logger log.Logger) httprouter.Handle
 			logger.Log("request_id", ctx.RequestID, "level", "debug", "msg", "create round as admin", "tournament_id", id)
 			err = collection.FindId(bson.ObjectIdHex(id)).One(&tournament)
 		} else {
-			err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id), "owner": ctx.User.ID}).One(&tournament)
+			err = collection.Find(bson.M{"_id": bson.ObjectIdHex(id), "owner": ctx.User.ID}).One(&tournament)
 		}
 		if err != nil {
 			logger.Log("request_id", ctx.RequestID, "level", "error", "msg", "Unable to create round", "tournament_id", id, "error", err)
