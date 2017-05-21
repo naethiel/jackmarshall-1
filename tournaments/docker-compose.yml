@@ -1,9 +1,0 @@
-app:
-  build: .
-  ports:
-    - 8080:8080
-  links:
-    - database
-
-database:
-  image: mongo:3.0

@@ -3,19 +3,14 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"time"
-
-	"github.com/bradfitz/slice"
 )
 
 type Pair [2]*Player
 
 func (p Pair) PlayedOn(scenario string) bool {
-	if p[0].PlayedOn(scenario) {
-		return true
-	}
-
-	if p[1].PlayedOn(scenario) {
+	if p[0].PlayedOn(scenario) || p[1].PlayedOn(scenario) {
 		return true
 	}
 	return false
@@ -60,7 +55,7 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 		}
 
 		//Sort player list by victory points
-		slice.Sort(players, func(i, j int) bool {
+		sort.Slice(players, func(i int, j int) bool {
 			return players[i].VictoryPoints() > players[j].VictoryPoints()
 		})
 
