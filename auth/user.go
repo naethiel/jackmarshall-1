@@ -7,6 +7,11 @@ import (
 	"menteslibres.net/gosexy/redis"
 )
 
+const (
+	RoleOrga  = "orga"
+	RoleAdmin = "admin"
+)
+
 type User struct {
 	ID       int64    `json:"id"`
 	Login    string   `json:"login"`
@@ -23,6 +28,19 @@ func (u User) HasRole(role string) bool {
 		}
 	}
 	return false
+}
+
+func (u User) IsAuthorized(role string) (bool, bool) {
+	ok, admin := false, false
+	for _, role := range u.Roles {
+		if role == RoleAdmin {
+			return true, true
+		}
+		if role == role {
+			ok = true
+		}
+	}
+	return ok, admin
 }
 
 func NewUserFromDatabase(db *redis.Client, id int64) (*User, error) {

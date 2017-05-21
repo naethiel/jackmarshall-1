@@ -31,15 +31,14 @@ func main() {
 	}
 	defer db.Close()
 
-	roles := []string{"organizer"}
 	router := httprouter.New()
-	router.GET("/tournaments", auth.NewAuthHandler(NewListTournamentHandler(db), roles, cfg.Secret))
-	router.GET("/tournaments/:id", auth.NewAuthHandler(NewGetTournamentHandler(db), roles, cfg.Secret))
-	router.POST("/tournaments", auth.NewAuthHandler(NewCreateTournamentHandler(db), roles, cfg.Secret))
-	router.PUT("/tournaments/:id", auth.NewAuthHandler(NewUpdateTournamentHandler(db), roles, cfg.Secret))
-	router.DELETE("/tournaments/:id", auth.NewAuthHandler(NewDeleteTournamentHandler(db), roles, cfg.Secret))
-	router.GET("/tournaments/:id/round", auth.NewAuthHandler(NewCreateRoundHandler(db), roles, cfg.Secret))
-	router.GET("/tournaments/:id/results", auth.NewAuthHandler(NewGetResultsHandler(db), roles, cfg.Secret))
+	router.GET("/tournaments", NewListTournamentHandler(db, logger))
+	router.GET("/tournaments/:id", NewGetTournamentHandler(db, logger))
+	router.POST("/tournaments", NewCreateTournamentHandler(db, logger))
+	router.PUT("/tournaments/:id", NewUpdateTournamentHandler(db, logger))
+	router.DELETE("/tournaments/:id", NewDeleteTournamentHandler(db, logger))
+	router.GET("/tournaments/:id/round", NewCreateRoundHandler(db, logger))
+	router.GET("/tournaments/:id/results", NewGetResultsHandler(db, logger))
 
 	// Initialize the middleware stack
 	cors := cors.New(cors.Options{
@@ -52,6 +51,7 @@ func main() {
 	stack.Use(cors)
 	stack.Use(negroni.NewLogger())
 	stack.Use(negroni.NewRecovery())
+	stack.Use(auth.NewAuthMiddleware(cfg.Secret))
 	stack.UseHandler(router)
 
 	logger.Log("level", "info", "msg", "Server running", "port", cfg.Port)

@@ -66,7 +66,7 @@ func NewRefreshTokenHandler(db *redis.Client, c Configuration) httprouter.Handle
 		user.Secret = ""
 
 		// Initialize the claims to be used
-		exp := time.Now().Add(1 * time.Minute).Unix()
+		exp := time.Now().Add(5 * time.Minute).Unix()
 		claims = token.Claims{
 			"user": user,
 			"exp":  exp,
