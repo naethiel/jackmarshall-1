@@ -10,6 +10,8 @@ var gulp = require('gulp'),
 var path = {
 	'vendors' : './bower_components/',
 	'app' : './app/',
+	'images' : './images/',
+	'data' : './data/',
     'style' : './style/'
 };
 
@@ -27,6 +29,30 @@ gulp.task('vendors', function(){
 	.pipe(concat('vendors.js'))
 	// .pipe(uglify())
 	.pipe(gulp.dest('./dist/js/'));
+})
+
+gulp.task('config', function(){
+	gulp.src([
+		path.app + 'config.js',
+	])
+    .pipe(plumber())
+    .pipe(gulp.dest('./dist/js/'));
+})
+
+gulp.task('images', function(){
+	gulp.src([
+		path.images + '**/*',
+	])
+    .pipe(plumber())
+    .pipe(gulp.dest('./dist/images/'));
+})
+
+gulp.task('data', function(){
+	gulp.src([
+		path.data + '**/*',
+	])
+    .pipe(plumber())
+    .pipe(gulp.dest('./dist/data/'));
 })
 
 gulp.task('jquery', function(){
@@ -51,6 +77,7 @@ gulp.task('timerDeps', function(){
 gulp.task('app', function(){
 	gulp.src([
 		path.app + '**/*.js',
+        "!" + path.app + "config.js",
 	])
     .pipe(plumber())
 	.pipe(concat('app.min.js'))
@@ -68,10 +95,7 @@ gulp.task('views', function(){
 
 gulp.task('style', function(){
 	gulp.src([
-		// path.style + 'jm.css',
 		path.style + 'jm.scss',
-        // path.vendors + 'bootstrap/dist/css/bootstrap.min.css',
-        // path.vendors + 'fontawesome/css/font-awesome.min.css',
 	])
     .pipe(plumber())
     .pipe(sass())
@@ -93,6 +117,7 @@ gulp.task('fonts', function(){
 gulp.task('app-dev', function(){
 	gulp.src([
 		path.app + '**/*.js',
+        "!" + path.app + "config.js",
 	])
     .pipe(plumber())
 	.pipe(concat('app.js'))
@@ -100,10 +125,10 @@ gulp.task('app-dev', function(){
 })
 
 gulp.task('watch', function () {
-	gulp.watch(path.app + '**/*.js', ['app', 'app-dev']);
+	gulp.watch(path.app + '**/*.js', ['app', 'app-dev', 'config']);
 	gulp.watch(path.app + '**/*.html', ['views']);
 	gulp.watch(path.style + '**/*.css', ['style']);
 	gulp.watch(path.style + '**/*.scss', ['style']);
 });
 
-gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts', 'jquery', 'timerDeps']);
+gulp.task('default', ['vendors','app', 'app-dev', 'views', 'style', 'fonts', 'jquery', 'timerDeps', 'config', 'data', 'images']);

@@ -48,6 +48,8 @@ func main() {
 	})
 	stack := negroni.New()
 	stack.Use(cors)
+	stack.Use(negroni.NewLogger())
+	stack.Use(negroni.NewRecovery())
 	stack.UseHandler(router)
 
 	logger.Log("level", "info", "msg", "Server running", "port", cfg.Port)
