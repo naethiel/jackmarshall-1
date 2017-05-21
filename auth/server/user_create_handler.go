@@ -9,6 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-kit/kit/log"
+
 	"github.com/chibimi/jackmarshall/auth"
 
 	"github.com/julienschmidt/httprouter"
@@ -16,7 +18,7 @@ import (
 	"menteslibres.net/gosexy/redis"
 )
 
-func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
+func NewUserCreateHandler(db *redis.Client, logger log.Logger, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		decoder := json.NewDecoder(r.Body)
 
@@ -24,6 +26,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		user := auth.User{}
 		err := decoder.Decode(&user)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to decode body", "error", err)
 			http.Error(w, "malformed request payload: "+err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -36,6 +39,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		// Check if the user already exists
 		_, err = db.HGet("users", user.Login)
 		if err == nil {
+			logger.Log("level", "error", "msg", "unable to create user", "error", "user already exists", "username", user.Login)
 			http.Error(w, "login "+user.Login+" already exists", http.StatusBadRequest)
 			return
 		}
@@ -43,6 +47,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		// Hash the password
 		password, err := bcrypt.GenerateFromPassword([]byte(user.Password), c.PasswordCost)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to hash password", "error", err)
 			http.Error(w, "unable to hash the password for the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -54,6 +59,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		// Get an ID for the new user
 		ID, err := db.Incr("users_max")
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to generate id", "error", err)
 			http.Error(w, "unable to generate an id for the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -62,6 +68,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		// Insert the new user in the users index
 		_, err = db.HSet("users", user.Login, user.ID)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to index user", "error", err)
 			http.Error(w, "unable to index the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -70,6 +77,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		raw, _ := json.Marshal(user)
 		_, err = db.Set(fmt.Sprintf("user:%d", user.ID), string(raw))
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to save user in db", "error", err)
 			http.Error(w, "unable to save the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -79,7 +87,7 @@ func NewUserCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
 	}
 }
 
-func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Handle {
+func NewOrganizerCreateHandler(db *redis.Client, logger log.Logger, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		decoder := json.NewDecoder(r.Body)
 
@@ -87,6 +95,7 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		user := auth.User{}
 		err := decoder.Decode(&user)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to decode body", "error", err)
 			http.Error(w, "malformed request payload: "+err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -94,11 +103,12 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 
 		// Ensure the roles are always empty when creating a new user, so that
 		// they can only be set by administrators in a protected endpoint.
-		user.Roles = []string{"organizer"}
+		user.Roles = []string{auth.RoleOrga}
 
 		// Check if the user already exists
 		_, err = db.HGet("users", user.Login)
 		if err == nil {
+			logger.Log("level", "error", "msg", "unable to create user", "error", "user already exists", "username", user.Login)
 			http.Error(w, "login "+user.Login+" already exists", http.StatusBadRequest)
 			return
 		}
@@ -106,6 +116,7 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		// Hash the password
 		password, err := bcrypt.GenerateFromPassword([]byte(user.Password), c.PasswordCost)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to hash password", "error", err)
 			http.Error(w, "unable to hash the password for the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -117,6 +128,7 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		// Get an ID for the new user
 		ID, err := db.Incr("users_max")
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to generate id", "error", err)
 			http.Error(w, "unable to generate an id for the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -125,6 +137,7 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		// Insert the new user in the users index
 		_, err = db.HSet("users", user.Login, user.ID)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to index user", "error", err)
 			http.Error(w, "unable to index the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -133,6 +146,7 @@ func NewOrganizerCreateHandler(db *redis.Client, c Configuration) httprouter.Han
 		raw, _ := json.Marshal(user)
 		_, err = db.Set(fmt.Sprintf("user:%d", user.ID), string(raw))
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to save user in db", "error", err)
 			http.Error(w, "unable to save the new user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export APP_PASSWORD_COST="12"
+export APP_PORT="8080"
+export APP_REDIS_PORT_6379_TCP_ADDR="127.0.0.1"
+export APP_REDIS_PORT_6379_TCP_PORT="6379"
+export APP_SECRET="secret"

@@ -27,7 +27,7 @@ func main() {
 
 	db, err := mgo.Dial(fmt.Sprintf("%s:%d", cfg.MongoAddr, cfg.MongoPort))
 	if err != nil {
-		logger.Log("level", "error", "error", err)
+		logger.Log("level", "error", "msg", "unable to connect to database", "error", err)
 	}
 	defer db.Close()
 

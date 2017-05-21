@@ -9,12 +9,13 @@ import (
 
 	"github.com/chibimi/jackmarshall/auth"
 	"github.com/elwinar/token"
+	"github.com/go-kit/kit/log"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/crypto/bcrypt"
 	"menteslibres.net/gosexy/redis"
 )
 
-func NewUserUpdateHandler(db *redis.Client, c Configuration) httprouter.Handle {
+func NewUserUpdateHandler(db *redis.Client, logger log.Logger, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		// Check that the token is valid
 		claims, err := token.ParseHS256(r.Header.Get("Authorization"), []byte(c.Secret))

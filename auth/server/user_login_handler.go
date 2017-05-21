@@ -8,6 +8,7 @@ import (
 
 	"github.com/chibimi/jackmarshall/auth"
 	"github.com/elwinar/token"
+	"github.com/go-kit/kit/log"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/crypto/bcrypt"
 	"menteslibres.net/gosexy/redis"
@@ -19,7 +20,7 @@ type Auth struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
+func NewUserLoginHandler(db *redis.Client, logger log.Logger, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		decoder := json.NewDecoder(r.Body)
 
@@ -30,6 +31,7 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		}{}
 		err := decoder.Decode(&credentials)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to decode body", "error", err)
 			http.Error(w, "malformed request payload: "+err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -41,9 +43,11 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		case nil:
 			break
 		case redis.ErrNilReply:
+			logger.Log("level", "error", "msg", "unable to get user from db", "error", err, "username", credentials.Login)
 			http.Error(w, "unauthorized", http.StatusUnauthorized)
 			return
 		default:
+			logger.Log("level", "error", "msg", "unable to get user id", "error", err, "username", credentials.Login)
 			http.Error(w, "unable to get user id: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -51,6 +55,7 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		// Get the user
 		raw, err := db.Get("user:" + ID)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to get user from db", "error", err, "id", ID)
 			http.Error(w, "unable to get user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -59,12 +64,14 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		user := auth.User{}
 		err = json.Unmarshal([]byte(raw), &user)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to unmarshal user", "error", err, "id", ID)
 			http.Error(w, "unable to unmarshal user: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		// Check the password, mind the secure comparison
 		if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password)) != nil {
+			logger.Log("level", "error", "msg", "Password not matching")
 			http.Error(w, "unauthorized", http.StatusUnauthorized)
 			return
 		}
@@ -76,7 +83,8 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 
 		refreshToken, err := token.SignHS256(refreshClaims, []byte(user.Secret))
 		if err != nil {
-			http.Error(w, "unable to generate the token: "+err.Error(), http.StatusInternalServerError)
+			logger.Log("level", "error", "msg", "unable to generate refresh token", "error", err)
+			http.Error(w, "unable to generate refresh token: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 
@@ -96,7 +104,8 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 		// Generate the token
 		token, err := token.SignHS256(claims, []byte(c.Secret))
 		if err != nil {
-			http.Error(w, "unable to generate the token: "+err.Error(), http.StatusInternalServerError)
+			logger.Log("level", "error", "msg", "unable to generate token", "error", err)
+			http.Error(w, "unable to generate token: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
 
@@ -108,6 +117,7 @@ func NewUserLoginHandler(db *redis.Client, c Configuration) httprouter.Handle {
 
 		res, err := json.Marshal(auth)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to marshal auth", "error", err)
 			http.Error(w, "unable to generate the auth: "+err.Error(), http.StatusInternalServerError)
 			return
 		}

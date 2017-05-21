@@ -11,44 +11,51 @@ import (
 
 	"github.com/chibimi/jackmarshall/auth"
 	"github.com/elwinar/token"
+	"github.com/go-kit/kit/log"
 	"github.com/julienschmidt/httprouter"
 	"menteslibres.net/gosexy/redis"
 )
 
-func NewRefreshTokenHandler(db *redis.Client, c Configuration) httprouter.Handle {
+func NewRefreshTokenHandler(db *redis.Client, logger log.Logger, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		data, err := ioutil.ReadAll(r.Body)
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to decode body", "error", err)
 			http.Error(w, "unable to read token: "+err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		chunks := strings.Split(string(data), ".")
 		if len(chunks) != 3 {
-			http.Error(w, "malformed token: "+err.Error(), http.StatusBadRequest)
+			logger.Log("level", "error", "msg", "malformed token")
+			http.Error(w, "malformed token", http.StatusBadRequest)
 			return
 		}
 
 		var claims token.Claims
 		decodedClaims, err := base64.URLEncoding.DecodeString(chunks[1])
 		if err != nil {
+			logger.Log("level", "error", "msg", "unable to decode header", "error", err)
 			http.Error(w, "unable to decode header: "+err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		err = json.Unmarshal(decodedClaims, &claims)
 		if err != nil {
-			http.Error(w, "unable to unmarshall header: "+err.Error(), http.StatusBadRequest)
+			logger.Log("level", "error", "msg", "unable to unmarshal claims", "error", err)
+			http.Error(w, "unable to unmarshall claims: "+err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		userID, found := claims["userID"]
 		if !found {
+			logger.Log("level", "error", "msg", "invalid token: user id not found", "id", userID)
 			http.Error(w, "invalid token: userID not found.", http.StatusBadRequest)
 			return
 		}
 		id, ok := userID.(float64)
 		if !ok {
+			logger.Log("level", "error", "msg", "invalid token userID must be numerical", "id", userID)
 			http.Error(w, "invalid token: userID must be a Numerical.", http.StatusBadRequest)
 			return
 		}
@@ -93,7 +100,7 @@ func NewRefreshTokenHandler(db *redis.Client, c Configuration) httprouter.Handle
 	}
 }
 
-func NewInvalidateRefreshTokenHandler(db *redis.Client, c Configuration) httprouter.Handle {
+func NewInvalidateRefreshTokenHandler(db *redis.Client, logger log.Logger, c Configuration) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		data, err := ioutil.ReadAll(r.Body)
 		if err != nil {
