@@ -1,14 +1,7 @@
 <form class="form-horizontal my-3" ng-submit="TablesCtrl.updateTable(table)">
     <input ng-model="table.name" type="text" id="table_name" class="form-control first" placeholder="Name" required autofocus>
-    <select ng-model="table.scenario" class="form-control" id="table_scenario">
-        <option value="Entrenched">Entrenched</option>
-        <option value="Line Breaker">Line Breaker</option>
-        <option value="Take and hold">Take and hold</option>
-        <option value="The Pit">The Pit</option>
-        <option value="Extraction">Extraction</option>
-        <option value="Incursion">Incursion</option>
-        <option value="Outlast">Outlast</option>
-        <option value="Recon">Recon</option>
+    <select class="form-control" id="table_scenario" ng-model="TablesCtrl.table.scenario">
+        <option ng-repeat="scenario in TablesCtrl.scenarios track by $index" value="{{scenario.name}}">{{scenario.name}}</option>
     </select>
 
     <button class="btn btn-sm btn-success mt-3 float-right" type="submit">Update</button>

@@ -127,6 +127,7 @@ gulp.task('app-dev', function(){
 gulp.task('watch', function () {
 	gulp.watch(path.app + '**/*.js', ['app', 'app-dev', 'config']);
 	gulp.watch(path.app + '**/*.html', ['views']);
+	gulp.watch(path.data + '**/*', ['data']);
 	gulp.watch(path.style + '**/*.css', ['style']);
 	gulp.watch(path.style + '**/*.scss', ['style']);
 });

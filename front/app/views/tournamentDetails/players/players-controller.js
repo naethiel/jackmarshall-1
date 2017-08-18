@@ -22,7 +22,7 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
     scope.playersCollapsed = false;
     scope.casters = []
 
-    utilsService.getCasters().then(function(casters){
+    utilsService.getFileData('/data/casters.json').then(function(casters){
         scope.casters = casters;
     })
 

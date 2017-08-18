@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TablesCtrl', ["$rootScope", "$route", "uuid", "TournamentService", function ($rootScope, $route, uuid, tournamentService) {
+app.controller('TablesCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
     var scope = this;
     scope.tournament = {};
     scope.table = {};
@@ -8,6 +8,12 @@ app.controller('TablesCtrl', ["$rootScope", "$route", "uuid", "TournamentService
     scope.errorUpdate = undefined;
     scope.errorDelete = undefined;
     scope.tablesCollapsed = false;
+    scope.scenarios = []
+
+    utilsService.getFileData('/data/scenarios.json').then(function(scenarios){
+        scope.scenarios = scenarios;
+        console.log(scope.scenarios);
+    })
 
     $rootScope.$on("UpdateRounds", function(e, nb_round){
         scope.tablesCollapsed = (nb_round > 0);
