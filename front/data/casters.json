@@ -1,5 +1,3 @@
-
-
 [
     {
         "name": "Absylonia1",
@@ -24,6 +22,11 @@
     {
         "name": "Kallus1",
         "completeName": "Kallus, Wrath of Everblight",
+        "faction": "Legion of Everblight"
+    },
+    {
+        "name": "Kallus2",
+        "completeName": "Kallus, Devastation of Everblight",
         "faction": "Legion of Everblight"
     },
     {
@@ -152,6 +155,11 @@
         "faction": "Cygnar"
     },
     {
+        "name": "Caine3",
+        "completeName": "Caine's Hellslingers",
+        "faction": "Cygnar"
+    },
+    {
         "name": "Nemo2",
         "completeName": "General Adept Nemo",
         "faction": "Cygnar"
@@ -252,6 +260,11 @@
         "faction": "Protectorate of Menoth"
     },
     {
+        "name": "Feora3",
+        "completeName": "Feora, the Conquering Flame",
+        "faction": "Protectorate of Menoth"
+    },
+    {
         "name": "Reznik2",
         "completeName": "Servath Reznik Wrath of Ages",
         "faction": "Protectorate of Menoth"
@@ -312,6 +325,11 @@
         "faction": "Khador"
     },
     {
+        "name": "OldWitch2",
+        "completeName": "Zevanna Agha, The Fate Keeper",
+        "faction": "Khador"
+    },
+    {
         "name": "Sorscha1",
         "completeName": "Kommander Sorscha",
         "faction": "Khador"
@@ -324,6 +342,11 @@
     {
         "name": "Strakhov1",
         "completeName": "Kommander Strakhov",
+        "faction": "Khador"
+    },
+    {
+        "name": "Strakhov2",
+        "completeName": "Assault Kommander Strakhov",
         "faction": "Khador"
     },
     {
@@ -389,6 +412,11 @@
     {
         "name": "Mortenebra1",
         "completeName": "Master Necrotech Mortenebra & Deryliss",
+        "faction": "Cryx"
+    },
+    {
+        "name": "Mortenebra2",
+        "completeName": "Mortenebra, Numen of Necrogenesis",
         "faction": "Cryx"
     },
     {
@@ -507,6 +535,11 @@
         "faction": "Retribution of Scyrah"
     },
     {
+        "name": "Goreshade4",
+        "completeName": "Lord Ghyrrshyld, The Forgiven",
+        "faction": "Retribution of Scyrah"
+    },
+    {
         "name": "Ashlynn1",
         "completeName": "Ashlynn d'Elyse",
         "faction": "Mercenary"
@@ -574,6 +607,11 @@
     {
         "name": "Magnus2",
         "completeName": "Magnus the Warlord",
+        "faction": "Mercenary"
+    },
+    {
+        "name": "Caine3",
+        "completeName": "Caine's Hellslingers",
         "faction": "Mercenary"
     },
     {
@@ -687,6 +725,11 @@
         "faction": "Trollbloods"
     },
     {
+        "name": "Kolgrima1",
+        "completeName": "Kolgrima Stonetruth, Winter Witch",
+        "faction": "Trollbloods"
+    },
+    {
         "name": "Baldur1",
         "completeName": "Baldur, the Stonecleaver",
         "faction": "Circle Orboros"
@@ -764,6 +807,11 @@
     {
         "name": "Una2",
         "completeName": "Una The Skyhunter",
+        "faction": "Circle Orboros"
+    },
+    {
+        "name": "Kaya3",
+        "completeName": "Kaya, The Wildhearth",
         "faction": "Circle Orboros"
     },
     {
@@ -847,6 +895,11 @@
         "faction": "Skorne"
     },
     {
+        "name": "Morghoul3",
+        "completeName": "Dominar Morghoul & Escorts",
+        "faction": "Skorne"
+    },
+    {
         "name": "Helga1",
         "completeName": "Helga the Conqueror",
         "faction": "Minions"
@@ -895,5 +948,35 @@
         "name": "Rask1",
         "completeName": "Rask",
         "faction": "Minions"
+    },
+    {
+        "name": "Child1",
+        "completeName": "The Child",
+        "faction": "Grymkin"
+    },
+    {
+        "name": "Dreamer1",
+        "completeName": "The Dreamer",
+        "faction": "Grymkin"
+    },
+    {
+        "name": "Heretic1",
+        "completeName": "The Heretic",
+        "faction": "Grymkin"
+    },
+    {
+        "name": "KingOfNothing1",
+        "completeName": "The King of Nothing",
+        "faction": "Grymkin"
+    },
+    {
+        "name": "OldWitch3",
+        "completeName": "Zevanna Agha, The Fate Keeper",
+        "faction": "Grymkin"
+    },
+    {
+        "name": "Wanderer",
+        "completeName": "The Wanderer",
+        "faction": "Grymkin"
     }
 ]
