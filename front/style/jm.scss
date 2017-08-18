@@ -90,9 +90,10 @@ input{
 
 .btn-xs {
     @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $btn-border-radius-sm);
+    // @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
 }
 
-.card-header:after{
+.card-icon:after{
     /* symbol for "opening" panels */
     font-family: 'FontAwesome';  /* essential for enabling glyphicon */
     content: "\f056";
