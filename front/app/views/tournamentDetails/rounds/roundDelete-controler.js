@@ -15,6 +15,7 @@ app.controller('DeleteRoundCtrl', function ($uibModalInstance, $rootScope, tourn
         tournamentService.update(temp).then(function(){
             scopeParent.tournament = JSON.parse(JSON.stringify(temp));
             $rootScope.$emit("UpdateResult");
+            $rootScope.$emit("UpdateRounds", scopeParent.tournament.rounds.length);
             scopeParent.tournament.rounds.forEach(function(rnd){
                 tournamentService.verifyRound(scopeParent.tournament, rnd.number)
             });

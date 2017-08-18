@@ -26,6 +26,10 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         scope.casters = casters;
     })
 
+    $rootScope.$on("UpdateRounds", function(e, nb_round){
+        scope.playersCollapsed = (nb_round > 0);
+    });
+
     this.addPlayer = function(){
         scope.errorAdd = null;
         scope.player.id = uuid.v4();

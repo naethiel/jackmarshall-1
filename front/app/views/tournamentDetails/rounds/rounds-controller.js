@@ -19,17 +19,18 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
         })
     };
 
-    this.deleteRound = function(round){
-        scope.errorDelete = null;
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.rounds.splice(temp.rounds.indexOf(round), 1);
-        tournamentService.update(temp).then(function(id){
-            scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
-            $rootScope.$emit("UpdateResult");
-        }).catch(function(err){
-            scope.errorDelete = true;
-        })
-    };
+// FIXME: still used ?
+    // this.deleteRound = function(round){
+    //     scope.errorDelete = null;
+    //     var temp = JSON.parse(JSON.stringify(scope.tournament));
+    //     temp.rounds.splice(temp.rounds.indexOf(round), 1);
+    //     tournamentService.update(temp).then(function(id){
+    //         scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
+    //         $rootScope.$emit("UpdateResult");
+    //     }).catch(function(err){
+    //         scope.errorDelete = true;
+    //     })
+    // };
 
     this.bbCodeRound = function(round) {
         var params = {

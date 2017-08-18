@@ -26,6 +26,7 @@ app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", functio
                 scope.tab = scope.tournament.rounds.length - 1;
                 tournamentService.verifyRound(scope.tournament, scope.round.number);
                 scope.roundLoading = false;
+                $rootScope.$emit("UpdateRounds", scope.tournament.rounds.length);
             }).catch(function(err){
                 scope.roundLoading = false;
             })
