@@ -55,3 +55,7 @@
     background-image: url('../images/skorne.png');
     @extend .faction;
 }
+.grymkin::before {
+    background-image: url('../images/grymkin.png');
+    @extend .faction;
+}

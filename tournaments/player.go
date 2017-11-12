@@ -3,6 +3,7 @@ package main
 type Player struct {
 	ID       string `json:"id"`
 	Name     string `json:"name"`
+	Origin   string `json:"origin"`
 	Faction  string `json:"faction"`
 	PayedFee bool   `json:"payed_fee"`
 	Lists    []List `json:"lists"`
