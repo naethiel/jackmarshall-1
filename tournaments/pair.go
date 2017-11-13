@@ -1,4 +1,4 @@
-package main
+package tournaments
 
 import (
 	"fmt"
@@ -9,34 +9,38 @@ import (
 
 type Pair [2]*Player
 
-func (p Pair) PlayedOn(scenario string) bool {
-	if p[0].PlayedOn(scenario) || p[1].PlayedOn(scenario) {
+func (p Pair) PlayedScenario(scenario string) bool {
+	if p[0].PlayedScenario(scenario) || p[1].PlayedScenario(scenario) {
 		return true
 	}
 	return false
 }
 
-func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
-	var players = make([]*Player, 0)
+func CreatePairs(p []*Player, tournament Tournament, r *Round) (pairs []Pair) {
+	// var players = make([]*Player, 0)
+	//
+	//
+	// for i := range p {
+	// 	if p[i].Leave != true {
+	// 		players = append(players, p[i])
+	// 	}
+	// }
+	//
+	// for _, player := range players {
+	// 	player.Games = make([]*Game, 0)
+	// 	for r, round := range tournament.Rounds {
+	// 		for g, game := range round.Games {
+	// 			for _, result := range game.Results {
+	// 				if result.Player.Name == player.Name {
+	// 					player.Games = append(player.Games, &tournament.Rounds[r].Games[g])
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 
-	for i := range p {
-		if p[i].Leave != true {
-			players = append(players, &p[i])
-		}
-	}
-
-	for _, player := range players {
-		player.Games = make([]*Game, 0)
-		for r, round := range tournament.Rounds {
-			for g, game := range round.Games {
-				for _, result := range game.Results {
-					if result.Player.Name == player.Name {
-						player.Games = append(player.Games, &tournament.Rounds[r].Games[g])
-					}
-				}
-			}
-		}
-	}
+	tournament.AddPlayersGames()
+	players := tournament.GetActivePlayers()
 
 	timeout := false
 	perfectPairing := false
@@ -62,7 +66,7 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 		//Odd number of players
 		if len(players)%2 != 0 {
 			for i := len(players) - 1; i >= 0; i-- {
-				if players[i].hadBye() == false || len(tournament.Rounds) == 0 {
+				if players[i].HadBye() == false || len(tournament.Rounds) == 0 {
 					r.Games = append(r.Games, Game{
 						Table: Table{
 							Name: "",
@@ -95,7 +99,7 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 				if players[0].Name == p.Name {
 					continue
 				}
-				if p.PlayedAgainst(players[0].Name) {
+				if p.PlayedAgainst(players[0]) {
 					continue
 				}
 				pairs = append(pairs, Pair{players[0], p})
@@ -117,4 +121,22 @@ func CreatePairs(p []Player, tournament Tournament, r *Round) (pairs []Pair) {
 	}
 
 	return
+}
+
+func (p *Pair) Print() {
+
+	fmt.Println(p[0], " vs ", p[1])
+
+}
+func PairsFromPlayers(players []*Player) []Pair {
+	res := []Pair{}
+	for i := 0; i < len(players); i++ {
+		if i == len(players)-1 {
+			break
+		}
+		res = append(res, Pair{players[i], players[i+1]})
+
+		i++
+	}
+	return res
 }

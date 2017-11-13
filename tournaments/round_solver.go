@@ -1,4 +1,4 @@
-package main
+package tournaments
 
 import (
 	"fmt"
@@ -7,26 +7,23 @@ import (
 )
 
 func GetFitness(games []Game, debug bool) int {
-	res := 0
-	for _, game := range games {
-		for _, result := range game.Results {
-			for _, playerGame := range result.Player.Games {
-				if game.Table == playerGame.Table {
-					if debug {
-						fmt.Printf("%s a deja joué sur %s\n", result.Player.Name, game.Table.Name)
-					}
-					res += 50
-				} else if game.Table.Scenario == playerGame.Table.Scenario {
-					if debug {
-						fmt.Printf("%s a deja joué sur %s\n", result.Player.Name, game.Table.Scenario)
-					}
-
-					res += 10
+	fit := 0
+	for _, g := range games {
+		for _, res := range g.Results {
+			if res.Player.PlayedTable(g.Table) {
+				if debug {
+					fmt.Printf("%s a deja joué sur %s\n", res.Player.Name, g.Table.Name)
 				}
+				fit += 50
+			} else if res.Player.PlayedScenario(g.Table.Scenario) {
+				if debug {
+					fmt.Printf("%s a deja joué sur %s\n", res.Player.Name, g.Table.Scenario)
+				}
+				fit += 10
 			}
 		}
 	}
-	return res
+	return fit
 }
 
 func generateParent(availableTables []Table, availablePairs []Pair) []Game {

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/chibimi/jackmarshall/auth"
+	. "github.com/chibimi/jackmarshall/tournaments"
 	"github.com/go-kit/kit/log"
 
 	mgo "gopkg.in/mgo.v2"
@@ -15,12 +16,12 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func NewGetResultsHandler(db *mgo.Session, logger log.Logger) httprouter.Handle {
+func NewCreateTournamentHandler(db *mgo.Session, logger log.Logger) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		ctx := auth.Context(r)
 
 		// Check if the user is admin or has a valid role
-		ok, admin := ctx.User.IsAuthorized(auth.RoleOrga)
+		ok, _ := ctx.User.IsAuthorized(auth.RoleOrga)
 		if !ok {
 			logger.Log("request_id", ctx.RequestID, "level", "info", "msg", "Invalid roles", "roles", strings.Join(ctx.User.Roles, ", "))
 			w.WriteHeader(http.StatusUnauthorized)
@@ -29,26 +30,26 @@ func NewGetResultsHandler(db *mgo.Session, logger log.Logger) httprouter.Handle 
 		}
 
 		collection := db.DB("jackmarshall").C("tournament")
-		id := p.ByName("id")
-		tournament := Tournament{}
-
-		var err error
-		if admin {
-			logger.Log("request_id", ctx.RequestID, "level", "debug", "msg", "get results as admin", "tournament_id", id)
-			err = collection.FindId(bson.ObjectIdHex(id)).One(&tournament)
-		} else {
-			err = collection.Find(bson.M{"_id": bson.ObjectIdHex(id), "owner": ctx.User.ID}).One(&tournament)
-		}
+		tournament := NewTournament()
+		err := json.NewDecoder(r.Body).Decode(&tournament)
 		if err != nil {
-			logger.Log("request_id", ctx.RequestID, "level", "error", "msg", "Unable to get results", "tournament_id", id, "error", err)
+			logger.Log("request_id", ctx.RequestID, "level", "error", "msg", "Unable to decode body", "error", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		result := tournament.getResults()
+		tournament.Owner = ctx.User.ID
+		tournament.ID = bson.NewObjectId()
+
+		err = collection.Insert(&tournament)
+		if err != nil {
+			logger.Log("request_id", ctx.RequestID, "level", "error", "msg", "Unable to insert tournament in database", "error", err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(result)
+		json.NewEncoder(w).Encode(tournament.ID)
 	}
 }

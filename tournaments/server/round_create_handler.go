@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/go-kit/kit/log"
-
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/chibimi/jackmarshall/auth"
+	. "github.com/chibimi/jackmarshall/tournaments"
+	"github.com/go-kit/kit/log"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -58,7 +58,7 @@ func NewCreateRoundHandler(db *mgo.Session, logger log.Logger) httprouter.Handle
 		}
 
 		var pairings = CreatePairs(tournament.Players, tournament, &round)
-		createRound(pairings, tournament.Tables, &round)
+		CreateRound(pairings, tournament.Tables, &round)
 
 		for i, _ := range round.Games {
 			round.Games[i].Results[0].Player.Games = nil

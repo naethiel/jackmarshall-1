@@ -59,4 +59,5 @@ func main() {
 	if err != nil {
 		logger.Log("level", "error", "error", "err")
 	}
+
 }

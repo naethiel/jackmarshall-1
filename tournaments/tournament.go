@@ -1,6 +1,7 @@
-package main
+package tournaments
 
 import (
+	"fmt"
 	"time"
 
 	"gopkg.in/mgo.v2/bson"
@@ -14,70 +15,66 @@ type Tournament struct {
 	Slots     int           `json:"slots" create:"nonzero" update:"nonzero"`
 	FeeAmount float64       `json:"fee_amount"`
 	Date      time.Time     `json:"date" create:"nonzero" update:"nonzero"`
-	Players   []Player      `json:"players"`
+	Players   []*Player     `json:"players"`
 	Tables    []Table       `json:"tables"`
 	Rounds    []Round       `json:"rounds" create:"max=0"`
 }
 
 func NewTournament() *Tournament {
-	t := new(Tournament)
-	t.Players = []Player{}
-	t.Tables = []Table{}
-	t.Rounds = []Round{}
-	return t
+	return &Tournament{
+		Players: []*Player{},
+		Tables:  []Table{},
+		Rounds:  []Round{},
+	}
 }
 
-func (t Tournament) getPlayersWithGames() map[string]*Player {
-	var players = make(map[string]*Player)
+func (t *Tournament) GetActivePlayers() []*Player {
+	res := []*Player{}
 	for i := range t.Players {
-		players[t.Players[i].Name] = &t.Players[i]
+		if t.Players[i].Leave != true {
+			res = append(res, t.Players[i])
+		}
 	}
+	return res
+}
 
-	for _, player := range players {
-		player.Games = make([]*Game, 0)
-		for r, round := range t.Rounds {
-			for g, game := range round.Games {
-				for _, result := range game.Results {
-					if result.Player.Name == player.Name {
-						player.Games = append(player.Games, &t.Rounds[r].Games[g])
-					}
+func (t *Tournament) AddPlayersGames() {
+	games := map[string][]*Game{}
+
+	for _, r := range t.Rounds {
+		for _, g := range r.Games {
+			for _, res := range g.Results {
+				if v, ok := games[res.Player.ID]; ok {
+					games[res.Player.ID] = append(v, &g)
+				} else {
+					games[res.Player.ID] = []*Game{&g}
 				}
 			}
 		}
 	}
-	return players
+
+	for _, p := range t.Players {
+		p.Games = games[p.ID]
+	}
 }
 
-func (t Tournament) getResults() []*Result {
-	var results = make([]*Result, 0)
+func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {
+	t := NewTournament()
 
-	players := t.getPlayersWithGames()
-
-	//calc each player cumulated results
-	for _, player := range players {
-		playerResult := player.CumulatedResults()
-		playerResult.Player = *player
-		results = append(results, &playerResult)
+	for i := 0; i < nbPlayer; i++ {
+		t.Players = append(t.Players, &Player{
+			ID:   "player" + fmt.Sprintf("%d", i),
+			Name: "player" + fmt.Sprintf("%d", i),
+		})
 	}
 
-	//calc SoS
-	for _, r := range results {
-		for _, g := range r.Player.Games {
-			if g.Results[0].Player.Name == "" || g.Results[1].Player.Name == "" || r.Player.Name == "" {
-				continue
-			}
-			if g.Results[0].Player.Name == r.Player.Name {
-				r.SoS += players[g.Results[1].Player.Name].VictoryPoints()
-			} else {
-				r.SoS += players[g.Results[0].Player.Name].VictoryPoints()
-			}
-		}
+	for i := 0; i < nbTable; i++ {
+		t.Tables = append(t.Tables, Table{
+			ID:       "table" + fmt.Sprintf("%d", i),
+			Name:     "table" + fmt.Sprintf("%d", i),
+			Scenario: "scenario" + fmt.Sprintf("%d", i%nbScenario),
+		})
 	}
 
-	//clean player's games
-	for _, r := range results {
-		r.Player.Games = nil
-	}
-
-	return results
+	return t
 }

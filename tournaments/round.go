@@ -1,4 +1,4 @@
-package main
+package tournaments
 
 import "fmt"
 
@@ -8,10 +8,10 @@ type Round struct {
 }
 
 func (r *Round) String() (s string) {
-	s += fmt.Sprintf("ROUND %d : %d\n", r.Number, GetFitness(r.Games, true))
+	s += fmt.Sprintf("ROUND %d Score table : %d\n", r.Number, GetFitness(r.Games, true))
 	for i, game := range r.Games {
 		s += fmt.Sprintf("GAME %d :\t%s  %s\t", i, game.Table.Name, game.Table.Scenario)
-		s += fmt.Sprintf("%s vs %s\n", game.Results[0].Player.Name, game.Results[1].Player.Name)
+		s += fmt.Sprintf("%s (%d) vs %s (%d)\n", game.Results[0].Player.Name, game.Results[0].VictoryPoints, game.Results[1].Player.Name, game.Results[1].VictoryPoints)
 	}
 	return
 }
@@ -21,7 +21,7 @@ func getAvailableTables(pairs []Pair, tables []Table) map[Table]map[Pair]struct{
 	for _, table := range tables {
 		availableTables[table] = make(map[Pair]struct{})
 		for _, pair := range pairs {
-			if pair.PlayedOn(table.Scenario) {
+			if pair.PlayedScenario(table.Scenario) {
 				continue
 			}
 			availableTables[table][pair] = struct{}{}
@@ -35,7 +35,7 @@ func getAvailablePairs(pairs []Pair, tables []Table) map[Pair]map[Table]struct{}
 	for _, pair := range pairs {
 		availablePairs[pair] = make(map[Table]struct{})
 		for _, table := range tables {
-			if pair.PlayedOn(table.Scenario) {
+			if pair.PlayedScenario(table.Scenario) {
 				continue
 			}
 			availablePairs[pair][table] = struct{}{}
@@ -44,7 +44,7 @@ func getAvailablePairs(pairs []Pair, tables []Table) map[Pair]map[Table]struct{}
 	return availablePairs
 }
 
-func createRound(pairs []Pair, tables []Table, round *Round) {
+func CreateRound(pairs []Pair, tables []Table, round *Round) {
 
 	var availableTables = getAvailableTables(pairs, tables)
 	var availablePairs = getAvailablePairs(pairs, tables)

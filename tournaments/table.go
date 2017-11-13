@@ -1,4 +1,4 @@
-package main
+package tournaments
 
 //Table represent a table and its scenario
 type Table struct {

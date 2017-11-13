@@ -12,6 +12,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"github.com/chibimi/jackmarshall/auth"
+	. "github.com/chibimi/jackmarshall/tournaments"
 	"github.com/julienschmidt/httprouter"
 )
 
