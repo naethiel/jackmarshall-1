@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/chibimi/jackmarshall/tournaments/solver"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -57,6 +58,25 @@ func (t *Tournament) AddPlayersGames() {
 	for _, p := range t.Players {
 		p.Games = games[p.ID]
 	}
+}
+
+func (t *Tournament) CreateNextRound() {
+	//Init solver
+	s := solver.Solver{
+		PopulationSize:   10,
+		MaxIterations:    10000,
+		NumberOfChildren: 10,
+		RandomSwapRate:   0.5,
+	}
+	//Create pairing
+	t.AddPlayersGames()
+	players := Players(t.GetActivePlayers())
+	pairing, i := s.Solve(players)
+	fmt.Printf("Pairing done in %d itarations with a fitness score of %.0f\n", i, pairing.Fitness)
+
+	pairs := PairsFromPlayers(pairing.Genes.(Players))
+	assignements, j := s.Solve(Assignements{Pairs: pairs, Tables: t.Tables})
+	fmt.Printf("Assignements done in %d itarations with a fitness score of %.0f\n", j, assignements.Fitness)
 }
 
 func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {

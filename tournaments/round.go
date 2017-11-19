@@ -171,3 +171,16 @@ func getPairsKeys(availablePairs map[Pair]map[Table]struct{}) []Pair {
 	}
 	return keys
 }
+
+func RoundFromAssignaments(a Assignements) Round {
+	games := []Game{}
+	for i := 0; i < len(a.Pairs); i++ {
+		games = append(games, Game{
+			Table:   a.Tables[i],
+			Results: [2]Result{{Player: *a.Pairs[i][0]}, {Player: *a.Pairs[i][1]}},
+		})
+	}
+	return Round{
+		Games: games,
+	}
+}
