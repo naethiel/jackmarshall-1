@@ -66,5 +66,5 @@ func (p *Player) PlayedTable(table Table) bool {
 }
 
 func (p *Player) String() string {
-	return fmt.Sprintf("%s (%d/%d)", p.Name, p.VictoryPoints(), len(p.Games))
+	return fmt.Sprintf("%s %s (%d)", p.Name, p.Origin, p.VictoryPoints())
 }

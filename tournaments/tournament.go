@@ -2,6 +2,7 @@ package tournaments
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
 	"gopkg.in/mgo.v2/bson"
@@ -42,12 +43,12 @@ func (t *Tournament) AddPlayersGames() {
 	games := map[string][]*Game{}
 
 	for _, r := range t.Rounds {
-		for _, g := range r.Games {
+		for i, g := range r.Games {
 			for _, res := range g.Results {
 				if v, ok := games[res.Player.ID]; ok {
-					games[res.Player.ID] = append(v, &g)
+					games[res.Player.ID] = append(v, &r.Games[i])
 				} else {
-					games[res.Player.ID] = []*Game{&g}
+					games[res.Player.ID] = []*Game{&r.Games[i]}
 				}
 			}
 		}
@@ -61,10 +62,13 @@ func (t *Tournament) AddPlayersGames() {
 func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {
 	t := NewTournament()
 
+	var origins = []string{"whag", "loin", "uchro", "ludo", "uchro", "usa"}
+
 	for i := 0; i < nbPlayer; i++ {
 		t.Players = append(t.Players, &Player{
-			ID:   "player" + fmt.Sprintf("%d", i),
-			Name: "player" + fmt.Sprintf("%d", i),
+			ID:     "player" + fmt.Sprintf("%d", i),
+			Name:   "player" + fmt.Sprintf("%d", i),
+			Origin: origins[rand.Intn(len(origins))],
 		})
 	}
 
