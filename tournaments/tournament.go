@@ -3,6 +3,7 @@ package tournaments
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"time"
 
 	"github.com/chibimi/jackmarshall/tournaments/solver"
@@ -60,7 +61,7 @@ func (t *Tournament) AddPlayersGames() {
 	}
 }
 
-func (t *Tournament) CreateNextRound() {
+func (t *Tournament) GetNextRound() Round {
 	//Init solver
 	s := solver.Solver{
 		PopulationSize:   10,
@@ -71,12 +72,46 @@ func (t *Tournament) CreateNextRound() {
 	//Create pairing
 	t.AddPlayersGames()
 	players := Players(t.GetActivePlayers())
+
+	var bye *Game
+	if len(players)%2 != 0 {
+		sort.Slice(players, func(i int, j int) bool {
+			return players[i].VictoryPoints() < players[j].VictoryPoints()
+		})
+		for i := 0; i < len(players); i++ {
+			if !players[i].HadBye() {
+				bye = &Game{
+					Results: [2]Result{
+						Result{
+							Player:            *players[i],
+							VictoryPoints:     1,
+							ScenarioPoints:    2,
+							DestructionPoints: t.Format / 2,
+							Bye:               true,
+						},
+						Result{},
+					},
+				}
+				players = append(players[:i], players[i+1:]...)
+				break
+			}
+		}
+	}
+
 	pairing, i := s.Solve(players)
 	fmt.Printf("Pairing done in %d itarations with a fitness score of %.0f\n", i, pairing.Fitness)
-
 	pairs := PairsFromPlayers(pairing.Genes.(Players))
+
+	//Assign tables
 	assignements, j := s.Solve(Assignements{Pairs: pairs, Tables: t.Tables})
 	fmt.Printf("Assignements done in %d itarations with a fitness score of %.0f\n", j, assignements.Fitness)
+	round := RoundFromAssignaments(assignements.Genes.(Assignements))
+
+	if bye != nil {
+		round.Games = append(round.Games, *bye)
+	}
+	round.Number = len(t.Rounds)
+	return round
 }
 
 func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {

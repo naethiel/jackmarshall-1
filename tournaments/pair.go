@@ -2,132 +2,15 @@ package tournaments
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"sort"
-	"time"
+
+	"github.com/chibimi/jackmarshall/tournaments/solver"
 )
 
 type Pair [2]*Player
 
-func (p Pair) PlayedScenario(scenario string) bool {
-	if p[0].PlayedScenario(scenario) || p[1].PlayedScenario(scenario) {
-		return true
-	}
-	return false
-}
-
-func CreatePairs(p []*Player, tournament Tournament, r *Round) (pairs []Pair) {
-	// var players = make([]*Player, 0)
-	//
-	//
-	// for i := range p {
-	// 	if p[i].Leave != true {
-	// 		players = append(players, p[i])
-	// 	}
-	// }
-	//
-	// for _, player := range players {
-	// 	player.Games = make([]*Game, 0)
-	// 	for r, round := range tournament.Rounds {
-	// 		for g, game := range round.Games {
-	// 			for _, result := range game.Results {
-	// 				if result.Player.Name == player.Name {
-	// 					player.Games = append(player.Games, &tournament.Rounds[r].Games[g])
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	tournament.AddPlayersGames()
-	players := tournament.GetActivePlayers()
-
-	timeout := false
-	perfectPairing := false
-	var fuckers []*Player
-	go func() {
-		time.Sleep(1 * time.Second)
-		timeout = true
-	}()
-
-	for !timeout && !perfectPairing {
-		//shuffle palyers list
-		rand.Seed(time.Now().UnixNano())
-		for i := range players {
-			var j = rand.Intn(len(players) - 1)
-			players[i], players[j] = players[j], players[i]
-		}
-
-		//Sort player list by victory points
-		sort.Slice(players, func(i int, j int) bool {
-			return players[i].VictoryPoints() > players[j].VictoryPoints()
-		})
-
-		//Odd number of players
-		if len(players)%2 != 0 {
-			for i := len(players) - 1; i >= 0; i-- {
-				if players[i].HadBye() == false || len(tournament.Rounds) == 0 {
-					r.Games = append(r.Games, Game{
-						Table: Table{
-							Name: "",
-						},
-						Results: [2]Result{
-							Result{
-								Player:            *players[i],
-								VictoryPoints:     1,
-								ScenarioPoints:    2,
-								DestructionPoints: tournament.Format / 2,
-								Bye:               true,
-							},
-							Result{},
-						},
-					})
-					if i == len(players)-1 {
-						players = append(players[0:i])
-					} else {
-						players = append(players[0:i], players[i+1:]...)
-					}
-					break
-				}
-			}
-		}
-		//players that had already played against available players
-		fuckers = fuckers[:0]
-	Selection:
-		for len(players) > 0 {
-			for i, p := range players {
-				if players[0].Name == p.Name {
-					continue
-				}
-				if p.PlayedAgainst(players[0]) {
-					continue
-				}
-				pairs = append(pairs, Pair{players[0], p})
-				players = append(players[1:i], players[i+1:]...)
-				continue Selection
-			}
-			fuckers = append(fuckers, players[0])
-			players = players[1:]
-		}
-
-		perfectPairing = (len(fuckers) == 0)
-
-	}
-	// Create pairs from the fuckers.
-	for len(fuckers) != 0 {
-		fmt.Printf("FUCKERS : %v\n", fuckers)
-		pairs = append(pairs, Pair{fuckers[0], fuckers[1]})
-		fuckers = fuckers[2:]
-	}
-
-	return
-}
-
-func (p *Pair) Print() {
-
-	fmt.Println(p[0], " vs ", p[1])
-
-}
 func PairsFromPlayers(players []*Player) []Pair {
 	res := []Pair{}
 	for i := 0; i < len(players); i++ {
@@ -135,8 +18,74 @@ func PairsFromPlayers(players []*Player) []Pair {
 			break
 		}
 		res = append(res, Pair{players[i], players[i+1]})
-
 		i++
 	}
 	return res
+}
+
+type Players []*Player
+
+func (p Players) NewIndividual() *solver.Individual {
+	players := make([]*Player, len(p))
+	copy(players, p)
+	for i := 0; i < len(players); i++ {
+		j := rand.Intn(len(players))
+		players[i], players[j] = players[j], players[i]
+	}
+	//Sort player list by victory points
+	sort.Slice(players, func(i int, j int) bool {
+		return players[i].VictoryPoints() > players[j].VictoryPoints()
+	})
+
+	return &solver.Individual{
+		Fitness: math.MaxInt32,
+		Genes:   Players(players),
+	}
+}
+
+func (p Players) CalcFitness() float64 {
+	var fitness float64 = 0
+	for i := 0; i < len(p); i += 2 {
+		//same match
+		if p[i].PlayedAgainst(p[i+1]) {
+			fitness += math.Pow(float64(len(p)), float64(len(p)))
+		}
+
+		//score
+		gap := math.Abs(float64(p[i].VictoryPoints()) - float64(p[i+1].VictoryPoints()))
+		if gap != 0.0 {
+			fitness += math.Pow(float64(len(p)), gap)
+		}
+
+		//origin
+		if p[i].Origin == p[i+1].Origin {
+			fitness += math.Pow(float64(len(p)), 0)
+		}
+	}
+	return fitness
+}
+
+func (p Players) Mutate(randomSwapRate float64) *solver.Individual {
+	var child = make(Players, len(p))
+	copy(child, p)
+
+	r := rand.Float64()
+	switch {
+	case (r < randomSwapRate):
+		i := rand.Intn(len(child) - 1)
+		j := rand.Intn(len(child) - 1)
+		child[i], child[j] = child[j], child[i]
+	default:
+		i := rand.Intn(len(child) - 1)
+		child[i], child[i+1] = child[i+1], child[i]
+	}
+	return &solver.Individual{Genes: child}
+}
+
+func (p Players) String() string {
+	s := ""
+	for _, player := range p {
+		s = fmt.Sprintf("%s%s, ", s, player.Name)
+	}
+	return s
 }

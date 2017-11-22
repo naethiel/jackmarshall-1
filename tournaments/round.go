@@ -1,6 +1,12 @@
 package tournaments
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+	"math/rand"
+
+	"github.com/chibimi/jackmarshall/tournaments/solver"
+)
 
 type Round struct {
 	Number int    `json:"number"`
@@ -8,7 +14,6 @@ type Round struct {
 }
 
 func (r *Round) String() (s string) {
-	s += fmt.Sprintf("ROUND %d Score table : %d\n", r.Number, GetFitness(r.Games, true))
 	for i, game := range r.Games {
 		s += fmt.Sprintf("GAME %d :\t%s  %s\t", i, game.Table.Name, game.Table.Scenario)
 		s += fmt.Sprintf("%s (%d) vs %s (%d)\n", game.Results[0].Player.Name, game.Results[0].VictoryPoints, game.Results[1].Player.Name, game.Results[1].VictoryPoints)
@@ -16,160 +21,72 @@ func (r *Round) String() (s string) {
 	return
 }
 
-func getAvailableTables(pairs []Pair, tables []Table) map[Table]map[Pair]struct{} {
-	var availableTables = make(map[Table]map[Pair]struct{})
-	for _, table := range tables {
-		availableTables[table] = make(map[Pair]struct{})
-		for _, pair := range pairs {
-			if pair.PlayedScenario(table.Scenario) {
-				continue
-			}
-			availableTables[table][pair] = struct{}{}
-		}
-	}
-	return availableTables
+type Assignements struct {
+	Pairs  []Pair
+	Tables []Table
 }
 
-func getAvailablePairs(pairs []Pair, tables []Table) map[Pair]map[Table]struct{} {
-	var availablePairs = make(map[Pair]map[Table]struct{})
-	for _, pair := range pairs {
-		availablePairs[pair] = make(map[Table]struct{})
-		for _, table := range tables {
-			if pair.PlayedScenario(table.Scenario) {
-				continue
-			}
-			availablePairs[pair][table] = struct{}{}
-		}
+func (a Assignements) NewIndividual() *solver.Individual {
+	pairs := make([]Pair, len(a.Pairs))
+	copy(pairs, a.Pairs)
+	tables := make([]Table, len(a.Tables))
+	copy(tables, a.Tables)
+	for i := 0; i < len(tables); i++ {
+		j := rand.Intn(len(tables))
+		tables[i], tables[j] = tables[j], tables[i]
 	}
-	return availablePairs
+	return &solver.Individual{
+		Fitness: math.MaxInt32,
+		Genes: Assignements{
+			Pairs:  pairs,
+			Tables: tables,
+		},
+	}
 }
 
-func CreateRound(pairs []Pair, tables []Table, round *Round) {
+func (a Assignements) CalcFitness() float64 {
+	var fitness float64 = 0
 
-	var availableTables = getAvailableTables(pairs, tables)
-	var availablePairs = getAvailablePairs(pairs, tables)
-
-	games := round.Games
-
-Selection:
-	for len(availablePairs) != 0 {
-
-		// Find tables with 1 choice available.
-		for table, pairs := range availableTables {
-
-			if len(pairs) == 1 {
-
-				var pair Pair
-				for pair = range pairs {
-					break
-				}
-
-				games = append(games, Game{
-					Table: table,
-					Results: [2]Result{
-						Result{
-							Player: *pair[0],
-						},
-						Result{
-							Player: *pair[1],
-						},
-					},
-				})
-
-				// Delete the table from the available tables and pairs sets.
-				delete(availableTables, table)
-				for pair, tables := range availablePairs {
-					delete(tables, table)
-					availablePairs[pair] = tables
-				}
-				delete(availablePairs, pair)
-				for table, pairs := range availableTables {
-					delete(pairs, pair)
-					availableTables[table] = pairs
-				}
-
-				continue Selection
+	for i := 0; i < len(a.Pairs); i++ {
+		for _, p := range a.Pairs[i] {
+			nbTable := p.NbPlayedTable(a.Tables[i])
+			nbScenario := p.NbPlayedScenario(a.Tables[i].Scenario)
+			if nbScenario != 0 {
+				fitness += math.Pow(float64(len(a.Pairs)), float64(nbScenario))
+			}
+			if nbTable != 0 {
+				fitness += float64(nbTable) * math.Pow(float64(len(a.Pairs)), float64(len(a.Pairs)))
 			}
 		}
-
-		// Find pairs with 1 choice available.
-		for pair, tables := range availablePairs {
-
-			if len(tables) == 1 {
-
-				var table Table
-				for table = range tables {
-					break
-				}
-				games = append(games, Game{
-					Table: table,
-					Results: [2]Result{
-						Result{
-							Player: *pair[0],
-						},
-						Result{
-							Player: *pair[1],
-						},
-					},
-				})
-
-				// Delete the table from the available tables and pairs sets.
-				delete(availableTables, table)
-				for pair, tables := range availablePairs {
-					delete(tables, table)
-					availablePairs[pair] = tables
-				}
-				delete(availablePairs, pair)
-				for table, pairs := range availableTables {
-					delete(pairs, pair)
-					availableTables[table] = pairs
-				}
-
-				continue Selection
-			}
-		}
-		break
 	}
 
-	remainingTables := getTablesKeys(availableTables)
-	remainingPairs := getPairsKeys(availablePairs)
-
-	if len(remainingPairs) == 1 {
-		games = append(games, Game{
-			Table: remainingTables[0],
-			Results: [2]Result{
-				Result{
-					Player: *remainingPairs[0][0],
-				},
-				Result{
-					Player: *remainingPairs[0][1],
-				},
-			},
-		})
-
-	} else {
-		solution := GetBest(remainingTables, remainingPairs, 10)
-		games = append(games, solution...)
-	}
-
-	round.Games = games
-	return
+	return fitness
 }
 
-func getTablesKeys(availableTables map[Table]map[Pair]struct{}) []Table {
-	keys := make([]Table, 0, len(availableTables))
-	for k := range availableTables {
-		keys = append(keys, k)
+func (a Assignements) Mutate(randomSwapRate float64) *solver.Individual {
+	pairs := make([]Pair, len(a.Pairs))
+	copy(pairs, a.Pairs)
+	tables := make([]Table, len(a.Tables))
+	copy(tables, a.Tables)
+
+	i := rand.Intn(len(tables) - 1)
+	j := rand.Intn(len(tables) - 1)
+	tables[i], tables[j] = tables[j], tables[i]
+
+	return &solver.Individual{
+		Genes: Assignements{
+			Pairs:  pairs,
+			Tables: tables,
+		},
 	}
-	return keys
 }
 
-func getPairsKeys(availablePairs map[Pair]map[Table]struct{}) []Pair {
-	keys := make([]Pair, 0, len(availablePairs))
-	for k := range availablePairs {
-		keys = append(keys, k)
+func (a Assignements) String() string {
+	s := ""
+	for i := 0; i < len(a.Pairs); i++ {
+		s = fmt.Sprintf("%s%s (%s) : %s (%d, %s) vs %s (%d, %s)\n", s, a.Tables[i].Name, a.Tables[i].Scenario, a.Pairs[i][0].Name, a.Pairs[i][0].VictoryPoints(), a.Pairs[i][0].Origin, a.Pairs[i][1].Name, a.Pairs[i][1].VictoryPoints(), a.Pairs[i][1].Origin)
 	}
-	return keys
+	return s
 }
 
 func RoundFromAssignaments(a Assignements) Round {

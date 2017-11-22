@@ -1,7 +1,6 @@
 package solver
 
 import (
-	"fmt"
 	"math/rand"
 	"sort"
 	"time"
@@ -17,7 +16,6 @@ type Mutable interface {
 	CalcFitness() float64
 	Mutate(float64) *Individual
 	NewIndividual() *Individual
-	String() string
 }
 
 type Solver struct {
@@ -32,10 +30,6 @@ type Population []*Individual
 type Individual struct {
 	Fitness float64
 	Genes   Mutable
-}
-
-func (in *Individual) String() string {
-	return fmt.Sprintf("%f ==> %s\n", in.Fitness, in.Genes.String())
 }
 
 func NewInitialPopulation(src Mutable, size int) Population {
@@ -71,9 +65,6 @@ func (p Population) CalcFitness() {
 }
 
 func (p Population) Mutate(randomSwapRate float64) Population {
-	// for _, in := range p {
-	// 	in.Genes.Mutate(randomSwapRate)
-	// }
 	var child = make(Population, len(p))
 	copy(child, p)
 
@@ -95,8 +86,6 @@ func (s *Solver) Solve(src Mutable) (Individual, int) {
 		})
 
 		pop = pop[:s.PopulationSize]
-		// fmt.Println(s, fitness(population[0]), population[0])
 	}
-
 	return *pop[0], n
 }
