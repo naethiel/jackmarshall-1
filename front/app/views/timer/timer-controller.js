@@ -2,7 +2,7 @@
 
 app.controller('TimerCtrl', ['$interval', 'moment', function ($interval, moment) {
     var scope = this;
-    scope.duration = moment('1970-01-01T00:01:30');
+    scope.duration = moment('1970-01-01T02:15:00');
     scope.remaining = moment('1970-01-01T00:00:00');
     scope.end = 0;
     scope.pauseTime = undefined;
