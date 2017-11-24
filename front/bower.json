@@ -15,6 +15,6 @@
         "fontawesome": "^4.7.0",
         "ngstorage": "^0.3.11",
         "angular-uuids": "^0.0.4",
-        "jquery.countdown": "^2.2.0"
+        "angular-moment": "^1.1.0"
     }
 }

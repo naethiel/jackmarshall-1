@@ -24,3 +24,12 @@ app.filter('trim', function () {
         return value.replace(/ +/g, "").toLowerCase();
     };
 });
+
+app.filter('fdate', function() {
+	return function(input, format) {
+        if (!moment.isMoment(input)){
+            return "invalid moment object";
+        }
+		return input.format(format);
+	};
+});

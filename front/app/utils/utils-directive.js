@@ -27,3 +27,31 @@ app.directive("dateFormat", function(){
         }
     };
 });
+
+app.directive("timeFormat", ['moment', function(moment){
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ctrl){
+            var timeFormat = attrs.timeFormat;
+            attrs.$observe('timeFormat', function (newValue) {
+                if (timeFormat == newValue || !ctrl.$modelValue) return;
+                timeFormat = newValue;
+                ctrl.$modelValue = ctrl.$setViewValue;
+            });
+
+            ctrl.$formatters.unshift(function (modelValue) {
+                scope = scope;
+                if (!timeFormat || !modelValue) return "";
+                var retVal = moment(modelValue).format(timeFormat);
+                return retVal;
+            });
+
+            ctrl.$parsers.unshift(function (viewValue) {
+                scope = scope;
+                var date = moment(viewValue, timeFormat);
+                return (date && date.isValid()) ? date : "";
+            });
+        }
+    };
+}]);

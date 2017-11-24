@@ -6,7 +6,8 @@ var app = angular.module('jackmarshall', [
     'ngAnimate',
     'ngDraggable',
     'ngStorage',
-    'angular-uuid'
+    'angular-uuid',
+    'angularMoment'
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -21,6 +22,9 @@ app.config(['$locationProvider', '$routeProvider', function($locationProvider, $
     });
     $routeProvider.when('/tournament/:id', {
         templateUrl: '/views/tournamentDetails/tournament-details.html',
+    });
+    $routeProvider.when('/timer', {
+        templateUrl: '/views/timer/timer.html',
     });
     $routeProvider.otherwise({redirectTo: '/auth/login'});
 }]);
