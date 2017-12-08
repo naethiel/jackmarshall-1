@@ -58,7 +58,7 @@ func (p Players) CalcFitness() float64 {
 		}
 
 		//origin
-		if p[i].Origin == p[i+1].Origin {
+		if p[i].Origin == p[i+1].Origin && p[i].Origin != "" {
 			fitness += math.Pow(float64(len(p)), 0)
 		}
 	}

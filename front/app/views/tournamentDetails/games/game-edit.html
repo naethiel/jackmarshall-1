@@ -46,6 +46,7 @@
         </div>
     </div>
     <div class="game-row text-danger" ng-show="GamesCtrl.game.errorPairing"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played agains {{GamesCtrl.game.results[1].player.name}}</div>
+    <div class="game-row text-warning" ng-show="GamesCtrl.game.errorOrigin"><i class="fa fa-exclamation-circle"></i>&nbsp;Same origin: {{GamesCtrl.game.results[0].player.origin}}</div>
     <div class="game-row text-danger">
         <div class="flex-1"></div>
 

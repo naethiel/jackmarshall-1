@@ -117,13 +117,15 @@ func (t *Tournament) GetNextRound() Round {
 func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {
 	t := NewTournament()
 
-	var origins = []string{"whag", "loin", "uchro", "ludo", "uchro", "usa"}
+	var origins = []string{"whag", "loin", "uchro", "ludo", "uchro", ""}
+	var factions = []string{"cygnar", "cryx", "legion", "skorne", "trollbloods", ""}
 
 	for i := 0; i < nbPlayer; i++ {
 		t.Players = append(t.Players, &Player{
-			ID:     "player" + fmt.Sprintf("%d", i),
-			Name:   "player" + fmt.Sprintf("%d", i),
-			Origin: origins[rand.Intn(len(origins))],
+			ID:      "player" + fmt.Sprintf("%d", i),
+			Name:    "player" + fmt.Sprintf("%d", i),
+			Origin:  origins[rand.Intn(len(origins))],
+			Faction: factions[rand.Intn(len(factions))],
 		})
 	}
 
@@ -134,6 +136,7 @@ func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {
 			Scenario: "scenario" + fmt.Sprintf("%d", i%nbScenario),
 		})
 	}
+	t.Date = time.Now().Add(time.Hour)
 
 	return t
 }

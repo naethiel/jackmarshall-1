@@ -97,6 +97,7 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 			tournament.rounds[index].games.forEach(function(game){
 				verifyParing(tournament, game, index);
 				verifyTable(tournament, game, index);
+				verifyOrigin(game,index);
 				verifyList(tournament, game.results[0].player, index);
 				verifyList(tournament, game.results[1].player, index);
 			});
@@ -121,6 +122,10 @@ function verifyParing(tournament, g, index){
 			}
 		});
 	}
+};
+
+function verifyOrigin(g, index){
+	g.errorOrigin = (g.results[0].player.origin == g.results[1].player.origin && g.results[0].player.origin != "");
 };
 
 function verifyList(tournament, player, index){

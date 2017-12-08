@@ -26,11 +26,15 @@ app.controller('GamesCtrl', ["$rootScope", "TournamentService", function ($rootS
         source.payed_fee = destination.payed_fee;
         source.lists = destination.lists;
         source.leave = destination.leave;
+        source.origin = destination.origin;
+        source.id = destination.id;
         destination.name = sourceTemp.name;
         destination.faction = sourceTemp.faction;
         destination.payed_fee = sourceTemp.payed_fee;
         destination.lists = sourceTemp.lists;
         destination.leave = sourceTemp.leave;
+        destination.origin = sourceTemp.origin;
+        destination.id = sourceTemp.id;
         this.updateGame()
         tournamentService.verifyRound(scope.tournament, scope.roundNumber);
     };
