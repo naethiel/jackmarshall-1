@@ -1,0 +1,25 @@
+<div ng-controller="AssignCtrl as AssignCtrl">
+    <h1>Round {{AssignCtrl.roundNumber}}</h1>
+    <div class="d-flex flex-row">
+        <div class="col" ng-repeat="col in AssignCtrl.assignements">
+            <table class="table table-striped">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Table</th>
+                        <th>Player 1</th>
+                        <th>Player 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="game in col">
+                        <td>{{game.table.name}} </td>
+                        <td>{{game.results[0].player.name}}</td>
+                        <td>{{game.results[1].player.name}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

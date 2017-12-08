@@ -26,5 +26,8 @@ app.config(['$locationProvider', '$routeProvider', function($locationProvider, $
     $routeProvider.when('/timer', {
         templateUrl: '/views/timer/timer.html',
     });
+    $routeProvider.when('/tournament/:id/assignements', {
+        templateUrl: '/views/assignements/assignements.html',
+    });
     $routeProvider.otherwise({redirectTo: '/auth/login'});
 }]);
