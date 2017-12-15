@@ -1,14 +1,12 @@
 package tournaments
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Game struct {
-	Table   Table     `json:"table" bson:"table"`
+	TableID string    `json:"table" bson:"table"`
 	Results [2]Result `json:"results" bson:"results"`
 }
 
 func (g Game) String() string {
-	return fmt.Sprintf("Table %s: %s (%d) vs %s (%d)", g.Table.Name, g.Results[0].Player.Name, g.Results[0].VictoryPoints, g.Results[1].Player.Name, g.Results[1].VictoryPoints)
+	return fmt.Sprintf("Table %s: %s (%d) vs %s (%d)", g.TableID, g.Results[0].PlayerID, g.Results[0].VictoryPoints, g.Results[1].PlayerID, g.Results[1].VictoryPoints)
 }
