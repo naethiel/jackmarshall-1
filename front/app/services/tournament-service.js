@@ -97,6 +97,7 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 			tournament.rounds[index].games.forEach(function(game){
 				verifyParing(tournament, game, index);
 				verifyTable(tournament, game, index);
+				verifyVictoryPoint(tournament, index);
 				verifyOrigin(game,index);
 				verifyList(tournament, game.results[0].player, index);
 				verifyList(tournament, game.results[1].player, index);
@@ -152,6 +153,39 @@ function verifyList(tournament, player, index){
 		});
 	}
 };
+function verifyVictoryPoint(tournament, index){
+	console.log("index ",index)
+	var vpByPlayer = new Map();
+	for (var i=0; i <= index; i++){
+		var round = tournament.rounds[i];
+		round.games.forEach(function(game){
+			var vp0 = getNum(game.results[0].victory_points) + getNum(vpByPlayer.get(game.results[0].player.id));
+			var vp1 = getNum(game.results[1].victory_points) + getNum(vpByPlayer.get(game.results[1].player.id));
+			// var vp1 = vpByPlayer.get(game.results[1].player.id)+game.results[1].player.victory_points;
+			// console.log("round ", i, " p0: ",game.results[0].player.name, " jsonvp: ", getNum(game.results[0].victory_points), " oldvp: ", getNum(vpByPlayer.get(game.results[0].player.id)), " vp: ", vp0)
+			// console.log("round ", i, " p1: ",game.results[1].player.name, " jsonvp: ", getNum(game.results[1].victory_points), " oldvp: ", getNum(vpByPlayer.get(game.results[1].player.id)), " vp: ", vp1)
+
+			vpByPlayer.set(game.results[0].player.id, vp0);
+			vpByPlayer.set(game.results[1].player.id, vp1);
+			game.results[0].player.vp = vp0;
+			game.results[1].player.vp = vp1;
+		});
+		round.games.forEach(function(game){
+			console.log(vpByPlayer.get(game.results[0].player.id), " ",vpByPlayer.get(game.results[1].player.id))
+			if (vpByPlayer.get(game.results[0].player.id) != vpByPlayer.get(game.results[1].player.id)) {
+				console.log("err vp")
+				game.errorVP = true;
+			}
+		});
+	}
+};
+
+function getNum(val) {
+   if (isNaN(val)) {
+     return 0;
+   }
+   return val;
+}
 
 function verifyTable(tournament, g, index){
 	g.results[0].errorTable = false;

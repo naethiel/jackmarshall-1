@@ -1,7 +1,56 @@
 package tournaments
 
+import (
+	"fmt"
+	"objenious/lib/log"
+	"sort"
+)
+
+type Pair [2]Player
+
+type PairingParams struct {
+	// p         Player
+	players   []Player
+	bracket   int
+	origin    bool
+	condition func(i int) bool
+	cond      string
+}
+
+func (t *Tournament) CreatePair(params PairingParams) (Pair, []Player, bool) {
+	for i, p := range params.players {
+		params.players[i].AvailableOpponents = p.GetAvailableOpponents(params.players, params.origin)
+	}
+	sort.Slice(params.players, func(i int, j int) bool {
+		return len(params.players[i].AvailableOpponents) < len(params.players[j].AvailableOpponents)
+	})
+	var pair Pair
+	for i, p := range params.players {
+		log.Debugf("availableOpponents for %s: %+v", p.ID, p.AvailableOpponents)
+		if params.condition(len(p.AvailableOpponents)) {
+			opponent := t.Players[p.AvailableOpponents[0]]
+			pair = Pair{p, opponent}
+			params.players = append(params.players[:i], params.players[i+1:]...)
+			opponentIndex := getPlayerIndex(opponent, params.players)
+			params.players = append(params.players[:opponentIndex], params.players[opponentIndex+1:]...)
+			log.Debugf("Pair %s (%s) vs %s (%s) with params %t, %s", pair[0].ID, pair[0].Origin, pair[1].ID, pair[1].Origin, params.origin, params.cond)
+			return pair, params.players, true
+		}
+	}
+	log.Debugf("No pair with params %t, %s", params.origin, params.cond)
+	return pair, params.players, false
+}
+
+func printPlayers(players []Player) {
+	s := "Players: "
+	for _, p := range players {
+		s = fmt.Sprintf("%s, %s", s, p.ID)
+	}
+	fmt.Println(s)
+}
+
 //
-// type Pair [2]*Player
+
 // //
 // func PairsFromPlayers(players []*Player) []Pair {
 // 	res := []Pair{}

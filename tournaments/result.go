@@ -8,6 +8,7 @@ type Result struct {
 	DestructionPoints int    `json:"destruction_points,string"`
 	SoS               int    `json:"sos"`
 	Bye               bool   `json:"bye"`
+	SousApp           bool   `json:"sous_app"`
 }
 
 //

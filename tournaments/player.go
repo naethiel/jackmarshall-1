@@ -1,24 +1,23 @@
 package tournaments
 
 type Player struct {
-	ID       string   `json:"id"`
-	Name     string   `json:"name"`
-	Origin   string   `json:"origin"`
-	Faction  string   `json:"faction"`
-	PayedFee bool     `json:"payed_fee"`
-	Leave    bool     `json:"leave"`
-	Games    []Game   `json:"-"`
-	Oponnent []string `json:"-"`
-	Tables   []Table  `json:"-"`
+	ID                 string   `json:"id"`
+	Name               string   `json:"name"`
+	Origin             string   `json:"origin"`
+	Faction            string   `json:"faction"`
+	PayedFee           bool     `json:"payed_fee"`
+	Leave              bool     `json:"leave"`
+	Games              []Game   `json:"-"`
+	Oponnent           []string `json:"-"`
+	Tables             []Table  `json:"-"`
+	AvailableOpponents []string `json:"-"`
 }
 
 func (p *Player) VictoryPoints() int {
 	score := 0
 	for _, g := range p.Games {
-		var res Result
-		if res.PlayerID == p.ID {
-			res = g.Results[0]
-		} else {
+		res := g.Results[0]
+		if res.PlayerID != p.ID {
 			res = g.Results[1]
 		}
 		score += res.VictoryPoints
@@ -37,9 +36,20 @@ func (p *Player) HadBye() bool {
 	return false
 }
 
-func (p *Player) PlayedAgainst(opponent *Player) bool {
+func (p *Player) HadSousApp() bool {
+	for _, g := range p.Games {
+		for _, res := range g.Results {
+			if res.PlayerID == p.ID && res.SousApp == true {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (p *Player) PlayedAgainst(opponent string) bool {
 	for _, o := range p.Oponnent {
-		if o == opponent.ID {
+		if o == opponent {
 			return true
 		}
 	}
@@ -62,6 +72,20 @@ func (p *Player) NbPlayedScenario(scenario string) int {
 		if t.Scenario == scenario {
 			res++
 		}
+	}
+	return res
+}
+
+func (p *Player) GetAvailableOpponents(players []Player, origin bool) []string {
+	res := []string{}
+	for _, opponent := range players {
+		if opponent.ID == p.ID || p.PlayedAgainst(opponent.ID) {
+			continue
+		}
+		if origin && p.Origin != "" && p.Origin == opponent.Origin {
+			continue
+		}
+		res = append(res, opponent.ID)
 	}
 	return res
 }

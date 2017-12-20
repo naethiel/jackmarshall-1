@@ -4,7 +4,7 @@
             {{GamesCtrl.game.table.name}}<br /> <small>({{GamesCtrl.game.table.scenario}})</small>
         </div>
         <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0].player)">
-            <span class="{{GamesCtrl.game.results[0].player.faction |trim}}">{{GamesCtrl.game.results[0].player.name}} </span>
+            <span class="{{GamesCtrl.game.results[0].player.faction |trim}}">{{GamesCtrl.game.results[0].player.name}} ({{GamesCtrl.game.results[0].player.vp}})</span>
         </div>
         <div class="flex-3 ml-2 text-left">
             <div class="font-normal"  ng-class="{'text-success': list.played}" ng-repeat="list in GamesCtrl.game.results[0].player.lists track by $index">
@@ -42,11 +42,12 @@
             </div>
         </div>
         <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1].player)">
-            <span class="{{GamesCtrl.game.results[1].player.faction |trim}}">{{GamesCtrl.game.results[1].player.name}} </span>
+            <span class="{{GamesCtrl.game.results[1].player.faction |trim}}">{{GamesCtrl.game.results[1].player.name}} ({{GamesCtrl.game.results[1].player.vp}})</span>
         </div>
     </div>
     <div class="game-row text-danger" ng-show="GamesCtrl.game.errorPairing"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played agains {{GamesCtrl.game.results[1].player.name}}</div>
     <div class="game-row text-warning" ng-show="GamesCtrl.game.errorOrigin"><i class="fa fa-exclamation-circle"></i>&nbsp;Same origin: {{GamesCtrl.game.results[0].player.origin}}</div>
+    <div class="game-row text-warning" ng-show="GamesCtrl.game.errorVP"><i class="fa fa-exclamation-circle"></i>&nbsp;Sous App</div>
     <div class="game-row text-danger">
         <div class="flex-1"></div>
 
