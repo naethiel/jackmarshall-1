@@ -26,10 +26,28 @@ app.filter('trim', function () {
 });
 
 app.filter('fdate', function() {
-	return function(input, format) {
+    return function(input, format) {
         if (!moment.isMoment(input)){
             return "invalid moment object";
         }
-		return input.format(format);
-	};
+        return input.format(format);
+    };
+});
+
+app.filter('toArray', function () {
+    return function (obj) {
+        if (!angular.isObject(obj)) return obj;
+        return Object.keys(obj).map(function(key) {
+            return obj[key];
+        });
+    };
+});
+
+app.filter('nbKeys', function() {
+    return function(object) {
+        if (object===undefined ||object===undefined){
+            return null
+        }
+        return Object.keys(object).length;
+    }
 });

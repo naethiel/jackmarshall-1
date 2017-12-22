@@ -57,7 +57,7 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 					return res.data;
 				})
 				.catch(function (err){
-					console.error("Unable to update tournament " + id + " : ", err);
+					console.error("Unable to update tournament " + tournament.id + " : ", err);
 					throw err.status;
 				});
 			});
