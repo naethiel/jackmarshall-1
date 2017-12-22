@@ -1,5 +1,5 @@
-<form class="form-horizontal my-3" ng-submit="PlayersCtrl.addPlayer()">
-    <input ng-model="PlayersCtrl.player.name" type="text" id="player_name" class="form-control first" placeholder="Name" required autofocus>
+<form name="addPlayerForm" class="form-horizontal my-3" ng-submit="PlayersCtrl.addPlayer()">
+    <input ng-model="PlayersCtrl.player.name" type="text" id="add_player_name" name="player_name" class="form-control first" placeholder="Name" required autofocus>
     <input ng-model="PlayersCtrl.player.origin" type="text" id="player_origin" class="form-control first" placeholder="Origin">
     <select ng-model="PlayersCtrl.player.faction" class="form-control" id="player_faction">
         <option value="Cygnar">Cygnar</option>

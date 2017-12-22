@@ -28,6 +28,9 @@ input{
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
+    &.ng-touched:invalid {
+        border-color: $red;
+    }
 }
 
 .form-signin {

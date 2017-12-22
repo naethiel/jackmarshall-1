@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
+app.controller('PlayersCtrl', ["$scope", "$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($scope, $rootScope, $route, uuid, tournamentService, utilsService) {
     var scope = this;
     scope.tournament = {};
     scope.player = {};
@@ -8,7 +8,6 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
     scope.errorUpdate = undefined;
     scope.errorDelete = undefined;
     scope.playersCollapsed = false;
-
 
     $rootScope.$on("UpdateRounds", function(e, nb_round){
         scope.playersCollapsed = (nb_round > 0);
@@ -20,6 +19,8 @@ app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentServic
         scope.tournament.players[scope.player.id] = scope.player
         tournamentService.update(scope.tournament).then(function(id){
             scope.player = {};
+            document.getElementById("add_player_name").focus()
+            $scope.addPlayerForm.$setUntouched();
         }).catch(function(err){
             delete scope.tournament.players[scope.player.id]
             scope.errorAdd = true;
