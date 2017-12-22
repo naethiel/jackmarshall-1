@@ -15,6 +15,7 @@
         "fontawesome": "^4.7.0",
         "ngstorage": "^0.3.11",
         "angular-uuids": "^0.0.4",
-        "angular-moment": "^1.1.0"
+        "angular-moment": "^1.1.0",
+        "javascript-natural-sort": "https://github.com/overset/javascript-natural-sort.git#737133249531169aeb94c701e536d405fa077b25"
     }
 }

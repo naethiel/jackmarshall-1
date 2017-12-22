@@ -27,6 +27,7 @@ gulp.task('vendors', function(){
 		path.vendors + 'ngstorage/ngStorage.min.js',
 		path.vendors + 'angular-uuids/angular-uuid.js',
 		path.vendors + 'angular-moment/angular-moment.js',
+		path.vendors + 'javascript-natural-sort/naturalSort.js',
 	])
 	.pipe(concat('vendors.js'))
 	// .pipe(uglify())
@@ -72,7 +73,7 @@ gulp.task('timerDeps', function(){
 	])
     .pipe(plumber())
     .pipe(concat('timer.vendors.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
 	.pipe(gulp.dest('./dist/js/'));
 })
 
@@ -83,7 +84,7 @@ gulp.task('app', function(){
 	])
     .pipe(plumber())
 	.pipe(concat('app.min.js'))
-	.pipe(uglify())
+	// .pipe(uglify())
 	.pipe(gulp.dest('./dist/js/'));
 })
 

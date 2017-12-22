@@ -17,7 +17,7 @@ app.controller('PlayersCtrl', ["$scope", "$rootScope", "$route", "uuid", "Tourna
         scope.errorAdd = false;
         scope.player.id = uuid.v4();
         scope.tournament.players[scope.player.id] = scope.player
-        tournamentService.update(scope.tournament).then(function(id){
+        tournamentService.update(scope.tournament).then(function(){
             scope.player = {};
             document.getElementById("add_player_name").focus()
             $scope.addPlayerForm.$setUntouched();
@@ -55,4 +55,10 @@ app.controller('PlayersCtrl', ["$scope", "$rootScope", "$route", "uuid", "Tourna
             scope.errorUpdate = true;
         })
     }
+
+    this.compare = function(a, b) {
+        return naturalSort(a.value, b.value);
+    };
+
+
 }]);

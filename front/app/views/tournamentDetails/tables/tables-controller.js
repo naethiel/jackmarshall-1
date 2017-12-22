@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('TablesCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
+app.controller('TablesCtrl', ["$scope","$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($scope,$rootScope, $route, uuid, tournamentService, utilsService) {
     var scope = this;
     scope.tournament = {};
     scope.table = {};
@@ -20,44 +20,40 @@ app.controller('TablesCtrl', ["$rootScope", "$route", "uuid", "TournamentService
     });
 
     this.addTable = function(){
-        scope.errorAdd = null;
+        scope.errorAdd = false;
         scope.table.id = uuid.v4();
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.tables.push(scope.table);
-        tournamentService.update(temp).then(function(id){
-            scope.tournament.tables.push(scope.table);
+        scope.tournament.tables[scope.table.id] = scope.table
+        tournamentService.update(scope.tournament).then(function(){
             scope.table = {};
+            document.getElementById("add_table_name").focus()
+            $scope.addTableForm.$setUntouched();
         }).catch(function(err){
+            delete scope.tournament.tables[scope.table.id]
             scope.errorAdd = true;
         })
     };
 
     this.deleteTable = function(table){
-        scope.errorDelete = null;
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.tables.splice(temp.tables.indexOf(table), 1);
-        tournamentService.update(temp).then(function(id){
-            scope.tournament.tables.splice(scope.tournament.tables.indexOf(table), 1);
+        scope.errorDelete = false;
+        delete scope.tournament.tables[table.id]
+        tournamentService.update(scope.tournament).then(function(){
         }).catch(function(err){
+            scope.tournament.tables[table.id] = table
             scope.errorDelete = true;
         })
     };
-    //FIXME then empty
 
     this.updateTable = function(table){
-        scope.errorUpdate = null;
-        scope.tournament.rounds.forEach(function(round){
-            round.games.forEach(function(game){
-                if (game.table.id === table.id){
-                    game.table = table;
-                }
-            });
-        });
-        tournamentService.update(scope.tournament).then(function(id){
+        scope.errorUpdate = false;
+        tournamentService.update(scope.tournament).then(function(){
             table.detailsVisible=false;
         }).catch(function(err){
             scope.errorUpdate = true;
         })
+    };
+
+    this.compare = function(a, b) {
+        return naturalSort(a.value, b.value);
     };
 
 }]);

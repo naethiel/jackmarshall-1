@@ -1,7 +1,7 @@
 <div class="card card-outline-primary">
     <h5  ng-class="{'collapsed': PlayersCtrl.playersCollapsed}" class="card-header card-inverse card-primary card-icon" ng-click="PlayersCtrl.playersCollapsed = !PlayersCtrl.playersCollapsed">Players ( {{PlayersCtrl.tournament.players |nbKeys}} / {{PlayersCtrl.tournament.slots}} )</h5>
     <ul class="list-group list-group-flush" uib-collapse="PlayersCtrl.playersCollapsed">
-        <li class="list-group-item" ng-repeat="player in PlayersCtrl.tournament.players |toArray |orderBy: 'name'">
+        <li class="list-group-item" ng-repeat="player in PlayersCtrl.tournament.players |toArray |orderBy: 'name': false : PlayersCtrl.compare">
             <span class="{{player.faction |trim}}">{{player.name}} </span>
             <span class="ml-auto">
                 <button type="button" class="btn btn-primary btn-xs"  ng-click="player.detailsVisible = !player.detailsVisible">
