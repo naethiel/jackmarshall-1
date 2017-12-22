@@ -46,10 +46,10 @@ func NewGetResultsHandler(db *mgo.Session, logger log.Logger) httprouter.Handle 
 			return
 		}
 
-		result := tournament.GetResults()
+		// result := tournament.GetResults()
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(result)
+		json.NewEncoder(w).Encode(nil)
 	}
 }

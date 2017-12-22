@@ -1,20 +1,114 @@
 package tournaments
 
 import (
-	"fmt"
-	"objenious/lib/log"
 	"sort"
 )
 
 type Pair [2]Player
 
 type PairingParams struct {
-	// p         Player
 	players   []Player
 	bracket   int
 	origin    bool
 	condition func(i int) bool
 	cond      string
+}
+
+func MakeBye(players []Player, format int) (*Game, []Player) {
+	// if even number of player no bye
+	if len(players)%2 == 0 {
+		return nil, players
+	}
+
+	bye := &Game{
+		Results: [2]Result{
+			Result{
+				VictoryPoints:     1,
+				ScenarioPoints:    2,
+				DestructionPoints: format / 2,
+				Bye:               true,
+			},
+			Result{},
+		},
+	}
+	// stable sort players by victory point incr
+	sort.Slice(players, func(i int, j int) bool {
+		return players[i].VictoryPoints() < players[j].VictoryPoints()
+	})
+	for i, p := range players {
+		// give a bye to the first player that don't aldready have a bye
+		if !p.HadBye() {
+			bye.Results[0].PlayerID = p.ID
+			players = append(players[:i], players[i+1:]...)
+			return bye, players
+		}
+	}
+	// every player already had a bye ? seriously ?
+	bye.Results[0].PlayerID = players[0].ID
+	players = players[1:]
+
+	//FIXME: maybe we could made this simplier by just giving a bye to the first player
+
+	return bye, players
+}
+
+func MakeBrackets(players []Player) (map[int][]Player, []int) {
+	brackets := map[int][]Player{}
+	for _, p := range players {
+		vp := p.VictoryPoints()
+		brackets[vp] = append(brackets[vp], p)
+	}
+
+	keys := make([]int, 0, len(brackets))
+	for k := range brackets {
+		keys = append(keys, k)
+	}
+	sort.Slice(keys, func(i int, j int) bool {
+		return keys[i] < keys[j]
+	})
+
+	for i, vp := range keys {
+		if len(brackets[vp])%2 != 0 {
+			for j, p := range brackets[vp] {
+				if !p.HadSousApp() && p.VictoryPoints() == vp {
+					brackets[keys[i+1]] = append(brackets[keys[i+1]], brackets[vp][j])
+					brackets[vp] = append(brackets[vp][:j], brackets[vp][j+1:]...)
+					break
+				}
+			}
+		}
+	}
+
+	return brackets, keys
+}
+
+func (t *Tournament) MakePairings(brackets map[int][]Player, keys []int) []Pair {
+	// fmt.Println("Make paring")
+	pairs := []Pair{}
+	for _, vp := range keys {
+		players := brackets[vp]
+		for len(players) > 1 {
+			params := []PairingParams{
+				{players, vp, false, func(i int) bool { return i == 1 }, "=1"},
+				{players, vp, true, func(i int) bool { return i == 1 }, "=1"},
+				{players, vp, true, func(i int) bool { return i > 1 }, ">1"},
+				{players, vp, false, func(i int) bool { return i > 1 }, ">1"},
+			}
+			var pair Pair
+			var ok bool
+			for _, param := range params {
+				if pair, players, ok = t.CreatePair(param); ok {
+					pairs = append(pairs, pair)
+					break
+				}
+			}
+			if !ok {
+				pairs = append(pairs, Pair{players[0], players[1]})
+				players = append(players[:0], players[2:]...)
+			}
+		}
+	}
+	return pairs
 }
 
 func (t *Tournament) CreatePair(params PairingParams) (Pair, []Player, bool) {
@@ -26,107 +120,17 @@ func (t *Tournament) CreatePair(params PairingParams) (Pair, []Player, bool) {
 	})
 	var pair Pair
 	for i, p := range params.players {
-		log.Debugf("availableOpponents for %s: %+v", p.ID, p.AvailableOpponents)
+		// log.Debugf("availableOpponents for %s: %+v", p.ID, p.AvailableOpponents)
 		if params.condition(len(p.AvailableOpponents)) {
 			opponent := t.Players[p.AvailableOpponents[0]]
 			pair = Pair{p, opponent}
 			params.players = append(params.players[:i], params.players[i+1:]...)
 			opponentIndex := getPlayerIndex(opponent, params.players)
 			params.players = append(params.players[:opponentIndex], params.players[opponentIndex+1:]...)
-			log.Debugf("Pair %s (%s) vs %s (%s) with params %t, %s", pair[0].ID, pair[0].Origin, pair[1].ID, pair[1].Origin, params.origin, params.cond)
+			// log.Debugf("Pair %s (%s) vs %s (%s) with params %t, %s", pair[0].ID, pair[0].Origin, pair[1].ID, pair[1].Origin, params.origin, params.cond)
 			return pair, params.players, true
 		}
 	}
-	log.Debugf("No pair with params %t, %s", params.origin, params.cond)
+	// log.Debugf("No pair with params %t, %s", params.origin, params.cond)
 	return pair, params.players, false
 }
-
-func printPlayers(players []Player) {
-	s := "Players: "
-	for _, p := range players {
-		s = fmt.Sprintf("%s, %s", s, p.ID)
-	}
-	fmt.Println(s)
-}
-
-//
-
-// //
-// func PairsFromPlayers(players []*Player) []Pair {
-// 	res := []Pair{}
-// 	for i := 0; i < len(players); i++ {
-// 		if i == len(players)-1 {
-// 			break
-// 		}
-// 		res = append(res, Pair{players[i], players[i+1]})
-// 		i++
-// 	}
-// 	return res
-// }
-//
-// type Players []*Player
-//
-// func (p Players) NewIndividual() *solver.Individual {
-// 	players := make([]*Player, len(p))
-// 	copy(players, p)
-// 	for i := 0; i < len(players); i++ {
-// 		j := rand.Intn(len(players))
-// 		players[i], players[j] = players[j], players[i]
-// 	}
-// 	//Sort player list by victory points
-// 	sort.Slice(players, func(i int, j int) bool {
-// 		return players[i].VictoryPoints() > players[j].VictoryPoints()
-// 	})
-//
-// 	return &solver.Individual{
-// 		Fitness: math.MaxInt32,
-// 		Genes:   Players(players),
-// 	}
-// }
-//
-// func (p Players) CalcFitness() float64 {
-// 	var fitness float64 = 0
-// 	for i := 0; i < len(p); i += 2 {
-// 		//same match
-// 		if p[i].PlayedAgainst(p[i+1]) {
-// 			fitness += math.Pow(float64(len(p)), float64(len(p)))
-// 		}
-//
-// 		//score
-// 		gap := math.Abs(float64(p[i].VictoryPoints()) - float64(p[i+1].VictoryPoints()))
-// 		if gap != 0.0 {
-// 			fitness += math.Pow(float64(len(p)), gap)
-// 		}
-//
-// 		//origin
-// 		if p[i].Origin == p[i+1].Origin && p[i].Origin != "" {
-// 			fitness += 1
-// 		}
-// 	}
-// 	return fitness
-// }
-//
-// func (p Players) Mutate(randomSwapRate float64) *solver.Individual {
-// 	var child = make(Players, len(p))
-// 	copy(child, p)
-//
-// 	r := rand.Float64()
-// 	switch {
-// 	case (r < randomSwapRate):
-// 		i := rand.Intn(len(child) - 1)
-// 		j := rand.Intn(len(child) - 1)
-// 		child[i], child[j] = child[j], child[i]
-// 	default:
-// 		i := rand.Intn(len(child) - 1)
-// 		child[i], child[i+1] = child[i+1], child[i]
-// 	}
-// 	return &solver.Individual{Genes: child}
-// }
-//
-// func (p Players) String() string {
-// 	s := ""
-// 	for _, player := range p {
-// 		s = fmt.Sprintf("%s%s, ", s, player.Name)
-// 	}
-// 	return s
-// }

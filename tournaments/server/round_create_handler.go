@@ -52,10 +52,10 @@ func NewCreateRoundHandler(db *mgo.Session, logger log.Logger) httprouter.Handle
 		}
 
 		round := tournament.GetNextRound()
-		for i, _ := range round.Games {
-			round.Games[i].Results[0].Player.Games = nil
-			round.Games[i].Results[1].Player.Games = nil
-		}
+		// for i, _ := range round.Games {
+		// 	round.Games[i].Results[0].Player.Games = nil
+		// 	round.Games[i].Results[1].Player.Games = nil
+		// }
 
 		tournament.Rounds = append(tournament.Rounds, round)
 

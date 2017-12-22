@@ -54,6 +54,12 @@ func main() {
 	stack.Use(auth.NewAuthMiddleware(cfg.Secret))
 	stack.UseHandler(router)
 
+	// collection := db.DB("jackmarshall").C("tournament")
+	// tournament := tournaments.NewTestTournament(8, 4, 4, true)
+	// tournament.Owner = 1
+	// tournament.ID = bson.NewObjectId()
+	// collection.Insert(&tournament)
+
 	logger.Log("level", "info", "msg", "Server running", "port", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), stack)
 	if err != nil {
