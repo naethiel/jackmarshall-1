@@ -1,16 +1,10 @@
 <div class="game-container">
     <div class="game-row">
         <div class="flex-2">
-            {{GamesCtrl.game.table.name}}<br /> <small>({{GamesCtrl.game.table.scenario}})</small>
+            {{GamesCtrl.Table().name}}<br /> <small>({{GamesCtrl.Table().scenario}})</small>
         </div>
-        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0].player)">
-            <span class="{{GamesCtrl.game.results[0].player.faction |trim}}">{{GamesCtrl.game.results[0].player.name}} ({{GamesCtrl.game.results[0].player.vp}})</span>
-        </div>
-        <div class="flex-3 ml-2 text-left">
-            <div class="font-normal"  ng-class="{'text-success': list.played}" ng-repeat="list in GamesCtrl.game.results[0].player.lists track by $index">
-                <input type="radio" ng-model="GamesCtrl.game.results[0].list" value="{{list.caster}}"  ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'>
-                {{list.caster}}
-            </div>
+        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0])">
+            <span class="{{GamesCtrl.Player(0).faction |trim}}">{{GamesCtrl.Player(0).name}} ({{GamesCtrl.Player(0).victory_points}})</span>
         </div>
         <div class="flex-2 mx-1">
             <button  type="button" class="btn btn-block"
@@ -35,28 +29,22 @@
         </div>
         <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="text" min=0 max=5 class="form-control" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
         <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="text" min=0 class="form-control" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="flex-3 ml-3 text-left">
-            <div class="font-normal" ng-class="{'text-success': list.played}" ng-repeat="list in GamesCtrl.game.results[1].player.lists track by $index">
-                <input type="radio" ng-model="GamesCtrl.game.results[1].list" value="{{list.caster}}"  ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'>
-                {{list.caster}}
-            </div>
-        </div>
-        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1].player" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1].player)">
-            <span class="{{GamesCtrl.game.results[1].player.faction |trim}}">{{GamesCtrl.game.results[1].player.name}} ({{GamesCtrl.game.results[1].player.vp}})</span>
+        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1])">
+            <span class="{{GamesCtrl.Player(1).faction |trim}}">{{GamesCtrl.Player(1).name}} ({{GamesCtrl.Player(1).victory_points}})</span>
         </div>
     </div>
-    <div class="game-row text-danger" ng-show="GamesCtrl.game.errorPairing"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played agains {{GamesCtrl.game.results[1].player.name}}</div>
-    <div class="game-row text-warning" ng-show="GamesCtrl.game.errorOrigin"><i class="fa fa-exclamation-circle"></i>&nbsp;Same origin: {{GamesCtrl.game.results[0].player.origin}}</div>
-    <div class="game-row text-warning" ng-show="GamesCtrl.game.errorVP"><i class="fa fa-exclamation-circle"></i>&nbsp;Sous App</div>
+    <div class="game-row text-danger" ng-show="GamesCtrl.game.errorPairing"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.Player(0).name}} has already played agains {{GamesCtrl.Player(1).name}}</div>
+    <div class="game-row text-warning" ng-show="GamesCtrl.game.errorOrigin"><i class="fa fa-exclamation-circle"></i>&nbsp;Same origin: {{GamesCtrl.Player(0).origin}}</div>
+    <div class="game-row text-warning" ng-show="GamesCtrl.game.errorVP"><i class="fa fa-exclamation-circle"></i>&nbsp;Down pairing</div>
     <div class="game-row text-danger">
         <div class="flex-1"></div>
 
         <div ng-hide="GamesCtrl.game.results[0].errorTable || GamesCtrl.game.results[0].errorScenario" class="flex-10"></div>
-        <div ng-show="GamesCtrl.game.results[0].errorTable" class="flex-10 text-danger"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played on table {{GamesCtrl.game.table.name}}</div>
-        <div ng-show="GamesCtrl.game.results[0].errorScenario && !GamesCtrl.game.results[0].errorTable" class="flex-10 text-warning"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[0].player.name}} has already played on scenario {{GamesCtrl.game.table.scenario}}</div>
+        <div ng-show="GamesCtrl.game.results[0].errorTable" class="flex-10 text-danger"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.Player(0).name}} has already played on table {{GamesCtrl.Table().name}}</div>
+        <div ng-show="GamesCtrl.game.results[0].errorScenario && !GamesCtrl.game.results[0].errorTable" class="flex-10 text-warning"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GGamesCtrl.Player(0).name}} has already played on scenario {{GamesCtrl.Table().scenario}}</div>
         <div class="flex-1"></div>
         <div ng-hide="GamesCtrl.game.results[1].errorTable || GamesCtrl.game.results[1].errorScenario" class="flex-10"></div>
-        <div ng-show="GamesCtrl.game.results[1].errorTable" class="flex-10 text-danger"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[1].player.name}} has already played on table {{GamesCtrl.game.table.name}}</div>
-        <div ng-show="GamesCtrl.game.results[1].errorScenario && !GamesCtrl.game.results[1].errorTable" class="flex-10 text-warning"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.game.results[1].player.name}} has already played on scenario {{GamesCtrl.game.table.scenario}}</div>
+        <div ng-show="GamesCtrl.game.results[1].errorTable" class="flex-10 text-danger"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.Player(1).name}} has already played on table {{GamesCtrl.game.table.name}}</div>
+        <div ng-show="GamesCtrl.game.results[1].errorScenario && !GamesCtrl.game.results[1].errorTable" class="flex-10 text-warning"><i class="fa fa-exclamation-circle"></i>&nbsp;{{GamesCtrl.Player(1).name}} has already played on scenario {{GamesCtrl.Table().scenario}}</div>
     </div>
 </div>
