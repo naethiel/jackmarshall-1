@@ -1,5 +1,17 @@
 'use strict';
 
+app.filter('filterGame', function() {
+    return function(items, str, players, tables) {
+        return items.filter(function(item){
+            var table = tables[item.table].name
+            var scenario = tables[item.table].scenario
+            var p0 = players[item.results[0].player].name
+            var p1 = players[item.results[1].player].name
+            return (str==null||table.includes(str)||scenario.includes(str)||p0.includes(str)||p1.includes(str));
+        })
+    }
+});
+
 app.filter('isFuture', function() {
     return function(items, dateFieldName) {
         return items.filter(function(item){

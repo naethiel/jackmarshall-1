@@ -3,7 +3,7 @@
         Tables ( {{TablesCtrl.tournament.tables |nbKeys}}  / {{TablesCtrl.tournament.slots/2}} )
     </h5>
     <ul class="list-group list-group-flush" uib-collapse="TablesCtrl.tablesCollapsed">
-        <li class="list-group-item" ng-repeat="table in TablesCtrl.tournament.tables |toArray |orderBy: 'name': false : TablesCtrl.compare">
+        <li class="list-group-item p-2" ng-repeat="table in TablesCtrl.tournament.tables |toArray |orderBy: 'name': false : TablesCtrl.compare">
             {{table.name}}&nbsp;<i>{{table.scenario}}</i>
             <span class="ml-auto">
                 <button type="button" class="btn btn-primary btn-xs" ng-click="table.detailsVisible = !table.detailsVisible">

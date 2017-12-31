@@ -1,13 +1,13 @@
 <div class="game-container">
     <div class="game-row">
-        <div class="flex-2">
+        <div class="flex-3">
             {{GamesCtrl.Table().name}}<br /> <small>({{GamesCtrl.Table().scenario}})</small>
         </div>
-        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0])">
+        <div class="flex-4" ng-drag="true" ng-drag-data="GamesCtrl.game.results[0]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[0])">
             <span class="{{GamesCtrl.Player(0).faction |trim}}">{{GamesCtrl.Player(0).name}} ({{GamesCtrl.Player(0).victory_points}})</span>
         </div>
         <div class="flex-2 mx-1">
-            <button  type="button" class="btn btn-block"
+            <button  type="button" class="btn btn-block btn-sm"
                 ng-click="GamesCtrl.changeRes(GamesCtrl.game, 0, 1)"
                 ng-class="[{'btn-outline-secondary': GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0},
                             {'btn-danger': GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==1},
@@ -15,11 +15,11 @@
                             {{GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0 ? 'Victory ?' : GamesCtrl.game.results[0].victory_points==1 ? 'Win' : 'Loss'}}
             </button>
         </div>
-        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="text" min=0 max=5 class="form-control" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="text" min=0 class="form-control" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="text" min=0 max=5 class="form-control form-control-sm" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="text" min=0 class="form-control form-control-sm" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
         <div class="flex-1 mx-1">vs</div>
         <div class="flex-2 mx-1">
-            <button  type="button" class="btn btn-block"
+            <button  type="button" class="btn btn-block btn-sm"
                 ng-click="GamesCtrl.changeRes(GamesCtrl.game, 1, 0)"
                 ng-class="[{'btn-outline-secondary': GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0},
                             {'btn-danger': GamesCtrl.game.results[1].victory_points==0 && GamesCtrl.game.results[1].victory_points==0},
@@ -27,9 +27,9 @@
                             {{GamesCtrl.game.results[0].victory_points==0 && GamesCtrl.game.results[1].victory_points==0 ? 'Victory ?' : GamesCtrl.game.results[1].victory_points==1 ? 'Win' : 'Loss'}}
             </button>
         </div>
-        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="text" min=0 max=5 class="form-control" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="text" min=0 class="form-control" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
-        <div class="flex-3" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1])">
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="text" min=0 max=5 class="form-control form-control-sm" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="text" min=0 class="form-control form-control-sm" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-4" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1])">
             <span class="{{GamesCtrl.Player(1).faction |trim}}">{{GamesCtrl.Player(1).name}} ({{GamesCtrl.Player(1).victory_points}})</span>
         </div>
     </div>
