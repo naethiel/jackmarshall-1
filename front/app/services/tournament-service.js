@@ -94,16 +94,12 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 					break;
 				}
 			}
-			console.log("toto")
-
 			verifyVictoryPoint(tournament, index);
 
 			tournament.rounds[index].games.forEach(function(game){
 				verifyParing(tournament, game, index);
 				// verifyTable(tournament, game, index);
 				verifyOrigin(tournament,game,index);
-				// verifyList(tournament, game.results[0].player, index);
-				// verifyList(tournament, game.results[1].player, index);
 			});
 		}
 	};
@@ -144,31 +140,6 @@ function verifyOrigin(tournament,g, index){
 	g.errorOrigin = (tournament.players[g.results[0].player].origin == tournament.players[g.results[1].player].origin && tournament.players[g.results[0].player].origin != "");
 };
 
-function verifyList(tournament, player, index){
-	player.lists.forEach(function(list) {
-		list.played = false;
-	});
-	for (var i=0; i < index; i++){
-		var round = tournament.rounds[i];
-		round.games.forEach(function(game){
-			if (game.results[0].player.name === player.name && game.results[0].list != "") {
-				player.lists.forEach(function(list) {
-					if (list.caster === game.results[0].list){
-						list.played = true;
-					}
-				});
-
-			} else if (game.results[1].player.name === player.name && game.results[1].list != "") {
-				player.lists.forEach(function(list) {
-					if (list.caster === game.results[1].list){
-						list.played = true;
-					}
-				});
-			}
-		});
-	}
-};
-
 function getNum(val) {
 	if (isNaN(val)) {
 		return 0;
@@ -182,19 +153,15 @@ function verifyTable(tournament, g, index){
 	g.results[0].errorScenario = false;
 	g.results[1].errorScenario = false;
 	for (var i=0; i < index; i++){
-		var round = tournament.rounds[i];
-		if (round.number===index){
-			return;
-		}
-		round.games.forEach(function(game){
-			if (g.results[0].player.name === game.results[0].player.name || g.results[0].player.name === game.results[1].player.name) {
-				if (g.table.name === game.table.name) {
+		tournament.rounds[i].games.forEach(function(game){
+			if (g.results[0].player === game.results[0].player || g.results[0].player === game.results[1].player) {
+				if (g.table === game.table) {
 					g.results[0].errorTable = true;
-				} else if (g.table.scenario === game.table.scenario){
+				} else if (tournament.tables[g.table].scenario === tournament.tables[game.table].scenario){
 					g.results[0].errorScenario = true;
 				}
-			} else if (g.results[1].player.name === game.results[0].player.name || g.results[1].player.name === game.results[1].player.name) {
-				if (g.table.name === game.table.name) {
+			} else if (g.results[1].player.id === game.results[0].player.id || g.results[1].player.id === game.results[1].player.id) {
+				if (g.table.id === game.table.id) {
 					g.results[1].errorTable = true;
 				} else if (g.table.scenario === game.table.scenario){
 					g.results[1].errorScenario = true;

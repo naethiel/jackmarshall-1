@@ -3,7 +3,7 @@
         Create tournament
     </h5>
     <div class="card-block" >
-        <form class="form-horizontal" ng-submit="CreateCtrl.createTournament()">
+        <form class="form-horizontal" name="tournamentCreateForm" ng-submit="CreateCtrl.createTournament()">
             <input ng-model="CreateCtrl.tournament.name" type="text" id="tournament_name" class="form-control first" placeholder="Name" required autofocus>
             <input ng-model="CreateCtrl.tournament.date"  date-format="DD/MM/YYYY" type="text" id="tournament_date" class="form-control mid" placeholder="Date : 23/12/2017" required>
             <input ng-model="CreateCtrl.tournament.format" type="number" id="tounament_format" class="form-control mid" placeholder="Format : 25, 50, 75...">
