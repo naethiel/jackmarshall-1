@@ -3,10 +3,20 @@
 app.filter('filterGame', function() {
     return function(items, str, players, tables) {
         return items.filter(function(item){
-            var table = tables[item.table].name
-            var scenario = tables[item.table].scenario
-            var p0 = players[item.results[0].player].name
-            var p1 = players[item.results[1].player].name
+            var table = ""
+            var scenario = ""
+            var p0 = ""
+            var p1 = ""
+            if (item.table !== "") {
+                table = tables[item.table].name
+                scenario = tables[item.table].scenario
+            }
+            if (item.results[0].player !== "") {
+                p0 = players[item.results[0].player].name
+            }
+            if (item.results[1].player !== "") {
+                p1 = players[item.results[1].player].name
+            }
             return (str==null||table.includes(str)||scenario.includes(str)||p0.includes(str)||p1.includes(str));
         })
     }

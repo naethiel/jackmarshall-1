@@ -74,6 +74,9 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
     }
 
     this.compare = function(a, b) {
+        if (a.value === "" || b.value === ""){
+            return true
+        }
         return naturalSort(scope.tournament.tables[a.value].name, scope.tournament.tables[b.value].name);
     };
 }]);
