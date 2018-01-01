@@ -14,31 +14,34 @@ app.controller('GamesCtrl', ["$rootScope", "TournamentService", function ($rootS
     };
 
     this.changeRes = function(game, player_index, opponent_index){
-        if (game.results[player_index].victory_points===0 ||game.results[player_index].victory_points===false){
-            game.results[player_index].victory_points = 1;
-            game.results[opponent_index].victory_points = 0;
-        } else {
-            game.results[player_index].victory_points = 0;
-            game.results[opponent_index].victory_points = 1;
+        game.results[player_index].victory_points = 1-game.results[player_index].victory_points;
+        game.results[opponent_index].victory_points = 1-game.results[player_index].victory_points;
+        var reverse = function() {
+            game.results[0].victory_points = 1-game.results[0].victory_points;
+            game.results[1].victory_points = 1-game.results[1].victory_points;
         }
-        // game.results[player_index].victory_points = !game.results[player_index].victory_points;
-        // game.results[opponent_index].victory_points = !game.results[player_index].victory_points;
-        this.updateGame()
+        this.updateGame(game, reverse)
     };
 
     this.onDropComplete=function(source, destination){
         var temp = source.player;
         source.player = destination.player;
         destination.player = temp;
-        this.updateGame()
+        var reverse = function() {
+            var temp = source.player;
+            source.player = destination.player;
+            destination.player = temp;
+        }
+        this.updateGame(reverse)
         tournamentService.verifyRound(scope.tournament, scope.roundNumber);
     };
 
-    this.updateGame = function(){
+    this.updateGame = function(reverse){
         scope.errorUpdate = null;
         tournamentService.update(scope.tournament).then(function(){
             $rootScope.$emit("UpdateResult");
         }).catch(function(err){
+            reverse();
             scope.errorUpdate = true;
         })
     };
