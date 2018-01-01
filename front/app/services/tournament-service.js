@@ -87,6 +87,9 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 			});
 		},
 		verifyRound : function(tournament, roundNumber){
+			for (var k in tournament.players) {
+				tournament.players[k].victory_points=0;
+			}
 			var index;
 			for (var i=0; i<tournament.rounds.length; i++){
 				if (tournament.rounds[i].number === roundNumber){
@@ -123,8 +126,8 @@ function verifyParing(tournament, g, index){
 function verifyVictoryPoint(tournament, index){
 	for (var i=0; i < index; i++){
 		tournament.rounds[i].games.forEach(function(game){
-			tournament.players[game.results[0].player].victory_points = game.results[0].victory_points
-			tournament.players[game.results[1].player].victory_points = game.results[1].victory_points
+			tournament.players[game.results[0].player].victory_points += game.results[0].victory_points
+			tournament.players[game.results[1].player].victory_points += game.results[1].victory_points
 		});
 	}
 	tournament.rounds[index].games.forEach(function(game){
