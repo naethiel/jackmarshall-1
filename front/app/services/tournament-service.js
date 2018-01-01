@@ -101,7 +101,7 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 
 			tournament.rounds[index].games.forEach(function(game){
 				verifyParing(tournament, game, index);
-				// verifyTable(tournament, game, index);
+				verifyTable(tournament, game, index);
 				verifyOrigin(tournament,game,index);
 			});
 		}
@@ -163,10 +163,10 @@ function verifyTable(tournament, g, index){
 				} else if (tournament.tables[g.table].scenario === tournament.tables[game.table].scenario){
 					g.results[0].errorScenario = true;
 				}
-			} else if (g.results[1].player.id === game.results[0].player.id || g.results[1].player.id === game.results[1].player.id) {
-				if (g.table.id === game.table.id) {
+			} else if (g.results[1].player === game.results[0].player || g.results[1].player === game.results[1].player) {
+				if (g.table === game.table) {
 					g.results[1].errorTable = true;
-				} else if (g.table.scenario === game.table.scenario){
+				} else if (tournament.tables[g.table].scenario === tournament.tables[game.table].scenario){
 					g.results[1].errorScenario = true;
 				}
 			}
