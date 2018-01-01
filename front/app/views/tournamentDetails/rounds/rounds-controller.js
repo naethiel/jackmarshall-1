@@ -72,6 +72,10 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
     this.openAssignements = function(id){
         window.open('/#!/tournament/'+id+'/assignements');;
     }
+
+    this.compare = function(a, b) {
+        return naturalSort(scope.tournament.tables[a.value].name, scope.tournament.tables[b.value].name);
+    };
     // this.openAssignements = function(id){
     //     window.open('views/tournamentDetails/rounds/assignements.html?id='+id);
     // }

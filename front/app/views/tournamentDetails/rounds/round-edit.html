@@ -21,7 +21,7 @@
                 </div>
             </div>
         </li>
-        <li class="list-group-item p-1" ng-repeat="game in RoundsCtrl.round.games |filterGame:searchText:RoundsCtrl.tournament.players:RoundsCtrl.tournament.tables |orderBy: 'table.name'">
+        <li class="list-group-item p-1" ng-repeat="game in RoundsCtrl.round.games |filterGame:searchText:RoundsCtrl.tournament.players:RoundsCtrl.tournament.tables |orderBy: 'table': false : RoundsCtrl.compare"">
             <edit-game class="w-100"  tournament="RoundsCtrl.tournament" game="game" roundnumber="RoundsCtrl.round.number"></edit-game>
         </li>
     </ul>
