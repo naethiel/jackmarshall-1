@@ -11,6 +11,7 @@ type Player struct {
 	Oponnent           []string `json:"-"`
 	Tables             []Table  `json:"-"`
 	AvailableOpponents []string `json:"-"`
+	Result             Result   `json:"result"`
 }
 
 func (p *Player) VictoryPoints() int {

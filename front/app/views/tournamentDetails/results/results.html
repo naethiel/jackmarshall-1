@@ -8,15 +8,15 @@
         <th class="text-center">Destruction Points</th>
     </thead>
     <tbody>
-        <tr ng-repeat="score in ResultsCtrl.score |orderBy: ['-victory_points','-sos','-scenario_points','-destruction_points'] track by $index">
+        <tr ng-repeat="player in ResultsCtrl.players |toArray |orderBy: 'result': false : ResultsCtrl.compare">
             <td>{{$index + 1}}</td>
             <td>
-                <span class="{{score.player.faction |trim}}">{{score.player.name}} </span>
+                <span class="{{player.faction |trim}}">{{player.name}} </span>
             </td>
-            <td class="text-center">{{score.victory_points}}</td>
-            <td class="text-center">{{score.sos}}</td>
-            <td class="text-center">{{score.scenario_points}}</td>
-            <td class="text-center">{{score.destruction_points}}</td>
+            <td class="text-center">{{player.result.victory_points}}</td>
+            <td class="text-center">{{player.result.sos}}</td>
+            <td class="text-center">{{player.result.scenario_points}}</td>
+            <td class="text-center">{{player.result.destruction_points}}</td>
         </tr>
     </tbody>
 </table>
