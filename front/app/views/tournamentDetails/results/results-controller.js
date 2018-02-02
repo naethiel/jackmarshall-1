@@ -18,15 +18,31 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "uuid"
         if (a.value.victory_points === b.value.victory_points) {
             if (a.value.sos === b.value.sos){
                 if (a.value.scenario_points === b.value.scenario_points) {
-                    a.value.destruction_points < b.value.destruction_points
+                    if (a.value.destruction_points < b.value.destruction_points){
+                        return 1
+                    }else{
+                        return -1
+                    }
                 } else {
-                    a.value.scenario_points < b.value.scenario_points
+                    if (a.value.scenario_points < b.value.scenario_points){
+                        return 1
+                    }else{
+                        return -1
+                    }
                 }
             } else {
-                return a.value.sos < b.value.sos
+                if( a.value.sos < b.value.sos){
+                    return 1
+                }else{
+                    return -1
+                }
             }
         } else {
-            return a.value.victory_points < b.value.victory_points
+            if (a.value.victory_points < b.value.victory_points){
+                return 1
+            }else{
+                return -1
+            }
         }
     };
 
