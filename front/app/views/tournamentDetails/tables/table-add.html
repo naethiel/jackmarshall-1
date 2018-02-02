@@ -1,5 +1,5 @@
-<form class="form-horizontal my-3" ng-submit="TablesCtrl.addTable()">
-    <input ng-model="TablesCtrl.table.name" type="text" id="table_name" class="form-control first" placeholder="Name" required autofocus>
+<form name="addTableForm" class="form-horizontal my-3" ng-submit="TablesCtrl.addTable()">
+    <input ng-model="TablesCtrl.table.name" type="text" id="add_table_name" class="form-control first" placeholder="Name" required autofocus>
     <select class="form-control" id="table_scenario" ng-model="TablesCtrl.table.scenario">
         <option ng-repeat="scenario in TablesCtrl.scenarios track by $index" value="{{scenario.name}}">{{scenario.name}}</option>
     </select>

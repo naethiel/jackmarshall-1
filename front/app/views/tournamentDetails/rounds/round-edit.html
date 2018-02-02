@@ -5,23 +5,23 @@
   <input type="text" ng-model="searchText" class="form-control" placeholder="Search..." aria-describedby="sizing-addon2">
 </div>
     <ul class="list-group">
-        <li class="list-group-item">
+        <li class="list-group-item p-1">
             <div class="w-100 game-container">
-                <div class="row row-center game-row font-bold">
-                    <div class="flex-2">Table</div>
-                    <div class="flex-6 ml-2">Joueur 1</div>
-                    <div class="flex-2 mx-1">Victory</div>
-                    <div class="flex-1 mx-1">SP</div>
-                    <div class="flex-1 mx-1">Dest</div>
+                <div class="row game-row font-weight-bold">
+                    <div class="flex-3">Table</div>
+                    <div class="flex-4">Joueur 1</div>
+                    <div class="flex-2">Victory</div>
+                    <div class="flex-1">SP</div>
+                    <div class="flex-1">Dest</div>
                     <div class="flex-1 mx-1"></div>
-                    <div class="flex-2 mx-1">Victory</div>
-                    <div class="flex-1 mx-1">SP</div>
-                    <div class="flex-1 mx-1">Dest</div>
-                    <div class="flex-6 ml-3">Joueur 2</div>
+                    <div class="flex-2">Victory</div>
+                    <div class="flex-1">SP</div>
+                    <div class="flex-1">Dest</div>
+                    <div class="flex-4">Joueur 2</div>
                 </div>
             </div>
         </li>
-        <li class="list-group-item" ng-repeat="game in RoundsCtrl.round.games |filter:searchText |orderBy: 'table.name'">
+        <li class="list-group-item p-1" ng-repeat="game in RoundsCtrl.round.games |filterGame:searchText:RoundsCtrl.tournament.players:RoundsCtrl.tournament.tables |orderBy: 'table': false : RoundsCtrl.compare">
             <edit-game class="w-100"  tournament="RoundsCtrl.tournament" game="game" roundnumber="RoundsCtrl.round.number"></edit-game>
         </li>
     </ul>
@@ -37,7 +37,7 @@
 
 </form>
 <div class="float-right mb-3 mr-3">
-    <button type="submit" class="btn btn-primary" onclick="window.open('views/tournamentDetails/rounds/timer.html')">Timer</button>
+    <button type="submit" class="btn btn-primary" onclick="window.open('/#!/timer')">Timer</button>
     <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.openAssignements(RoundsCtrl.tournament.id)">Assignments</button>
     <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.bbCodeRound(RoundsCtrl.round)">Forum export</button>
     <button type="submit" class="btn btn-danger" ng-click=RoundsCtrl.confirmDelete(RoundsCtrl.round)>Delete round</button>

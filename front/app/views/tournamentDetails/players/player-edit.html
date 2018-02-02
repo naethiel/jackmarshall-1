@@ -16,9 +16,6 @@
         <option value="Grymkin">Grymkin</option>
         <option value="Minions">Minions</option>
     </select>
-    <div ng-repeat="list in player.lists track by $index">
-        <input autocomplete="off" ng-model="player.lists[$index].caster" type="text" typeahead-template-url="/views/tournamentDetails/players/autocomplete-caster-template.html" class="form-control mid" placeholder="{{'List ' + ($index+1)}}" id="{{'player_list' + $index}}" uib-typeahead="caster.name for caster in PlayersCtrl.casters |filter: {faction: player.faction, $: $viewValue} | limitTo:28">
-    </div>
     <button class="btn btn-sm btn-success mt-3 float-right" type="submit">Update</button>
     <p ng-show="PlayersCtrl.errorUpdate" class="card-block text-danger mb-0" role="alert">
         <i class="fa fa-exclamation-circle"></i> Server Error : Unable to update player.

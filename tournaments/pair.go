@@ -1,142 +1,136 @@
 package tournaments
 
 import (
-	"fmt"
-	"math/rand"
 	"sort"
-	"time"
 )
 
-type Pair [2]*Player
+type Pair [2]Player
 
-func (p Pair) PlayedScenario(scenario string) bool {
-	if p[0].PlayedScenario(scenario) || p[1].PlayedScenario(scenario) {
-		return true
-	}
-	return false
+type PairingParams struct {
+	players   []Player
+	bracket   int
+	origin    bool
+	condition func(i int) bool
+	cond      string
 }
 
-func CreatePairs(p []*Player, tournament Tournament, r *Round) (pairs []Pair) {
-	// var players = make([]*Player, 0)
-	//
-	//
-	// for i := range p {
-	// 	if p[i].Leave != true {
-	// 		players = append(players, p[i])
-	// 	}
-	// }
-	//
-	// for _, player := range players {
-	// 	player.Games = make([]*Game, 0)
-	// 	for r, round := range tournament.Rounds {
-	// 		for g, game := range round.Games {
-	// 			for _, result := range game.Results {
-	// 				if result.Player.Name == player.Name {
-	// 					player.Games = append(player.Games, &tournament.Rounds[r].Games[g])
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
+func MakeBye(players []Player, format int) (*Game, []Player) {
+	// if even number of player no bye
+	if len(players)%2 == 0 {
+		return nil, players
+	}
 
-	tournament.AddPlayersGames()
-	players := tournament.GetActivePlayers()
-
-	timeout := false
-	perfectPairing := false
-	var fuckers []*Player
-	go func() {
-		time.Sleep(1 * time.Second)
-		timeout = true
-	}()
-
-	for !timeout && !perfectPairing {
-		//shuffle palyers list
-		rand.Seed(time.Now().UnixNano())
-		for i := range players {
-			var j = rand.Intn(len(players) - 1)
-			players[i], players[j] = players[j], players[i]
+	bye := &Game{
+		Results: [2]Result{
+			Result{
+				VictoryPoints:     1,
+				ScenarioPoints:    2,
+				DestructionPoints: format / 2,
+				Bye:               true,
+			},
+			Result{},
+		},
+	}
+	// stable sort players by victory point incr
+	sort.Slice(players, func(i int, j int) bool {
+		return players[i].VictoryPoints() < players[j].VictoryPoints()
+	})
+	for i, p := range players {
+		// give a bye to the first player that don't aldready have a bye
+		if !p.HadBye() {
+			bye.Results[0].PlayerID = p.ID
+			players = append(players[:i], players[i+1:]...)
+			return bye, players
 		}
+	}
+	// every player already had a bye ? seriously ?
+	bye.Results[0].PlayerID = players[0].ID
+	players = players[1:]
 
-		//Sort player list by victory points
-		sort.Slice(players, func(i int, j int) bool {
-			return players[i].VictoryPoints() > players[j].VictoryPoints()
-		})
+	//FIXME: maybe we could made this simplier by just giving a bye to the first player
 
-		//Odd number of players
-		if len(players)%2 != 0 {
-			for i := len(players) - 1; i >= 0; i-- {
-				if players[i].HadBye() == false || len(tournament.Rounds) == 0 {
-					r.Games = append(r.Games, Game{
-						Table: Table{
-							Name: "",
-						},
-						Results: [2]Result{
-							Result{
-								Player:            *players[i],
-								VictoryPoints:     1,
-								ScenarioPoints:    2,
-								DestructionPoints: tournament.Format / 2,
-								Bye:               true,
-							},
-							Result{},
-						},
-					})
-					if i == len(players)-1 {
-						players = append(players[0:i])
-					} else {
-						players = append(players[0:i], players[i+1:]...)
-					}
+	return bye, players
+}
+
+func MakeBrackets(players []Player) (map[int][]Player, []int) {
+	brackets := map[int][]Player{}
+	for _, p := range players {
+		vp := p.VictoryPoints()
+		brackets[vp] = append(brackets[vp], p)
+	}
+
+	keys := make([]int, 0, len(brackets))
+	for k := range brackets {
+		keys = append(keys, k)
+	}
+	sort.Slice(keys, func(i int, j int) bool {
+		return keys[i] < keys[j]
+	})
+
+	for i, vp := range keys {
+		if len(brackets[vp])%2 != 0 {
+			for j, p := range brackets[vp] {
+				if !p.HadSousApp() && p.VictoryPoints() == vp {
+					brackets[keys[i+1]] = append(brackets[keys[i+1]], brackets[vp][j])
+					brackets[vp] = append(brackets[vp][:j], brackets[vp][j+1:]...)
 					break
 				}
 			}
 		}
-		//players that had already played against available players
-		fuckers = fuckers[:0]
-	Selection:
-		for len(players) > 0 {
-			for i, p := range players {
-				if players[0].Name == p.Name {
-					continue
-				}
-				if p.PlayedAgainst(players[0]) {
-					continue
-				}
-				pairs = append(pairs, Pair{players[0], p})
-				players = append(players[1:i], players[i+1:]...)
-				continue Selection
+	}
+
+	return brackets, keys
+}
+
+func (t *Tournament) MakePairings(brackets map[int][]Player, keys []int) []Pair {
+	// fmt.Println("Make paring")
+	pairs := []Pair{}
+	for _, vp := range keys {
+		players := brackets[vp]
+		for len(players) > 1 {
+			params := []PairingParams{
+				{players, vp, false, func(i int) bool { return i == 1 }, "=1"},
+				{players, vp, true, func(i int) bool { return i == 1 }, "=1"},
+				{players, vp, true, func(i int) bool { return i > 1 }, ">1"},
+				{players, vp, false, func(i int) bool { return i > 1 }, ">1"},
 			}
-			fuckers = append(fuckers, players[0])
-			players = players[1:]
+			var pair Pair
+			var ok bool
+			for _, param := range params {
+				if pair, players, ok = t.CreatePair(param); ok {
+					pairs = append(pairs, pair)
+					break
+				}
+			}
+			if !ok {
+				pairs = append(pairs, Pair{players[0], players[1]})
+				players = append(players[:0], players[2:]...)
+			}
 		}
-
-		perfectPairing = (len(fuckers) == 0)
-
 	}
-	// Create pairs from the fuckers.
-	for len(fuckers) != 0 {
-		fmt.Printf("FUCKERS : %v\n", fuckers)
-		pairs = append(pairs, Pair{fuckers[0], fuckers[1]})
-		fuckers = fuckers[2:]
-	}
-
-	return
+	return pairs
 }
 
-func (p *Pair) Print() {
-
-	fmt.Println(p[0], " vs ", p[1])
-
-}
-func PairsFromPlayers(players []*Player) []Pair {
-	res := []Pair{}
-	for i := 0; i < len(players); i++ {
-		if i == len(players)-1 {
-			break
-		}
-		res = append(res, Pair{players[i], players[i+1]})
-
-		i++
+func (t *Tournament) CreatePair(params PairingParams) (Pair, []Player, bool) {
+	for i, p := range params.players {
+		params.players[i].AvailableOpponents = p.GetAvailableOpponents(params.players, params.origin)
 	}
-	return res
+	sort.Slice(params.players, func(i int, j int) bool {
+		return len(params.players[i].AvailableOpponents) < len(params.players[j].AvailableOpponents)
+	})
+	var pair Pair
+	for i, p := range params.players {
+		// log.Debugf("availableOpponents for %s: %+v", p.ID, p.AvailableOpponents)
+		if params.condition(len(p.AvailableOpponents)) {
+			opponent := t.Players[p.AvailableOpponents[0]]
+			pair = Pair{p, opponent}
+			params.players = append(params.players[:i], params.players[i+1:]...)
+			opponentIndex := getPlayerIndex(opponent, params.players)
+			params.players = append(params.players[:opponentIndex], params.players[opponentIndex+1:]...)
+			// log.Debugf("Pair %s (%s) vs %s (%s) with params %t, %s", pair[0].ID, pair[0].Origin, pair[1].ID, pair[1].Origin, params.origin, params.cond)
+			return pair, params.players, true
+		}
+	}
+	// log.Debugf("No pair with params %t, %s", params.origin, params.cond)
+	return pair, params.players, false
 }

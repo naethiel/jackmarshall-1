@@ -19,19 +19,6 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
         })
     };
 
-// FIXME: still used ?
-    // this.deleteRound = function(round){
-    //     scope.errorDelete = null;
-    //     var temp = JSON.parse(JSON.stringify(scope.tournament));
-    //     temp.rounds.splice(temp.rounds.indexOf(round), 1);
-    //     tournamentService.update(temp).then(function(id){
-    //         scope.tournament.rounds.splice(scope.tournament.rounds.indexOf(round), 1);
-    //         $rootScope.$emit("UpdateResult");
-    //     }).catch(function(err){
-    //         scope.errorDelete = true;
-    //     })
-    // };
-
     this.bbCodeRound = function(round) {
         var params = {
             animation: false,
@@ -83,6 +70,13 @@ app.controller('RoundsCtrl', ["$rootScope", "$route", "$uibModal", "$scope", "To
     };
 
     this.openAssignements = function(id){
-        window.open('views/tournamentDetails/rounds/assignements.html?id='+id);
+        window.open('/#!/tournament/'+id+'/assignements');;
     }
+
+    this.compare = function(a, b) {
+        if (a.value === "" || b.value === ""){
+            return true
+        }
+        return naturalSort(scope.tournament.tables[a.value].name, scope.tournament.tables[b.value].name);
+    };
 }]);

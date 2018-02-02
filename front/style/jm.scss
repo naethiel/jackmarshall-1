@@ -28,6 +28,9 @@ input{
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
+    &.ng-touched:invalid {
+        border-color: $red;
+    }
 }
 
 .form-signin {
@@ -135,4 +138,24 @@ tbody.collapse.in  {
     font-family: 'FontAwesome';  /* essential for enabling glyphicon */
 
     content: "\f055";
+}
+
+@font-face {
+    font-family: 'DroidSansMono';
+    src: url('../fonts/droid-sans-mono.eot') format('eot'),
+         url('../fonts/droid-sans-mono.woff') format('woff'),
+         url('../fonts/droid-sans-mono.ttf') format('truetype'),
+         url('../fonts/droid-sans-mono.svg') format('svg');
+}
+
+.timer {
+    font-size: 12rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:80%;
+    font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+    font-family: 'DroidSansMono', monospace;
 }

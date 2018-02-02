@@ -4,77 +4,100 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/chibimi/jackmarshall/tournaments/solver"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type Tournament struct {
-	ID        bson.ObjectId `json:"id" bson:"_id,omitempty" update:"nonzero"`
-	Owner     int64         `json:"owner" bson:"owner" create:"nonzero" update:"nonzero"`
-	Name      string        `json:"name" create:"nonzero" update:"nonzero"`
-	Format    int           `json:"format" create:"nonzero" update:"nonzero"`
-	Slots     int           `json:"slots" create:"nonzero" update:"nonzero"`
-	FeeAmount float64       `json:"fee_amount"`
-	Date      time.Time     `json:"date" create:"nonzero" update:"nonzero"`
-	Players   []*Player     `json:"players"`
-	Tables    []Table       `json:"tables"`
-	Rounds    []Round       `json:"rounds" create:"max=0"`
+	ID      bson.ObjectId     `json:"id" bson:"_id,omitempty" update:"nonzero"`
+	Owner   int64             `json:"owner" bson:"owner" create:"nonzero" update:"nonzero"`
+	Name    string            `json:"name" create:"nonzero" update:"nonzero"`
+	Format  int               `json:"format" create:"nonzero" update:"nonzero"`
+	Slots   int               `json:"slots" create:"nonzero" update:"nonzero"`
+	Date    time.Time         `json:"date" create:"nonzero" update:"nonzero"`
+	Players map[string]Player `json:"players"`
+	Tables  map[string]Table  `json:"tables"`
+	Rounds  []Round           `json:"rounds" create:"max=0"`
 }
 
 func NewTournament() *Tournament {
 	return &Tournament{
-		Players: []*Player{},
-		Tables:  []Table{},
+		Players: map[string]Player{},
+		Tables:  map[string]Table{},
 		Rounds:  []Round{},
 	}
 }
 
-func (t *Tournament) GetActivePlayers() []*Player {
-	res := []*Player{}
-	for i := range t.Players {
-		if t.Players[i].Leave != true {
-			res = append(res, t.Players[i])
+func (t *Tournament) GetActivePlayers() []Player {
+	res := []Player{}
+	for _, v := range t.Players {
+		if v.Leave != true {
+			res = append(res, v)
 		}
 	}
 	return res
 }
 
-func (t *Tournament) AddPlayersGames() {
-	games := map[string][]*Game{}
-
+func (t *Tournament) SetPreviousGamesData() {
+	games := map[string][]Game{}
+	tables := map[string][]Table{}
+	opponents := map[string][]string{}
 	for _, r := range t.Rounds {
 		for _, g := range r.Games {
-			for _, res := range g.Results {
-				if v, ok := games[res.Player.ID]; ok {
-					games[res.Player.ID] = append(v, &g)
-				} else {
-					games[res.Player.ID] = []*Game{&g}
-				}
+			for i, res := range g.Results {
+				games[res.PlayerID] = append(games[res.PlayerID], g)
+				opponents[res.PlayerID] = append(opponents[res.PlayerID], g.Results[(i+1)%2].PlayerID)
+				tables[res.PlayerID] = append(tables[res.PlayerID], t.Tables[g.TableID])
 			}
 		}
 	}
-
-	for _, p := range t.Players {
-		p.Games = games[p.ID]
+	for i, p := range t.Players {
+		player := t.Players[i]
+		player.Games = games[p.ID]
+		player.Tables = tables[p.ID]
+		player.Oponnent = opponents[p.ID]
+		t.Players[i] = player
 	}
 }
 
-func NewTestTournament(nbPlayer, nbTable, nbScenario int) *Tournament {
-	t := NewTournament()
+func (t *Tournament) GetNextRound() Round {
+	t.SetPreviousGamesData()
+	players := t.GetActivePlayers()
+	suffle(players)
 
-	for i := 0; i < nbPlayer; i++ {
-		t.Players = append(t.Players, &Player{
-			ID:   "player" + fmt.Sprintf("%d", i),
-			Name: "player" + fmt.Sprintf("%d", i),
-		})
+	bye, players := MakeBye(players, t.Format)
+
+	brackets, keys := MakeBrackets(players)
+
+	pairs := t.MakePairings(brackets, keys)
+
+	// round := Round{}
+	// for _, p := range pairs {
+	// 	g := Game{
+	// 		Results: [2]Result{
+	// 			{PlayerID: p[0].ID},
+	// 			{PlayerID: p[1].ID},
+	// 		},
+	// 	}
+	// 	round.Games = append(round.Games, g)
+	// }
+	s := solver.Solver{
+		PopulationSize:   10,
+		MaxIterations:    10000,
+		NumberOfChildren: 10,
+		RandomSwapRate:   0.5,
 	}
-
-	for i := 0; i < nbTable; i++ {
-		t.Tables = append(t.Tables, Table{
-			ID:       "table" + fmt.Sprintf("%d", i),
-			Name:     "table" + fmt.Sprintf("%d", i),
-			Scenario: "scenario" + fmt.Sprintf("%d", i%nbScenario),
-		})
+	//Assign tables
+	tables := []Table{}
+	for _, v := range t.Tables {
+		tables = append(tables, v)
 	}
-
-	return t
+	assignements, j := s.Solve(Assignements{Pairs: pairs, Tables: tables})
+	fmt.Printf("Assignements done in %d itarations with a fitness score of %.0f\n", j, assignements.Fitness)
+	round := RoundFromAssignaments(assignements.Genes.(Assignements))
+	if bye != nil {
+		round.Games = append(round.Games, *bye)
+	}
+	round.Number = len(t.Rounds)
+	return round
 }

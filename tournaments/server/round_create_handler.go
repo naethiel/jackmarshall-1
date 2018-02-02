@@ -45,25 +45,17 @@ func NewCreateRoundHandler(db *mgo.Session, logger log.Logger) httprouter.Handle
 			return
 		}
 
-		//create pairings and assign tables
-		round := Round{
-			Number: len(tournament.Rounds),
-			Games:  []Game{},
-		}
-
 		if len(tournament.Players) == 0 || len(tournament.Tables) < len(tournament.Players)/2 {
 			logger.Log("request_id", ctx.RequestID, "level", "error", "msg", "Unable to create round", "tournament_id", id, "error", "Incorect number of players or tables")
 			http.Error(w, "Incorect number of players or tables", http.StatusBadRequest)
 			return
 		}
 
-		var pairings = CreatePairs(tournament.Players, tournament, &round)
-		CreateRound(pairings, tournament.Tables, &round)
-
-		for i, _ := range round.Games {
-			round.Games[i].Results[0].Player.Games = nil
-			round.Games[i].Results[1].Player.Games = nil
-		}
+		round := tournament.GetNextRound()
+		// for i, _ := range round.Games {
+		// 	round.Games[i].Results[0].Player.Games = nil
+		// 	round.Games[i].Results[1].Player.Games = nil
+		// }
 
 		tournament.Rounds = append(tournament.Rounds, round)
 

@@ -57,7 +57,7 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 					return res.data;
 				})
 				.catch(function (err){
-					console.error("Unable to update tournament " + id + " : ", err);
+					console.error("Unable to update tournament " + tournament.id + " : ", err);
 					throw err.status;
 				});
 			});
@@ -87,6 +87,13 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 			});
 		},
 		verifyRound : function(tournament, roundNumber){
+			if (roundNumber === -1){
+				return
+			}
+
+			for (var k in tournament.players) {
+				tournament.players[k].victory_points=0;
+			}
 			var index;
 			for (var i=0; i<tournament.rounds.length; i++){
 				if (tournament.rounds[i].number === roundNumber){
@@ -94,11 +101,13 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 					break;
 				}
 			}
+
+			verifyVictoryPoint(tournament, index);
+
 			tournament.rounds[index].games.forEach(function(game){
 				verifyParing(tournament, game, index);
 				verifyTable(tournament, game, index);
-				verifyList(tournament, game.results[0].player, index);
-				verifyList(tournament, game.results[1].player, index);
+				verifyOrigin(tournament,game,index);
 			});
 		}
 	};
@@ -110,43 +119,52 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 function verifyParing(tournament, g, index){
 	g.errorPairing = false;
 	for (var i=0; i < index; i++){
-		var round = tournament.rounds[i];
-		if (round.number===index){
-			return;
-		}
-		round.games.forEach(function(game){
-			if ((g.results[0].player.name === game.results[0].player.name && g.results[1].player.name === game.results[1].player.name) ||
-			(g.results[0].player.name === game.results[1].player.name && g.results[1].player.name === game.results[0].player.name)) {
+		tournament.rounds[i].games.forEach(function(game){
+			if ((g.results[0].player === game.results[0].player && g.results[1].player === game.results[1].player) ||
+			(g.results[0].player === game.results[1].player && g.results[1].player === game.results[0].player)) {
 				g.errorPairing = true;
 			}
 		});
 	}
 };
 
-function verifyList(tournament, player, index){
-	player.lists.forEach(function(list) {
-		list.played = false;
-	});
+function verifyVictoryPoint(tournament, index){
 	for (var i=0; i < index; i++){
-		var round = tournament.rounds[i];
-		round.games.forEach(function(game){
-			if (game.results[0].player.name === player.name && game.results[0].list != "") {
-				player.lists.forEach(function(list) {
-					if (list.caster === game.results[0].list){
-						list.played = true;
-					}
-				});
-
-			} else if (game.results[1].player.name === player.name && game.results[1].list != "") {
-				player.lists.forEach(function(list) {
-					if (list.caster === game.results[1].list){
-						list.played = true;
-					}
-				});
+		tournament.rounds[i].games.forEach(function(game){
+			if (game.results[0].player !== ""){
+				tournament.players[game.results[0].player].victory_points += game.results[0].victory_points
+			}
+			if (game.results[1].player !== ""){
+				tournament.players[game.results[1].player].victory_points += game.results[1].victory_points
 			}
 		});
 	}
+	tournament.rounds[index].games.forEach(function(game){
+		game.errorVP = false;
+		if (game.results[0].player === "" || game.results[1].player === ""){
+			return
+		}
+		if (tournament.players[game.results[0].player].victory_points != tournament.players[game.results[1].player].victory_points){
+			game.errorVP = true;
+		}
+	});
 };
+
+
+function verifyOrigin(tournament,g, index){
+	if (g.results[0].player === "" || g.results[1].player === ""){
+		g.errorOrigin = false
+		return
+	}
+	g.errorOrigin = (tournament.players[g.results[0].player].origin == tournament.players[g.results[1].player].origin && tournament.players[g.results[0].player].origin != "");
+};
+
+function getNum(val) {
+	if (isNaN(val)) {
+		return 0;
+	}
+	return val;
+}
 
 function verifyTable(tournament, g, index){
 	g.results[0].errorTable = false;
@@ -154,21 +172,17 @@ function verifyTable(tournament, g, index){
 	g.results[0].errorScenario = false;
 	g.results[1].errorScenario = false;
 	for (var i=0; i < index; i++){
-		var round = tournament.rounds[i];
-		if (round.number===index){
-			return;
-		}
-		round.games.forEach(function(game){
-			if (g.results[0].player.name === game.results[0].player.name || g.results[0].player.name === game.results[1].player.name) {
-				if (g.table.name === game.table.name) {
+		tournament.rounds[i].games.forEach(function(game){
+			if (g.results[0].player === game.results[0].player || g.results[0].player === game.results[1].player) {
+				if (g.table !== "" && g.table === game.table) {
 					g.results[0].errorTable = true;
-				} else if (g.table.scenario === game.table.scenario){
+				} else if (game.table !== "" && g.table !== "" && tournament.tables[g.table].scenario === tournament.tables[game.table].scenario){
 					g.results[0].errorScenario = true;
 				}
-			} else if (g.results[1].player.name === game.results[0].player.name || g.results[1].player.name === game.results[1].player.name) {
-				if (g.table.name === game.table.name) {
+			} else if (g.results[1].player === game.results[0].player || g.results[1].player === game.results[1].player) {
+				if (g.table !== "" && g.table === game.table) {
 					g.results[1].errorTable = true;
-				} else if (g.table.scenario === game.table.scenario){
+				} else if (game.table !== "" && g.table !== "" && tournament.tables[g.table].scenario === tournament.tables[game.table].scenario){
 					g.results[1].errorScenario = true;
 				}
 			}

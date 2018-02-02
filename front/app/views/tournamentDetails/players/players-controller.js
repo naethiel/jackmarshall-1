@@ -1,96 +1,64 @@
 'use strict';
 
-app.controller('PlayersCtrl', ["$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($rootScope, $route, uuid, tournamentService, utilsService) {
-    var lists = JSON.stringify([{
-        caster: "",
-        theme: "",
-        played: false,
-        list: ""
-    },{
-        caster: "",
-        theme: "",
-        played: false,
-        list: ""
-    }]);
+app.controller('PlayersCtrl', ["$scope", "$rootScope", "$route", "uuid", "TournamentService", "UtilsService", function ($scope, $rootScope, $route, uuid, tournamentService, utilsService) {
     var scope = this;
     scope.tournament = {};
     scope.player = {};
-    scope.player.lists = JSON.parse(lists);
     scope.errorAdd = undefined;
     scope.errorUpdate = undefined;
     scope.errorDelete = undefined;
     scope.playersCollapsed = false;
-    scope.casters = []
-
-    utilsService.getFileData('/data/casters.json').then(function(casters){
-        scope.casters = casters;
-    })
 
     $rootScope.$on("UpdateRounds", function(e, nb_round){
         scope.playersCollapsed = (nb_round > 0);
     });
 
     this.addPlayer = function(){
-        scope.errorAdd = null;
+        scope.errorAdd = false;
         scope.player.id = uuid.v4();
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.players.push(scope.player);
-        tournamentService.update(temp).then(function(id){
-            scope.tournament.players.push(scope.player);
+        scope.tournament.players[scope.player.id] = scope.player
+        tournamentService.update(scope.tournament).then(function(){
             scope.player = {};
-            scope.player.lists = JSON.parse(lists);
-            $rootScope.$emit("UpdateResult");
+            document.getElementById("add_player_name").focus()
+            $scope.addPlayerForm.$setUntouched();
         }).catch(function(err){
+            delete scope.tournament.players[scope.player.id]
             scope.errorAdd = true;
         })
     };
 
     this.deletePlayer = function(player){
-        scope.errorDelete = null;
-        var temp = JSON.parse(JSON.stringify(scope.tournament));
-        temp.players.splice(temp.players.indexOf(player), 1);
-        tournamentService.update(temp).then(function(id){
-            scope.tournament.players.splice(scope.tournament.players.indexOf(player), 1);
-            $rootScope.$emit("UpdateResult");
+        scope.errorDelete = false;
+        delete scope.tournament.players[player.id]
+        tournamentService.update(scope.tournament).then(function(){
         }).catch(function(err){
+            scope.tournament.players[player.id] = player
             scope.errorDelete = true;
         })
     };
 
     this.updatePlayer = function(player){
-        scope.errorUpdate = null;
-        scope.tournament.rounds.forEach(function(round){
-            round.games.forEach(function(game){
-                game.results.forEach(function(result){
-        			if (result.player.id === player.id){
-                        result.player = player;
-                    }
-        		});
-    		});
-		});
-        tournamentService.update(scope.tournament).then(function(id){
-            $rootScope.$emit("UpdateResult");
+        scope.errorUpdate = false;
+        tournamentService.update(scope.tournament).then(function(){
             player.detailsVisible=false;
         }).catch(function(err){
             scope.errorUpdate = true;
         })
     };
-    //FIXME then empty
-    this.dropPlayer = function(player){
-        player.leave = true;
-        tournamentService.update(scope.tournament).then(function(id){
-        }).catch(function(err){
-            scope.errorUpdate = true;
-        })
-    };
-    //FIXME then empty
 
-    this.rejoinPlayer = function(player){
-        player.leave = false;
-        tournamentService.update(scope.tournament).then(function(id){
+    this.changeStatus = function(player){
+        scope.errorUpdate = false;
+        player.leave = !player.leave;
+        tournamentService.update(scope.tournament).then(function(){
         }).catch(function(err){
+            player.leave=!player.leave;
             scope.errorUpdate = true;
         })
+    }
+
+    this.compare = function(a, b) {
+        return naturalSort(a.value, b.value);
     };
+
 
 }]);

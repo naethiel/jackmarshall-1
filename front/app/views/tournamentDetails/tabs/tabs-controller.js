@@ -15,6 +15,10 @@ app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", functio
 
     this.setTab = function(tab) {
         scope.tab = tab;
+        if (tab == -1) {
+            $rootScope.$emit("UpdateResult", scope.tournament.rounds.length);
+        }
+        tournamentService.verifyRound(scope.tournament,tab);
     };
 
     this.getNextRound = function(){
