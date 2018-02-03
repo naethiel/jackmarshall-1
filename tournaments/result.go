@@ -18,7 +18,7 @@ func (t Tournament) SetResults() {
 				var res Result
 				if g.Results[0].PlayerID == p.ID {
 					res = g.Results[0]
-				} else {
+				} else if g.Results[1].PlayerID == p.ID {
 					res = g.Results[1]
 				}
 				player := t.Players[p.ID]
