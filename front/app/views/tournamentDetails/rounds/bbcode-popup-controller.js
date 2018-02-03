@@ -1,10 +1,15 @@
 'use strict';
 
 app.controller('RoundBBCodeCtrl', function ($uibModalInstance, round, scopeParent) {
-    console.log("passage ", round);
     var scope = this;
     this.copySuccess = false;
     this.round = round;
+    this.tournament = scopeParent.tournament;
+
+    this.Player = function(id){
+        return scope.tournament.players[id]
+    };
+
     this.copy = function () {
         if (window.getSelection) {
             if (window.getSelection().empty) {  // Chrome
