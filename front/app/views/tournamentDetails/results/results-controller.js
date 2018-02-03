@@ -46,9 +46,9 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "uuid"
         }
     };
 
-    this.bbCodeResults = function(score) {
+    this.bbCodeResults = function(players) {
         var params = {
-            animation: true,
+            animation: false,
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'views/tournamentDetails/results/bbcode-popup.html',
@@ -57,8 +57,8 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "uuid"
             size: 'md',
             appendTo: undefined,
             resolve: {
-                score: function () {
-                    return score;
+                players: function () {
+                    return players;
                 },
                 scopeParent: function(){
                     return scope;
