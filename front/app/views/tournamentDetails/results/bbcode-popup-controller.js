@@ -1,9 +1,9 @@
 'use strict';
 
-app.controller('ResultsBBCodeCtrl', function ($uibModalInstance, score, scopeParent) {
+app.controller('ResultsBBCodeCtrl', function ($uibModalInstance, players, scopeParent) {
     var scope = this;
     this.copySuccess = false;
-    this.results = score;
+    this.players = players;
     this.copy = function () {
         if (window.getSelection) {
             if (window.getSelection().empty) {  // Chrome
@@ -31,5 +31,37 @@ app.controller('ResultsBBCodeCtrl', function ($uibModalInstance, score, scopePar
 
     this.cancel = function () {
         $uibModalInstance.dismiss('cancel');
+    };
+
+    this.compare = function(a, b) {
+        if (a.value.victory_points === b.value.victory_points) {
+            if (a.value.sos === b.value.sos){
+                if (a.value.scenario_points === b.value.scenario_points) {
+                    if (a.value.destruction_points < b.value.destruction_points){
+                        return 1
+                    }else{
+                        return -1
+                    }
+                } else {
+                    if (a.value.scenario_points < b.value.scenario_points){
+                        return 1
+                    }else{
+                        return -1
+                    }
+                }
+            } else {
+                if( a.value.sos < b.value.sos){
+                    return 1
+                }else{
+                    return -1
+                }
+            }
+        } else {
+            if (a.value.victory_points < b.value.victory_points){
+                return 1
+            }else{
+                return -1
+            }
+        }
     };
 });
