@@ -3,6 +3,9 @@
 app.filter('filterGame', function() {
     return function(items, str, players, tables) {
         return items.filter(function(item){
+            if (str == null) {
+                return true
+            }
             var table = ""
             var scenario = ""
             var p0 = ""
