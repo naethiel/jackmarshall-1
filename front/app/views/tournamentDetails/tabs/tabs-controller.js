@@ -23,6 +23,7 @@ app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", functio
 
     this.getNextRound = function(){
         scope.roundLoading = true;
+        scope.error = false;
         tournamentService.update(scope.tournament).then(function(){
             tournamentService.getNextRound(scope.tournament.id).then(function(tournament){
                 scope.tournament = tournament;
@@ -33,9 +34,11 @@ app.controller('TabsCtrl', ["$rootScope", "$route", "TournamentService", functio
                 $rootScope.$emit("UpdateRounds", scope.tournament.rounds.length);
             }).catch(function(err){
                 scope.roundLoading = false;
+                scope.error = err;
             })
         }).catch(function(err){
             scope.roundLoading = false;
+            scope.error = err;
         })
     };
 }]);

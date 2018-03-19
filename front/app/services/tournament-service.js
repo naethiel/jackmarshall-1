@@ -82,7 +82,7 @@ app.service('TournamentService', ['$http', 'AuthService', function($http, authSe
 				})
 				.catch(function (err){
 					console.error("Unable to get results for tournament " + id + " : ", err);
-					throw err.status;
+					throw err;
 				});
 			});
 		},
