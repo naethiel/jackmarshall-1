@@ -1,17 +1,17 @@
 package tournaments
 
 type Player struct {
-	ID                 string   `json:"id"`
-	Name               string   `json:"name"`
-	Origin             string   `json:"origin"`
-	Faction            string   `json:"faction"`
-	PayedFee           bool     `json:"payed_fee"`
-	Leave              bool     `json:"leave"`
-	Games              []Game   `json:"-"`
-	Oponnent           []string `json:"-"`
-	Tables             []Table  `json:"-"`
-	AvailableOpponents []string `json:"-"`
-	Result             Result   `json:"result"`
+	ID                 string           `json:"id"`
+	Name               string           `json:"name"`
+	Origin             string           `json:"origin"`
+	Faction            string           `json:"faction"`
+	PayedFee           bool             `json:"payed_fee"`
+	Leave              bool             `json:"leave"`
+	Games              []Game           `json:"-"`
+	Oponnent           []string         `json:"-"`
+	Tables             []Table          `json:"-"`
+	AvailableOpponents []string         `json:"-"`
+	Result             TournamentResult `json:"result"`
 }
 
 func (p *Player) VictoryPoints() int {

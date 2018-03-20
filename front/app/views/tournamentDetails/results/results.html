@@ -6,6 +6,7 @@
 	<th class="text-center"><a href="" ng-click="ResultsCtrl.sortType='sos'">SoS</a> <span ng-show="ResultsCtrl.sortType=='sos'" class="fa fa-caret-down"></span></th>
 	<th class="text-center"><a href="" ng-click="ResultsCtrl.sortType='scenario_points'">Scenario Points</a> <span ng-show="ResultsCtrl.sortType=='scenario_points'" class="fa fa-caret-down"></span></th>
 	<th class="text-center"><a href="" ng-click="ResultsCtrl.sortType='destruction_points'">Destruction Points</a> <span ng-show="ResultsCtrl.sortType=='destruction_points'" class="fa fa-caret-down"></span></th>
+    <th class="text-center"><a href="" ng-click="ResultsCtrl.sortType='caster_kills'">Caster Kills</a> <span ng-show="ResultsCtrl.sortType=='caster_kills'" class="fa fa-caret-down"></span></th>
     </thead>
     <tbody>
         <tr ng-repeat="player in ResultsCtrl.players | toArray | orderBy: ResultsCtrl.sortFields[ResultsCtrl.sortType] : ResultsCtrl.sortOrder">
@@ -17,6 +18,7 @@
             <td class="text-center">{{player.result.sos}}</td>
             <td class="text-center">{{player.result.scenario_points}}</td>
             <td class="text-center">{{player.result.destruction_points}}</td>
+            <td class="text-center">{{player.result.caster_kills}}</td>
         </tr>
     </tbody>
 </table>

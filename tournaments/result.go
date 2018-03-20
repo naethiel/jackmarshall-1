@@ -6,9 +6,19 @@ type Result struct {
 	VictoryPoints     int    `json:"victory_points"`
 	ScenarioPoints    int    `json:"scenario_points,string"`
 	DestructionPoints int    `json:"destruction_points,string"`
+	CasterKill        bool   `json:"caster_kill"`
 	SoS               int    `json:"sos"`
 	Bye               bool   `json:"bye"`
 	SousApp           bool   `json:"sous_app"`
+}
+
+type TournamentResult struct {
+	PlayerID          string `json:"player"`
+	VictoryPoints     int    `json:"victory_points"`
+	ScenarioPoints    int    `json:"scenario_points,string"`
+	DestructionPoints int    `json:"destruction_points,string"`
+	CasterKill        int    `json:"caster_kills"`
+	SoS               int    `json:"sos"`
 }
 
 func (t Tournament) SetResults() {
@@ -25,6 +35,9 @@ func (t Tournament) SetResults() {
 				player.Result.VictoryPoints += res.VictoryPoints
 				player.Result.ScenarioPoints += res.ScenarioPoints
 				player.Result.DestructionPoints += res.DestructionPoints
+				if res.CasterKill {
+					player.Result.CasterKill += 1
+				}
 				t.Players[p.ID] = player
 			}
 		}
