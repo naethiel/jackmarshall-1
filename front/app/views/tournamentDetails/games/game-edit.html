@@ -17,6 +17,7 @@
         </div>
         <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].scenario_points" type="text" min=0 max=5 class="form-control form-control-sm" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
         <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].destruction_points" type="text" min=0 class="form-control form-control-sm" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[0].caster_kill" type="checkbox" class="form-control" title="CasterKill" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'/></div>
         <div class="flex-1 mx-1">vs</div>
         <div class="flex-2 mx-1">
             <button  type="button" class="btn btn-block btn-sm"
@@ -29,6 +30,7 @@
         </div>
         <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].scenario_points" type="text" min=0 max=5 class="form-control form-control-sm" placeholder="SP" title="ScenarioPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
         <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].destruction_points" type="text" min=0 class="form-control form-control-sm" placeholder="DP" title="DestructionPoints" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }' required/></div>
+        <div class="flex-1 mx-1"><input ng-model="GamesCtrl.game.results[1].caster_kill" type="checkbox" class="form-control" title="CasterKill" ng-change="GamesCtrl.updateGame()" ng-model-options='{ debounce: 1000 }'/></div>
         <div class="flex-4" ng-drag="true" ng-drag-data="GamesCtrl.game.results[1]" ng-drop="true" ng-drop-success="GamesCtrl.onDropComplete($data, GamesCtrl.game.results[1])">
             <span class="{{GamesCtrl.Player(1).faction |trim}}">{{GamesCtrl.Player(1).name}} ({{GamesCtrl.Player(1).victory_points}})</span>
         </div>
