@@ -14,11 +14,11 @@
             <td>
                 <span class="{{player.faction |trim}}">{{player.name}} </span>
             </td>
-            <td class="text-center">{{player.result.victory_points}}</td>
-            <td class="text-center">{{player.result.sos}}</td>
-            <td class="text-center">{{player.result.scenario_points}}</td>
-            <td class="text-center">{{player.result.destruction_points}}</td>
-            <td class="text-center">{{player.result.caster_kills}}</td>
+            <td class="text-center position-relative">{{player.result.victory_points}}<i ng-if="player.result.best_vp" class="text-success fa fa-trophy position-absolute ml-1"/></td>
+            <td class="text-center">{{player.result.sos}}<i ng-if="player.result.best_sos" class="text-success fa fa-trophy position-absolute ml-1"/></td>
+            <td class="text-center">{{player.result.scenario_points}}<i ng-if="player.result.best_sp" class="text-success fa fa-trophy position-absolute ml-1"/></td>
+            <td class="text-center">{{player.result.destruction_points}}<i ng-if="player.result.best_dp" class="text-success fa fa-trophy position-absolute ml-1"/></td>
+            <td class="text-center">{{player.result.caster_kills}}<i ng-if="player.result.best_ck" class="text-success fa fa-trophy position-absolute ml-1"/></td>
         </tr>
     </tbody>
 </table>
