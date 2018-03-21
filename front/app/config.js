@@ -1,4 +1,4 @@
 'use strict';
 
-var tournament_endpoint = "http://localhost:8080";
-var auth_endpoint = "http://localhost:8081";
+var tournament_endpoint = "https://tournaments.jackmarshall.fr";
+var auth_endpoint = "https://auth.jackmarshall.fr";
