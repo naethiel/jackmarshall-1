@@ -4,6 +4,14 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "uuid"
     var scope = this;
     scope.error = undefined;
     scope.players = {};
+    scope.sortType = 'victory_points';
+    scope.sortFields = {
+        'victory_points':     ['result.victory_points','result.sos','result.scenario_points','result.destruction_points'],
+        'sos':                ['result.sos','result.victory_points','result.scenario_points','result.destruction_points'],
+        'scenario_points':    ['result.scenario_points','result.victory_points','result.sos','result.destruction_points'],
+        'destruction_points': ['result.destruction_points','result.victory_points','result.sos','result.scenario_points'],
+    }
+    scope.sortOrder = true;
 
     $rootScope.$on("UpdateResult", function(){
         scope.error = null;
@@ -14,39 +22,7 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "uuid"
         });
     });
 
-    this.compare = function(a, b) {
-        if (a.value.victory_points === b.value.victory_points) {
-            if (a.value.sos === b.value.sos){
-                if (a.value.scenario_points === b.value.scenario_points) {
-                    if (a.value.destruction_points < b.value.destruction_points){
-                        return 1
-                    }else{
-                        return -1
-                    }
-                } else {
-                    if (a.value.scenario_points < b.value.scenario_points){
-                        return 1
-                    }else{
-                        return -1
-                    }
-                }
-            } else {
-                if( a.value.sos < b.value.sos){
-                    return 1
-                }else{
-                    return -1
-                }
-            }
-        } else {
-            if (a.value.victory_points < b.value.victory_points){
-                return 1
-            }else{
-                return -1
-            }
-        }
-    };
-
-    this.bbCodeResults = function(players) {
+    scope.bbCodeResults = function(players) {
         var params = {
             animation: false,
             ariaLabelledBy: 'modal-title',
