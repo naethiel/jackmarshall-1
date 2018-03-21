@@ -12,7 +12,7 @@
         <tr ng-repeat="player in ResultsCtrl.players | toArray | orderBy: ResultsCtrl.sortFields[ResultsCtrl.sortType] : ResultsCtrl.sortOrder">
             <td>{{$index + 1}}</td>
             <td>
-                <span class="{{player.faction |trim}}">{{player.name}} </span>
+                <span class="{{player.faction |trim}}">{{player.name}} <i ng-if="player.result.best_faction" class="text-success fa fa-trophy position-absolute ml-1"/></span>
             </td>
             <td class="text-center position-relative">{{player.result.victory_points}}<i ng-if="player.result.best_vp" class="text-success fa fa-trophy position-absolute ml-1"/></td>
             <td class="text-center">{{player.result.sos}}<i ng-if="player.result.best_sos" class="text-success fa fa-trophy position-absolute ml-1"/></td>
