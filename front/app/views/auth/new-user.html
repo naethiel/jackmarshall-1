@@ -1,18 +1,21 @@
 <div class="mt-5" ng-controller="NewUserCtrl as NewUserCtrl">
-    <form class="form-signin" ng-submit="NewUserCtrl.create()" name="registerForm">
+    <form name="registerForm" class="form-signin" ng-submit="NewUserCtrl.create()">
         <h2 class="form-signin-heading">Jackmarshall</h2>
-        <input ng-model="NewUserCtrl.user.login" type="text" id="username" class="form-control first" placeholder="Username" required autofocus>
-        <input ng-model="NewUserCtrl.user.email" type="email" id="email" class="form-control mid" placeholder="Email" required>
-        <input ng-model="NewUserCtrl.user.password" type="password" id="password" name="password" class="form-control mid" placeholder="Password" required>
-        <input ng-model="NewUserCtrl.user.password_confirm" type="password" id="password_confirm" class="form-control last" placeholder="Confirm Password" required equals-to="registerForm.password">
-        <button class="btn btn-lg btn-primary btn-block mb-2" type="submit" ng-disabled="registerForm.$invalid">Register</button>
+        <input ng-model="NewUserCtrl.user.name" type="text" class="form-control first" placeholder="Username" required autofocus>
+        <input ng-model="NewUserCtrl.user.email" type="email" class="form-control mid" placeholder="Email" required>
+        <input name="password" ng-model="NewUserCtrl.user.password" type="password" class="form-control mid" placeholder="Password" required>
+        <input ng-model="NewUserCtrl.user.password_confirm" type="password" class="form-control last" placeholder="Confirm Password" required equals-to="registerForm.password">
+        <button type="submit" class="btn btn-lg btn-primary btn-block mb-2" ng-disabled="registerForm.$invalid">Register</button>
 
         <div ng-show="NewUserCtrl.error==400" class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation-circle"></i>Error : Username {{NewUserCtrl.user.login}} already exists.
+            <i class="fa fa-exclamation-circle"></i>&nbsp;Error : Email {{NewUserCtrl.user.email}} already exists.
         </div>
         <div ng-show="NewUserCtrl.error && NewUserCtrl.error!=400" class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation-circle"></i>Server Error : Try again later.
+            <i class="fa fa-exclamation-circle"></i>&nbsp;Server Error : Try again later.
         </div>
-        <div class="text-right"><a href="" ng-click="NewUserCtrl.toLogin()">Back to login page</a></div>
+
+        <div class="text-right">
+            <a href="" ng-click="NewUserCtrl.toLogin()">Back to login page</a>
+        </div>
     </form>
 </div>

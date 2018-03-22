@@ -13,7 +13,7 @@ app.controller('NewUserCtrl', ["$localStorage", "$http", "$location", "AuthServi
     this.create = function(){
         scope.error = null;
         authService.create(scope.user).then(function(){
-            authService.login(scope.user.login, scope.user.password).then(function(){
+            authService.login(scope.user.name, scope.user.password).then(function(){
                 $location.path( "/tournament/list" );
             })
         }).catch(function(err){
