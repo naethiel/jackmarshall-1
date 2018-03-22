@@ -9,27 +9,14 @@ app.controller('LoginCtrl', ["$localStorage", "$http", "$location", "AuthService
     var scope = this;
     scope.username = "";
     scope.password = "";
-    scope.error = undefined;
+    scope.error = null;
 
-    scope.newUser = {};
-
-    this.login = function(){
+    scope.login = function(){
         scope.error = null;
         authService.login(scope.username, scope.password).then(function(){
-            $location.path( "/tournament/list" );
+            $location.path( "/tournament/list");
         }).catch(function(err){
-            scope.error = err
+            scope.error = err;
         })
     };
-
-    this.logout = function(){
-        scope.error = null;
-        $localStorage.currentUser = null;
-        $http.defaults.headers.common.Authorization = null;
-    };
-
-    this.toNewAccount = function(){
-        $location.path( "/auth/new" );
-    };
-
 }]);

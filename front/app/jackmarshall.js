@@ -11,6 +11,8 @@ var app = angular.module('jackmarshall', [
 ]);
 
 app.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+    $locationProvider.html5Mode(true);
+    
     $routeProvider.when('/auth/login', {
         templateUrl: 'views/auth/login.html',
     });
