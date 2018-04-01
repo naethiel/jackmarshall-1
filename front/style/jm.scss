@@ -111,10 +111,10 @@ input{
 // }
 //
 //
-// .btn-xs {
-//     // @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $btn-border-radius-sm);
-//     @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
-// }
+.btn-xs {
+    // @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $btn-border-radius-sm);
+    @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
+}
 //
 // .card-icon:after{
 //     /* symbol for "opening" panels */
@@ -125,6 +125,21 @@ input{
 //     opacity:0.6;
 // }
 //
+
+.fade.in {
+    opacity: 1;
+}
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+       -o-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+
+.modal-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
 // .model.in .modal-dialog {
 //     transform: translate(0, 0);
 // }

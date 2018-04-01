@@ -1,14 +1,14 @@
-<div class="card card-outline-primary">
-    <h5 class="card-header card-inverse card-primary">Future tournaments</h5>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item" ng-repeat="tournament in ListCtrl.tournaments |isFuture |orderBy: 'date'">
-            <a ng-href="/#!/tournament/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}  ({{tournament.players.length}}/{{tournament.slots}})</a>
-            <button type="button" class="btn btn-danger btn-xs ml-auto" ng-click="ListCtrl.confirmDelete(tournament)">
+<div class="card border-primary">
+    <h5 class="card-header bg-primary text-light">Tournaments</h5>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="tournament in ListCtrl.tournaments |orderBy: '-date'">
+            <a class="text-dark" ng-href="/tournament/{{tournament.id}}">{{tournament.date |date:'dd/MM/yyyy'}} {{tournament.name}}  ({{tournament.players.length}}/{{tournament.slots}})</a>
+            <button type="button" class="btn btn-danger btn-xs pull-right" ng-click="ListCtrl.confirmDelete(tournament)">
                 <i class="fa fa-times"></i> Remove
             </button>
         </li>
     </ul>
-    <p ng-show="ListCtrl.error" class="card-block text-danger mb-0" role="alert">
+    <p ng-show="ListCtrl.error" class="card-body text-danger mb-0" role="alert">
         <i class="fa fa-exclamation-circle"></i> Server Error : Unable to retreive tournaments.
     </p>
 </div>
