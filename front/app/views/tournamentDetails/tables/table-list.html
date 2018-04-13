@@ -1,24 +1,26 @@
-<div class="card card-outline-primary">
-    <h5  ng-class="{'collapsed': TablesCtrl.tablesCollapsed}" class="card-header card-inverse card-primary card-icon" ng-click="TablesCtrl.tablesCollapsed = !TablesCtrl.tablesCollapsed">
+<div class="card border-primary">
+    <h5  ng-class="{'collapsed': TablesCtrl.tablesCollapsed}" class="card-header bg-primary text-light card-icon" ng-click="TablesCtrl.tablesCollapsed = !TablesCtrl.tablesCollapsed">
         Tables ( {{TablesCtrl.tournament.tables |nbKeys}}  / {{TablesCtrl.tournament.slots/2}} )
     </h5>
-    <ul class="list-group list-group-flush" uib-collapse="TablesCtrl.tablesCollapsed">
-        <li class="list-group-item p-2" ng-repeat="table in TablesCtrl.tournament.tables |toArray |orderBy: 'name': false : TablesCtrl.compare">
-            {{table.name}}&nbsp;<i>{{table.scenario}}</i>
-            <span class="ml-auto">
-                <button type="button" class="btn btn-primary btn-xs" ng-click="table.detailsVisible = !table.detailsVisible">
-                    <i class="fa fa-chevron-down"></i> Details
-                </button>
-                <button type="button" class="btn btn-danger btn-xs" ng-click="TablesCtrl.deleteTable(table)">
-                    <i class="fa fa-times"></i> Remove
-                </button>
-            </span>
-            <div class="w-100" uib-collapse="!table.detailsVisible">
-                <edit-table></edit-table>
-            </div>
-        </li>
-        <div class="card-block">
+    <div class="card-body p-1" uib-collapse="TablesCtrl.tablesCollapsed">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item p-2" ng-repeat="table in TablesCtrl.tournament.tables |toArray |orderBy: 'name': false : TablesCtrl.compare">
+                {{table.name}}&nbsp;<i>{{table.scenario}}</i>
+                <span class="float-right">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="table.detailsVisible = !table.detailsVisible">
+                        <i class="fa fa-chevron-down"></i> Details
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="TablesCtrl.deleteTable(table)">
+                        <i class="fa fa-times"></i> Remove
+                    </button>
+                </span>
+                <div class="w-100" uib-collapse="!table.detailsVisible">
+                    <edit-table></edit-table>
+                </div>
+            </li>
+        </ul>
+        <div class=" px-2">
             <add-table></add-table>
-        </diV>
-    </ul>
+        </div>
+    </div>
 </div>

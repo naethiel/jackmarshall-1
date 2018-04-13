@@ -9,6 +9,9 @@ $medium-gray: #eeeeee;
 $dark-gray: #505050;
 $blue-primary:   #0275d8;
 $darker-blue: darken($blue-primary, 15%);
+$theme-colors: (
+    "primary": #0074d9
+);
 
 $body-bg:       $bg-color;
 $body-color:    $dark-gray;

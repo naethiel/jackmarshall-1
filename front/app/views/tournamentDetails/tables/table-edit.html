@@ -1,10 +1,10 @@
 <form class="form-horizontal my-3" ng-submit="TablesCtrl.updateTable(table)">
     <input ng-model="table.name" type="text" id="table_name" class="form-control first" placeholder="Name" required autofocus>
-    <select class="form-control" id="table_scenario" ng-model="TablesCtrl.table.scenario">
+    <select class="form-control" id="table_scenario" ng-model="table.scenario">
         <option ng-repeat="scenario in TablesCtrl.scenarios track by $index" value="{{scenario.name}}">{{scenario.name}}</option>
     </select>
 
-    <button class="btn btn-sm btn-success mt-3 float-right" type="submit">Update</button>
+    <button class="btn btn-sm btn-success mt-2 float-right" type="submit">Update</button>
     <p ng-show="TablesCtrl.errorUpdate" class="card-block text-danger mb-0" role="alert">
         <i class="fa fa-exclamation-circle"></i> Server Error : Unable to update table.
     </p>

@@ -15,8 +15,8 @@ type Result struct {
 type TournamentResult struct {
 	PlayerID          string `json:"player"`
 	VictoryPoints     int    `json:"victory_points"`
-	ScenarioPoints    int    `json:"scenario_points,string"`
-	DestructionPoints int    `json:"destruction_points,string"`
+	ScenarioPoints    int    `json:"scenario_points"`
+	DestructionPoints int    `json:"destruction_points"`
 	CasterKill        int    `json:"caster_kills"`
 	SoS               int    `json:"sos"`
 }

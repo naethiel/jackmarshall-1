@@ -77,54 +77,59 @@ input{
 // }
 //
 //
-// .nav-tabs-primary > li > a:hover {
-//     border-color: #2e6da4 #2e6da4 #2e6da4;
-// }
-// .nav-link.active,
-// .nav-link.active > a:hover,
-// .nav-link.active > a:focus {
-//     color: #ffffff;
-//     cursor: default;
-//     background-color: #337ab7;
-//     border: 1px solid #2e6da4;
-//     border-bottom-color: transparent;
-// }
+.nav-tabs-primary > li > a:hover {
+    border-color: #2e6da4 #2e6da4 #2e6da4;
+}
+.nav-link.active,
+.nav-link.active > a:hover,
+.nav-link.active > a:focus {
+    color: #ffffff !important;
+    cursor: default;
+    background-color: #0074d9 !important;
+    border: 1px solid #2e6da4 !important;
+    border-bottom-color: transparent !important;
+}
 //
-// .game-container {
-//     @include make-container();
-//     .game-row {
-//         @include make-row();
-//         display: flex;
-//         // justify-content: space-between;
-//         align-items: center;
-//         text-align: center;
-//     }
-//
-//     .flex-1 { flex: 1; }
-//     .flex-2 { flex: 2; }
-//     .flex-3 { flex: 3; }
-//     .flex-4 { flex: 4; }
-//     .flex-5 { flex: 5; }
-//     .flex-6 { flex: 6; }
-//     .flex-10 { flex: 10; }
-//
-// }
+.game-container {
+    @include make-container();
+    .game-row {
+        @include make-row();
+        display: flex;
+        // justify-content: space-between;
+        align-items: center;
+        text-align: center;
+    }
+
+    .flex-1 { flex: 1; }
+    .flex-2 { flex: 2; }
+    .flex-3 { flex: 3; }
+    .flex-4 { flex: 4; }
+    .flex-5 { flex: 5; }
+    .flex-6 { flex: 6; }
+    .flex-10 { flex: 10; }
+
+}
 //
 //
 .btn-xs {
     // @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $btn-border-radius-sm);
-    @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, $line-height-sm, $btn-border-radius-sm);
+    @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $font-size-sm, 1, $btn-border-radius-sm);
 }
 //
-// .card-icon:after{
-//     /* symbol for "opening" panels */
-//     font-family: 'FontAwesome';  /* essential for enabling glyphicon */
-//     content: "\f056";
-//
-//     float: right;
-//     opacity:0.6;
-// }
-//
+.card-icon:after{
+    /* symbol for "opening" panels */
+    font-family: 'FontAwesome';  /* essential for enabling glyphicon */
+    content: "\f056";
+    float: right;
+    opacity:0.6;
+}
+
+.card-header.collapsed:after  {
+    font-family: 'FontAwesome';  /* essential for enabling glyphicon */
+    content: "\f055";
+}
+
+
 
 .fade.in {
     opacity: 1;
@@ -147,13 +152,13 @@ input{
 //     opacity: $modal-backdrop-opacity;
 // }
 //
-// .collapse {
-//     display: none !important;
-// }
-//
-// .collapse.in {
-//     display: block !important;
-// }
+.collapse {
+    display: none !important;
+}
+
+.collapse.in {
+    display: block !important;
+}
 //
 // tr.collapse.in {
 //     display: table-row;
@@ -168,12 +173,7 @@ input{
 //     background-color: lighten($blue, 25%);
 // }
 //
-// .card-header.collapsed:after  {
-//     /* symbol for "collapsed" panels */
-//     font-family: 'FontAwesome';  /* essential for enabling glyphicon */
-//
-//     content: "\f055";
-// }
+
 //
 // @font-face {
 //     font-family: 'DroidSansMono';

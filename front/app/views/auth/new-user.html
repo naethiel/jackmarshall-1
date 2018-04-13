@@ -5,7 +5,7 @@
         <input ng-model="NewUserCtrl.user.email" type="email" class="form-control mid" placeholder="Email" required>
         <input name="password" ng-model="NewUserCtrl.user.password" type="password" class="form-control mid" placeholder="Password" required>
         <input ng-model="NewUserCtrl.password_confirm" type="password" class="form-control last" placeholder="Confirm Password" required equals-to="registerForm.password">
-        <button type="submit" class="btn btn-lg btn-primary btn-block mb-2" ng-disabled="registerForm.$invalid">Register</button>
+        <button type="submit" class="btn btn-primary btn-block mb-2" ng-disabled="registerForm.$invalid">Register</button>
 
         <div ng-show="NewUserCtrl.error==400" class="alert alert-danger" role="alert">
             <i class="fa fa-exclamation-circle"></i>&nbsp;Error : Email {{NewUserCtrl.user.email}} already exists.

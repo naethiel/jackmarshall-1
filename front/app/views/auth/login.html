@@ -4,7 +4,7 @@
         <input ng-model="LoginCtrl.username" type="text" class="form-control first" placeholder="Username" required autofocus>
         <input ng-model="LoginCtrl.password" type="password" class="form-control last" placeholder="Password" required>
         <!-- <input type="checkbox" value="remember-me"> Remember me -->
-        <button class="btn btn-lg btn-primary btn-block my-2" type="submit" ng-disabled="signinForm.$invalid">Sign in</button>
+        <button class="btn btn-primary btn-block my-2" type="submit" ng-disabled="signinForm.$invalid">Sign in</button>
 
         <div ng-show="LoginCtrl.error==401" class="alert alert-danger" role="alert">
             <i class="fa fa-exclamation-circle"></i>&nbsp;Error : Wrong username or password.

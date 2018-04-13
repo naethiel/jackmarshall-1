@@ -1,25 +1,32 @@
-<div class="card card-outline-primary">
-    <h5  ng-class="{'collapsed': PlayersCtrl.playersCollapsed}" class="card-header card-inverse card-primary card-icon" ng-click="PlayersCtrl.playersCollapsed = !PlayersCtrl.playersCollapsed">Players ( {{PlayersCtrl.tournament.players |nbKeys}} / {{PlayersCtrl.tournament.slots}} )</h5>
-    <ul class="list-group list-group-flush" uib-collapse="PlayersCtrl.playersCollapsed">
-        <li class="list-group-item p-2" ng-repeat="player in PlayersCtrl.tournament.players |toArray |orderBy: 'name': false : PlayersCtrl.compare">
-            <span class="{{player.faction |trim}}">{{player.name}} </span>
-            <span class="ml-auto">
-                <button type="button" class="btn btn-primary btn-xs"  ng-click="player.detailsVisible = !player.detailsVisible">
-                    <i class="fa fa-chevron-down"></i> Details
-                </button>
-                <button type="button" class="btn btn-xs" ng-class="{'btn-success': player.leave,'btn-warning': !player.leave}" ng-click="PlayersCtrl.changeStatus(player)">
-                    <i class="fa" ng-class="{'fa-plus': player.leave,'fa-minus': !player.leave}"></i> {{player.leave ? 'Rejoin' : 'Drop'}}
-                </button>
-                <button ng-show="PlayersCtrl.tournament.rounds.length === 0" type="button" class="btn btn-danger btn-xs" ng-click="PlayersCtrl.deletePlayer(player)">
-                    <i class="fa fa-times"></i> Remove
-                </button>
-            </span>
-            <div class="w-100" uib-collapse="!player.detailsVisible">
-                <edit-player></edit-player>
-            </div>
-        </li>
-        <div class="card-block">
+<div class="card border-primary">
+    <h5  ng-class="{'collapsed': PlayersCtrl.playersCollapsed}" class="card-header bg-primary text-light card-icon" ng-click="PlayersCtrl.playersCollapsed = !PlayersCtrl.playersCollapsed">
+        Players ( {{PlayersCtrl.tournament.players |nbKeys}} / {{PlayersCtrl.tournament.slots}} )
+    </h5>
+    <div class="card-body p-1" uib-collapse="PlayersCtrl.playersCollapsed">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item p-2" ng-repeat="player in PlayersCtrl.tournament.players |toArray |orderBy: 'name': false : PlayersCtrl.compare">
+                <span class="{{player.faction |trim}}">{{player.name}} </span>
+                <span class="float-right">
+                    <button type="button" class="btn btn-primary btn-xs"  ng-click="player.detailsVisible = !player.detailsVisible">
+                        <i class="fa fa-chevron-down"></i> Details
+                    </button>
+                    <button type="button" class="btn btn-xs text-light" ng-class="{'btn-success': player.leave,'btn-warning': !player.leave}" ng-click="PlayersCtrl.changeStatus(player)">
+                        <i class="fa" ng-class="{'fa-plus': player.leave,'fa-minus': !player.leave}"></i> {{player.leave ? 'Rejoin' : 'Drop'}}
+                    </button>
+                    <button ng-show="PlayersCtrl.tournament.rounds.length === 0" type="button" class="btn btn-danger btn-xs" ng-click="PlayersCtrl.deletePlayer(player)">
+                        <i class="fa fa-times"></i> Remove
+                    </button>
+                </span>
+                <div uib-collapse="!player.detailsVisible">
+                    <edit-player></edit-player>
+                </div>
+            </li>
+        </ul>
+        <div class=" px-2">
             <add-player></add-player>
-        </diV>
-    </ul>
+        </div>
+    </div>
+
+
+
 </div>

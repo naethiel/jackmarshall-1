@@ -4,7 +4,7 @@
         <option ng-repeat="scenario in TablesCtrl.scenarios track by $index" value="{{scenario.name}}">{{scenario.name}}</option>
     </select>
 
-    <button class="btn btn-sm btn-success my-3 float-right" type="submit">Add table</button>
+    <button class="btn btn-sm btn-success my-2 float-right" type="submit">Add table</button>
     <p ng-show="TablesCtrl.errorAdd" class="card-block text-danger mb-0" role="alert">
         <i class="fa fa-exclamation-circle"></i> Server Error : Unable to add table.
     </p>

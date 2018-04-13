@@ -8,7 +8,7 @@
             <input ng-model="CreateCtrl.tournament.date"  date-format="DD/MM/YYYY" type="text" id="tournament_date" class="form-control mid" placeholder="Date : 23/12/2017" required>
             <input ng-model="CreateCtrl.tournament.format" type="number" id="tounament_format" class="form-control mid" placeholder="Format : 25, 50, 75...">
             <input ng-model="CreateCtrl.tournament.slots" type="number" id="tounament_slots" class="form-control last" placeholder="Slots : 8, 16, 40...">
-            <button class="btn btn-md btn-primary float-right" type="submit">Create</button>
+            <button class="btn btn-success float-right" type="submit">Create</button>
             <p ng-show="CreateCtrl.error" class="text-danger" role="alert">
                 <i class="fa fa-exclamation-circle"></i> Server Error : Unable to create tournament.
             </p>
