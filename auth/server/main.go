@@ -55,6 +55,6 @@ func main() {
 	logger.Log("level", "info", "msg", "Server running", "port", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", cfg.Port), stack)
 	if err != nil {
-		logger.Log("level", "error", "error", "err")
+		logger.Log("level", "error", "error", err)
 	}
 }

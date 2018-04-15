@@ -1,15 +1,15 @@
-<div class="card card-outline-primary">
-    <h5 class="card-header card-inverse card-primary" ng-class="{'collapsed': CreateCtrl.newTournamentCollapsed}" ng-click="CreateCtrl.newTournamentCollapsed = !CreateCtrl.newTournamentCollapsed">
+<div class="card border-primary">
+    <h5 class="card-header bg-primary text-light" ng-class="{'collapsed': CreateCtrl.newTournamentCollapsed}" ng-click="CreateCtrl.newTournamentCollapsed = !CreateCtrl.newTournamentCollapsed">
         Create tournament
     </h5>
-    <div class="card-block" >
+    <div class="card-body">
         <form class="form-horizontal" name="tournamentCreateForm" ng-submit="CreateCtrl.createTournament()">
             <input ng-model="CreateCtrl.tournament.name" type="text" id="tournament_name" class="form-control first" placeholder="Name" required autofocus>
             <input ng-model="CreateCtrl.tournament.date"  date-format="DD/MM/YYYY" type="text" id="tournament_date" class="form-control mid" placeholder="Date : 23/12/2017" required>
             <input ng-model="CreateCtrl.tournament.format" type="number" id="tounament_format" class="form-control mid" placeholder="Format : 25, 50, 75...">
             <input ng-model="CreateCtrl.tournament.slots" type="number" id="tounament_slots" class="form-control last" placeholder="Slots : 8, 16, 40...">
-            <button class="btn btn-lg btn-primary btn-block mb-2" type="submit">Create</button>
-            <p ng-show="CreateCtrl.error" class="card-block text-danger mb-0" role="alert">
+            <button class="btn btn-success float-right" type="submit">Create</button>
+            <p ng-show="CreateCtrl.error" class="text-danger" role="alert">
                 <i class="fa fa-exclamation-circle"></i> Server Error : Unable to create tournament.
             </p>
         </form>

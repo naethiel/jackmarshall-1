@@ -1,46 +1,51 @@
 <div>
-<form name="roundForm" ng-submit="roundForm.$valid && RoundsCtrl.updateRound()" novalidate>
-<div class="input-group">
-  <span class="input-group-addon" id="sizing-addon2"><i class="fa fa-search"></i></span>
-  <input type="text" ng-model="searchText" class="form-control" placeholder="Search..." aria-describedby="sizing-addon2">
-</div>
-    <ul class="list-group">
-        <li class="list-group-item p-1">
-            <div class="w-100 game-container">
-                <div class="row game-row font-weight-bold">
-                    <div class="flex-3">Table</div>
-                    <div class="flex-4">Joueur 1</div>
-                    <div class="flex-2 mx-1">Victory</div>
-                    <div class="flex-1 mx-1">SP</div>
-                    <div class="flex-1 mx-1">Dest</div>
-                    <div class="flex-1 mx-1">CK</div>
-                    <div class="flex-1 mx-1"></div>
-                    <div class="flex-2 mx-1">Victory</div>
-                    <div class="flex-1 mx-1">SP</div>
-                    <div class="flex-1 mx-1">Dest</div>
-                    <div class="flex-1 mx-1">CK</div>
-                    <div class="flex-4">Joueur 2</div>
-                </div>
+    <form name="roundForm" ng-submit="roundForm.$valid && RoundsCtrl.updateRound()" novalidate>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-search"></i></div>
             </div>
-        </li>
-        <li class="list-group-item p-1" ng-repeat="game in RoundsCtrl.round.games |filterGame:searchText:RoundsCtrl.tournament.players:RoundsCtrl.tournament.tables |orderBy: 'table': false : RoundsCtrl.compare">
-            <edit-game class="w-100"  tournament="RoundsCtrl.tournament" game="game" roundnumber="RoundsCtrl.round.number"></edit-game>
-        </li>
-    </ul>
+            <input type="text" ng-model="searchText" class="form-control" placeholder="Search..." aria-describedby="sizing-addon2">
+        </div>
 
-    <div ng-show="RoundsCtrl.successUpdate" class="alert alert-success mas" role="alert">
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-        Successfully saved.
-    </div>
-    <div ng-show="RoundsCtrl.errorUpdate" class="alert alert-danger mas" role="alert">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        Error during update, please try again...
-    </div>
+        <ul class="list-group">
+            <li class="list-group-item p-1 border-0">
+                <div class="w-100 game-container">
+                    <div class="row game-row font-weight-bold">
+                        <div class="flex-3">Table</div>
+                        <div class="flex-4">Joueur 1</div>
+                        <div class="flex-2 mx-1">Victory</div>
+                        <div class="flex-1 mx-1">SP</div>
+                        <div class="flex-1 mx-1">Dest</div>
+                        <div class="flex-1 mx-1">CK</div>
+                        <div class="flex-1 mx-1"></div>
+                        <div class="flex-2 mx-1">Victory</div>
+                        <div class="flex-1 mx-1">SP</div>
+                        <div class="flex-1 mx-1">Dest</div>
+                        <div class="flex-1 mx-1">CK</div>
+                        <div class="flex-4">Joueur 2</div>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item p-1 border-right-0 border-left-0" ng-repeat="game in RoundsCtrl.round.games |filterGame:searchText:RoundsCtrl.tournament.players:RoundsCtrl.tournament.tables |orderBy: 'table': false : RoundsCtrl.compare">
+                <edit-game class="w-100"  tournament="RoundsCtrl.tournament" game="game" roundnumber="RoundsCtrl.round.number"></edit-game>
+            </li>
+        </ul>
 
-</form>
-<div class="float-right mb-3 mr-3">
-    <button type="submit" class="btn btn-primary" onclick="window.open('/#!/timer')">Timer</button>
-    <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.openAssignements(RoundsCtrl.tournament.id)">Assignments</button>
-    <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.bbCodeRound(RoundsCtrl.round)">Forum export</button>
-    <button type="submit" class="btn btn-danger" ng-click=RoundsCtrl.confirmDelete(RoundsCtrl.round)>Delete round</button>
+        <div ng-show="RoundsCtrl.successUpdate" class="alert alert-success mas" role="alert">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            Successfully saved.
+        </div>
+        <div ng-show="RoundsCtrl.errorUpdate" class="alert alert-danger mas" role="alert">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            Error during update, please try again...
+        </div>
+
+    </form>
+    <div class="float-right mb-3 mr-3">
+        <button type="submit" class="btn btn-primary" onclick="window.open('/#!/timer')">Timer</button>
+        <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.openAssignements(RoundsCtrl.tournament.id)">Assignments</button>
+        <button type="submit" class="btn btn-primary" ng-click="RoundsCtrl.bbCodeRound(RoundsCtrl.round)">Forum export</button>
+        <button type="submit" class="btn btn-danger" ng-click=RoundsCtrl.confirmDelete(RoundsCtrl.round)>Delete round</button>
+    </div>
 </div>

@@ -15,11 +15,13 @@
         "gulp-sass": "^3.1.0",
         "gulp-uglify": "^1.1.0",
         "gulp-uncss": "^1.0.0",
-        "gulp-concat": "^2.5.2"
+        "gulp-concat": "^2.5.2",
+        "superstatic": "^5.0.1"
     },
     "scripts": {
         "postinstall": "bower install && gulp",
         "prestart": "npm install",
-        "start": "http-server -a localhost -p 8000 -c-1 ./dist"
+        "start": "http-server -a localhost -p 8000 -c-1 ./dist",
+        "super": "superstatic -c ./superstatic.json ./dist --port 8000 --host localhost"
     }
 }

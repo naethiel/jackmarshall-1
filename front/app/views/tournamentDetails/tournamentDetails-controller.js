@@ -15,9 +15,6 @@ app.controller('TournamentCtrl', ['$rootScope', '$routeParams', '$localStorage',
         $rootScope.$emit("SetTab", scope.tournament.rounds.length -1);
         $rootScope.$emit("UpdateRounds", scope.tournament.rounds.length);
         tournamentService.verifyRound(scope.tournament, scope.tournament.rounds.length -1);
-        // scope.tournament.rounds.forEach(function(round){
-        //     tournamentService.verifyRound(scope.tournament, round.number)
-        // });
     }).catch(function(err){
         console.error(err)
         scope.error = err;

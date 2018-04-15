@@ -55,3 +55,21 @@ app.directive("timeFormat", ['moment', function(moment){
         }
     };
 }]);
+
+app.directive('equalsTo', [function () {
+       return {
+           restrict: 'A',
+           scope: true,
+           require: 'ngModel',
+           link: function (scope, elem, attrs, control) {
+               var check = function () {
+               var v1 = scope.$eval(attrs.ngModel);
+               var v2 = scope.$eval(attrs.equalsTo).$viewValue;
+               return v1 == v2;
+           };
+           scope.$watch(check, function (isValid) {
+               control.$setValidity("equalsTo", isValid);
+           });
+       }
+   };
+}]);

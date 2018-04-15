@@ -1,12 +1,13 @@
-<nav ng-if="HeaderCtrl.user" class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+<nav ng-if="HeaderCtrl.user" class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">
         <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
         Jack Marshall
     </a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto my-2 my-lg-0"></ul>
-        <form class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" ng-click="HeaderCtrl.logout()">Logout</button>
+
+    <div class="">
+        <ul class="navbar-nav mr-auto"></ul>
+        <form class="form-inline mb-0">
+            <button class="btn btn-outline-primary" type="submit" ng-click="HeaderCtrl.logout()">Logout</button>
         </form>
     </div>
 </nav>

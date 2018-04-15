@@ -36,6 +36,7 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "$filt
         var ck = {index: -1,max: 0}
 
         angular.forEach(players, function(player, id) {
+            console.log("player", player, id, player.result.scenario_points)
             if (player.result.victory_points >= vp.max) {
                 vp.index = id
                 vp.max = player.result.victory_points
@@ -44,9 +45,11 @@ app.controller('ResultsCtrl', ["$rootScope", "$routeParams", "$uibModal", "$filt
                 sos.index = id
                 sos.max = player.result.sos
             }
+            console.log("test",player.result.scenario_points,sp.max, (player.result.scenario_points >= sp.max))
             if (player.result.scenario_points >= sp.max) {
                 sp.index = id
                 sp.max = player.result.scenario_points
+                console.log("New max",id,player.result.scenario_points,sp.max)
             }
             if (player.result.destruction_points >= dp.max) {
                 dp.index = id
