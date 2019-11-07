@@ -16,3 +16,6 @@ auth/server/authServer
 auth/server/server
 jackmarshall-tournaments.tar
 j.json
+.cache/
+.env
+dist/

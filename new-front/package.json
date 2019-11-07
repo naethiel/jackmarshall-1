@@ -1,0 +1,22 @@
+{
+  "name": "new-front",
+  "version": "0.0.1",
+  "private": true,
+  "repository": "https://github.com/chibimi/jackmarshall",
+  "description": "New front-end for Jackmarshall tournament manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel watch index.html",
+    "build": "parcel index.html"
+  },
+  "author": "Nicolas Missika",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
