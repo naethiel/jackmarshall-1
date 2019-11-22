@@ -37,5 +37,5 @@ function handleSubmit(usernameInput, passwordInput) {
   const username = usernameInput.current.value;
   const password = passwordInput.current.value;
 
-  return login({ username, password });
+  return login(username, password);
 }
